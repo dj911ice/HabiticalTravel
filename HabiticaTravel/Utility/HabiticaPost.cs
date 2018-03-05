@@ -7,12 +7,12 @@ using HabiticaTravel.Models;
 
 namespace HabiticaTravel.Utility
 {
-    public static class HabiticaPost
+    public static class HabiticaPost 
     {
         public static async void RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
 
-            var responseString = await "https://habitica.com/api/v3/user/auth/local/register"
+            var responseString = await "https://habitica.com/api/v3/user/auth/local/login"
                     .PostUrlEncodedAsync(new
                     {
                         username = user.UserName,
