@@ -14,8 +14,8 @@ namespace HabiticaTravel.Controllers.Habitica
         {
             return View();
         }
-        public ActionResult HabiticaAccountCredentials()
-            {
+        public ActionResult HabiticaAccountCredentials(string UserName, string Password)
+        {
             return View();
         }
     }
