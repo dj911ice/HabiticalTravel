@@ -57,6 +57,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Flurl, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.2.7.0\lib\net40\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.2.2.0\lib\net45\Flurl.Http.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -121,6 +127,8 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0-preview1-26216-02\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -190,21 +198,39 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Habitica\GetUserController.cs" />
-    <Compile Include="Controllers\Habitica\HabiticaController.cs" />
-    <Compile Include="Controllers\Habitica\RegisterController.cs" />
+    <Compile Include="Controllers\HabiticaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Habitica\GetUser\User.cs" />
-    <Compile Include="Models\Habitica\UserStats\UserStats.cs" />
+    <Compile Include="Models\HabiticaTravel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HabiticaTravel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HabiticaTravel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HabiticaTravel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HabiticaTravel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HabiticaTravel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HabiticaUser.cs">
+      <DependentUpon>HabiticaTravel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\UserStat.cs">
+      <DependentUpon>HabiticaTravel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\HabiticaPost.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -217,6 +243,16 @@
     <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Models\HabiticaTravel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HabiticaTravel.edmx</DependentUpon>
+      <LastGenOutput>HabiticaTravel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HabiticaTravel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HabiticaTravel.edmx</DependentUpon>
+      <LastGenOutput>HabiticaTravel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -236,6 +272,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="Models\HabiticaTravel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HabiticaTravel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HabiticaTravel.edmx.diagram">
+      <DependentUpon>HabiticaTravel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -305,7 +348,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Utility\" />
+    <Folder Include="Controllers\Habitica\" />
     <Folder Include="Views\GetUser\" />
     <Folder Include="Views\Habitica\" />
     <Folder Include="Views\Register\" />
@@ -317,6 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="habiticatravelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HabiticaUsers">
+          <Key>
+            <PropertyRef Name="HabiticaUserId" />
+          </Key>
+          <Property Name="HabiticaUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Uuid" Type="nvarchar" MaxLength="128" />
+          <Property Name="ApiToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="UserStats">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserStatsPer" Type="int" />
+          <Property Name="UserStats_int" Type="int" />
+          <Property Name="UserStatsCon" Type="int" />
+          <Property Name="UserStatsStr" Type="int" />
+          <Property Name="UserStatsPoints" Type="int" />
+          <Property Name="UserStats_class" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserStatsLvl" Type="int" />
+          <Property Name="UserStatsGp" Type="int" />
+          <Property Name="UserStatsExp" Type="int" />
+          <Property Name="UserStatsMp" Type="int" />
+          <Property Name="UserStatsHp" Type="int" />
+          <Property Name="UserStatsToNextLevel" Type="int" />
+          <Property Name="UserStatsMaxHealth" Type="int" />
+          <Property Name="UserStatsMaxMP" Type="int" />
+          <Property Name="TrainingCon" Type="int" />
+          <Property Name="TrainingStr" Type="int" />
+          <Property Name="TrainingPer" Type="int" />
+          <Property Name="Training_int" Type="int" />
+          <Property Name="BuffsSeafoam" Type="bit" />
+          <Property Name="BuffsShinySeed" Type="bit" />
+          <Property Name="BuffsSpookySparkles" Type="bit" />
+          <Property Name="BuffsSnowball" Type="bit" />
+          <Property Name="BuffsStreaks" Type="bit" />
+          <Property Name="BuffsStealth" Type="int" />
+          <Property Name="BuffsCon" Type="int" />
+          <Property Name="BuffsPer" Type="int" />
+          <Property Name="Buffs_int" Type="int" />
+          <Property Name="BuffsStr" Type="int" />
+        </EntityType>
+        <EntityContainer Name="habiticatravelModelStoreContainer">
+          <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserStats" EntityType="Self.UserStats" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="habiticatravelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="HabiticaUser">
+          <Key>
+            <PropertyRef Name="HabiticaUserId" />
+          </Key>
+          <Property Name="HabiticaUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Uuid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ApiToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserStat">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserStatsPer" Type="Int32" />
+          <Property Name="UserStats_int" Type="Int32" />
+          <Property Name="UserStatsCon" Type="Int32" />
+          <Property Name="UserStatsStr" Type="Int32" />
+          <Property Name="UserStatsPoints" Type="Int32" />
+          <Property Name="UserStats_class" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserStatsLvl" Type="Int32" />
+          <Property Name="UserStatsGp" Type="Int32" />
+          <Property Name="UserStatsExp" Type="Int32" />
+          <Property Name="UserStatsMp" Type="Int32" />
+          <Property Name="UserStatsHp" Type="Int32" />
+          <Property Name="UserStatsToNextLevel" Type="Int32" />
+          <Property Name="UserStatsMaxHealth" Type="Int32" />
+          <Property Name="UserStatsMaxMP" Type="Int32" />
+          <Property Name="TrainingCon" Type="Int32" />
+          <Property Name="TrainingStr" Type="Int32" />
+          <Property Name="TrainingPer" Type="Int32" />
+          <Property Name="Training_int" Type="Int32" />
+          <Property Name="BuffsSeafoam" Type="Boolean" />
+          <Property Name="BuffsShinySeed" Type="Boolean" />
+          <Property Name="BuffsSpookySparkles" Type="Boolean" />
+          <Property Name="BuffsSnowball" Type="Boolean" />
+          <Property Name="BuffsStreaks" Type="Boolean" />
+          <Property Name="BuffsStealth" Type="Int32" />
+          <Property Name="BuffsCon" Type="Int32" />
+          <Property Name="BuffsPer" Type="Int32" />
+          <Property Name="Buffs_int" Type="Int32" />
+          <Property Name="BuffsStr" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="habiticatravelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUser" />
+          <EntitySet Name="UserStats" EntityType="Self.UserStat" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="habiticatravelModelStoreContainer" CdmEntityContainer="habiticatravelEntities">
+          <EntitySetMapping Name="HabiticaUsers">
+            <EntityTypeMapping TypeName="habiticatravelModel.HabiticaUser">
+              <MappingFragment StoreEntitySet="HabiticaUsers">
+                <ScalarProperty Name="HabiticaUserId" ColumnName="HabiticaUserId" />
+                <ScalarProperty Name="Uuid" ColumnName="Uuid" />
+                <ScalarProperty Name="ApiToken" ColumnName="ApiToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserStats">
+            <EntityTypeMapping TypeName="habiticatravelModel.UserStat">
+              <MappingFragment StoreEntitySet="UserStats">
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserStatsPer" ColumnName="UserStatsPer" />
+                <ScalarProperty Name="UserStats_int" ColumnName="UserStats_int" />
+                <ScalarProperty Name="UserStatsCon" ColumnName="UserStatsCon" />
+                <ScalarProperty Name="UserStatsStr" ColumnName="UserStatsStr" />
+                <ScalarProperty Name="UserStatsPoints" ColumnName="UserStatsPoints" />
+                <ScalarProperty Name="UserStats_class" ColumnName="UserStats_class" />
+                <ScalarProperty Name="UserStatsLvl" ColumnName="UserStatsLvl" />
+                <ScalarProperty Name="UserStatsGp" ColumnName="UserStatsGp" />
+                <ScalarProperty Name="UserStatsExp" ColumnName="UserStatsExp" />
+                <ScalarProperty Name="UserStatsMp" ColumnName="UserStatsMp" />
+                <ScalarProperty Name="UserStatsHp" ColumnName="UserStatsHp" />
+                <ScalarProperty Name="UserStatsToNextLevel" ColumnName="UserStatsToNextLevel" />
+                <ScalarProperty Name="UserStatsMaxHealth" ColumnName="UserStatsMaxHealth" />
+                <ScalarProperty Name="UserStatsMaxMP" ColumnName="UserStatsMaxMP" />
+                <ScalarProperty Name="TrainingCon" ColumnName="TrainingCon" />
+                <ScalarProperty Name="TrainingStr" ColumnName="TrainingStr" />
+                <ScalarProperty Name="TrainingPer" ColumnName="TrainingPer" />
+                <ScalarProperty Name="Training_int" ColumnName="Training_int" />
+                <ScalarProperty Name="BuffsSeafoam" ColumnName="BuffsSeafoam" />
+                <ScalarProperty Name="BuffsShinySeed" ColumnName="BuffsShinySeed" />
+                <ScalarProperty Name="BuffsSpookySparkles" ColumnName="BuffsSpookySparkles" />
+                <ScalarProperty Name="BuffsSnowball" ColumnName="BuffsSnowball" />
+                <ScalarProperty Name="BuffsStreaks" ColumnName="BuffsStreaks" />
+                <ScalarProperty Name="BuffsStealth" ColumnName="BuffsStealth" />
+                <ScalarProperty Name="BuffsCon" ColumnName="BuffsCon" />
+                <ScalarProperty Name="BuffsPer" ColumnName="BuffsPer" />
+                <ScalarProperty Name="Buffs_int" ColumnName="Buffs_int" />
+                <ScalarProperty Name="BuffsStr" ColumnName="BuffsStr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
