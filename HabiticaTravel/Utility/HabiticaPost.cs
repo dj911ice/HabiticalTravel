@@ -7,7 +7,7 @@ using HabiticaTravel.Models;
 
 namespace HabiticaTravel.Utility
 {
-    public static class HabiticaPost 
+    public static partial class HabiticaPost
     {
         public static async void RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
@@ -22,6 +22,19 @@ namespace HabiticaTravel.Utility
 
                     })
                     .ReceiveString();
+        }
+    }
+
+    public static partial class HabiticaPost
+    {
+        public static async void ResetPassword(ApplicationUser user, ResetPasswordViewModel model)
+        {
+            var ResponseString = await "https://habitica.com/api/v3/user/reset-password"
+                .PostUrlEncodedAsync(new
+                {
+                    email = user.Email,
+                })
+                .ReceiveString();
         }
     }
 }
