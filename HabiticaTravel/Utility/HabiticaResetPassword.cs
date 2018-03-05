@@ -10,7 +10,7 @@ namespace HabiticaTravel.Utility
 {
     public static partial class HabiticaPost
     {
-        public static async void ResetPassword(ApplicationUser user, ForgotPasswordViewModel model)
+        public static async Task<string> ResetPassword(ApplicationUser user, ForgotPasswordViewModel model)
 
         {
             return await "https://habitica.com/api/v3/user/reset-password"
