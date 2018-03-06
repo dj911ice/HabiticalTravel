@@ -199,9 +199,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Compile Include="Controllers\DefaultTasksController.cs" />
 =======
 >>>>>>> parent of 6b67e78... Created Habitica User Form w/o styling
+=======
+    <Compile Include="Controllers\DefaultTasksController.cs" />
+>>>>>>> parent of 8a9d9e8... Added Default task display functionality, working on design and arrangement of functional display
     <Compile Include="Controllers\Habitica\HabiticaAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -367,9 +371,13 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Content Include="Views\Home\DefaultTasks.cshtml" />
 =======
 >>>>>>> parent of 6b67e78... Created Habitica User Form w/o styling
+=======
+    <Content Include="Views\Home\DefaultTasks.cshtml" />
+>>>>>>> parent of 8a9d9e8... Added Default task display functionality, working on design and arrangement of functional display
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
