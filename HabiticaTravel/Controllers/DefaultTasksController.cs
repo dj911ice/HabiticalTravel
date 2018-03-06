@@ -10,10 +10,11 @@ namespace HabiticaTravel.Controllers
     public class DefaultTasksController : Controller
     {
         // GET: DefaultTasks
-        public ActionResult ShowDefaultTasks()
+        public ActionResult DefaultTasks()
         {
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
-            
+
+            ViewBag.MyTasks = MyHabitica.DefaultTasks.ToList();
 
             return View();
         }
