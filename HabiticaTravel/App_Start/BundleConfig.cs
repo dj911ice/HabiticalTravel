@@ -19,6 +19,10 @@ namespace HabiticaTravel
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datetime").Include(
+                      "~/Scripts/moment*",
+                      "~/Scripts/bootstrap-datetimepicker*"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
