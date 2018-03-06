@@ -33,7 +33,7 @@ namespace HabiticaTravel.Controllers.Habitica
 
         public ActionResult RegisterNewUser()
         {
-
+            // test
             var JSON = (JObject)TempData["JSON"];
             var user = (ApplicationUser)TempData["user"];
 
