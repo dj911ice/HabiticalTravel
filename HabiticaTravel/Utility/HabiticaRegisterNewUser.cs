@@ -8,13 +8,13 @@ using HabiticaTravel.Models;
 
 namespace HabiticaTravel.Utility
 {
-    public static partial class HabiticaPost
+    public static partial class HabiticaRegisterNewUser
     {
         public static async Task<string> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
 
-            return await "https://habitica.com/api/v3/user/auth/local/login"
-                    .PostUrlEncodedAsync(new
+            return await "https://habitica.com/api/v3/user/auth/local/register"
+                    .PostJsonAsync(new
                     {
                         username = user.UserName,
                         email = user.Email,
@@ -22,7 +22,7 @@ namespace HabiticaTravel.Utility
                         confirmPassword = model.ConfirmPassword,
 
                     })
-                    .ReceiveString();
+                    .ReceiveJson();
         }
     }
 
