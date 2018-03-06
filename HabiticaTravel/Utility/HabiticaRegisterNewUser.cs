@@ -13,8 +13,9 @@ namespace HabiticaTravel.Utility
     {
         public static async Task<string> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
-
-            return await "https://habitica.com/api/v3/user/auth/local/register"
+            try
+            {
+                return await "https://habitica.com/api/v3/user/auth/local/register"
                     .PostJsonAsync(new
                     {
                         username = user.UserName,
@@ -24,6 +25,12 @@ namespace HabiticaTravel.Utility
 
                     })
                     .ReceiveString();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseString();
+                throw;
+            }
         }
     }
 

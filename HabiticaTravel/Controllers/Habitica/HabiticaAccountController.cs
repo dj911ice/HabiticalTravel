@@ -27,18 +27,12 @@ namespace HabiticaTravel.Controllers.Habitica
             return View();
         }
 
-        public async Task<ActionResult> RegisterNewUser( )
+        public ActionResult RegisterNewUser( )
         {
-            // stored the model and user into temp data, found it much easier to store this data
-            // in TempData as opposed to passing it as a Dictionary and use parameters
-            var model = (RegisterViewModel)TempData["model"];
+
+            var JSON = (JObject)TempData["JSON"];
             var user = (ApplicationUser)TempData["user"];
-
-            // stored the outpout, which is a string, into and then did the classic JObject parsing,
-            // so we can navigate the key,values dictionary style. 
-            string output = await HabiticaPost.RegisterNewUser(user, model);
-            var JSON = JObject.Parse(output);
-
+            
             // these are both of our ORM copies, so the the first one is our Habitica User,
             // second ORM is basicaly the an object that wraps around our ApplicationUser, the reason
             // we have to do it this way is because UserManager allows us to preform CRUD operation
@@ -65,11 +59,8 @@ namespace HabiticaTravel.Controllers.Habitica
             HabiticaORM.HabiticaUsers.Add(HabiticaUser);
             HabiticaORM.SaveChanges();
             return RedirectToAction("Index", "Home");
-
+            
         }
-
-        
-
 
     }
 }
