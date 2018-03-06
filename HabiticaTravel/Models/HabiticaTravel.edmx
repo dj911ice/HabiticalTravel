@@ -4,7 +4,69 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="habiticatravelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="habiticatravelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomTaskItems">
+          <Key>
+            <PropertyRef Name="TaskItemsId" />
+          </Key>
+          <Property Name="TaskItemsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomTasks">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaskType" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="TaskTag" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TaskNotes" Type="nvarchar" MaxLength="256" />
+          <Property Name="TaskDueDate" Type="datetime" />
+          <Property Name="TaskDifficulty" Type="float" Nullable="false" />
+          <Property Name="ReminderId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ReminderStartDate" Type="datetime" />
+          <Property Name="ReminderTime" Type="datetime" />
+          <Property Name="TaskFrequency" Type="nvarchar" MaxLength="25" />
+          <Property Name="TaskRepeat" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaskStreak" Type="int" />
+          <Property Name="TaskStartDate" Type="datetime" />
+          <Property Name="TaskHabitUp" Type="bit" />
+          <Property Name="TaskHabitDown" Type="bit" />
+          <Property Name="TaskRewardValue" Type="int" />
+          <Property Name="EveryXDays" Type="int" />
+        </EntityType>
+        <EntityType Name="DefaultTaskItems">
+          <Key>
+            <PropertyRef Name="TaskItemsId" />
+          </Key>
+          <Property Name="TaskItemsId" Type="int" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="128" />
+          <Property Name="TaskId" Type="int" />
+        </EntityType>
+        <EntityType Name="DefaultTasks">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaskType" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="TaskTag" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TaskNotes" Type="nvarchar" MaxLength="256" />
+          <Property Name="TaskDueDate" Type="datetime" />
+          <Property Name="TaskDifficulty" Type="float" Nullable="false" />
+          <Property Name="ReminderId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ReminderStartDate" Type="datetime" />
+          <Property Name="ReminderTime" Type="datetime" />
+          <Property Name="TaskFrequency" Type="nvarchar" MaxLength="25" />
+          <Property Name="TaskRepeat" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaskStreak" Type="int" />
+          <Property Name="TaskStartDate" Type="datetime" />
+          <Property Name="TaskHabitUp" Type="bit" />
+          <Property Name="TaskHabitDown" Type="bit" />
+          <Property Name="TaskRewardValue" Type="int" />
+          <Property Name="EveryXDays" Type="int" />
+        </EntityType>
         <EntityType Name="HabiticaUsers">
           <Key>
             <PropertyRef Name="HabiticaUserId" />
@@ -49,12 +111,47 @@
           <Property Name="Buffs_int" Type="int" />
           <Property Name="BuffsStr" Type="int" />
         </EntityType>
+        <Association Name="FK_CustomTaskItems_CustomTasks">
+          <End Role="CustomTasks" Type="Self.CustomTasks" Multiplicity="1" />
+          <End Role="CustomTaskItems" Type="Self.CustomTaskItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomTasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="CustomTaskItems">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefaultTaskItems_DefaultTasks">
+          <End Role="DefaultTasks" Type="Self.DefaultTasks" Multiplicity="0..1" />
+          <End Role="DefaultTaskItems" Type="Self.DefaultTaskItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DefaultTasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="DefaultTaskItems">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="habiticatravelModelStoreContainer">
+          <EntitySet Name="CustomTaskItems" EntityType="Self.CustomTaskItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomTasks" EntityType="Self.CustomTasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DefaultTaskItems" EntityType="Self.DefaultTaskItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DefaultTasks" EntityType="Self.DefaultTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStats" EntityType="Self.UserStats" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="Self.FK_CustomTaskItems_CustomTasks">
+            <End Role="CustomTasks" EntitySet="CustomTasks" />
+            <End Role="CustomTaskItems" EntitySet="CustomTaskItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="Self.FK_DefaultTaskItems_DefaultTasks">
+            <End Role="DefaultTasks" EntitySet="DefaultTasks" />
+            <End Role="DefaultTaskItems" EntitySet="DefaultTaskItems" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="habiticatravelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -105,7 +202,109 @@
         <EntityContainer Name="habiticatravelEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUser" />
           <EntitySet Name="UserStats" EntityType="Self.UserStat" />
+          <EntitySet Name="CustomTaskItems" EntityType="habiticatravelModel.CustomTaskItem" />
+          <EntitySet Name="CustomTasks" EntityType="habiticatravelModel.CustomTask" />
+          <EntitySet Name="DefaultTaskItems" EntityType="habiticatravelModel.DefaultTaskItem" />
+          <EntitySet Name="DefaultTasks" EntityType="habiticatravelModel.DefaultTask" />
+          <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="habiticatravelModel.FK_CustomTaskItems_CustomTasks">
+            <End Role="CustomTask" EntitySet="CustomTasks" />
+            <End Role="CustomTaskItem" EntitySet="CustomTaskItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks">
+            <End Role="DefaultTask" EntitySet="DefaultTasks" />
+            <End Role="DefaultTaskItem" EntitySet="DefaultTaskItems" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CustomTaskItem">
+          <Key>
+            <PropertyRef Name="TaskItemsId" />
+          </Key>
+          <Property Name="TaskItemsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomTask" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTaskItem" ToRole="CustomTask" />
+        </EntityType>
+        <EntityType Name="CustomTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="TaskTag" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
+          <Property Name="ReminderId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ReminderStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ReminderTime" Type="DateTime" Precision="3" />
+          <Property Name="TaskFrequency" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="TaskRepeat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskStreak" Type="Int32" />
+          <Property Name="TaskStartDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskHabitUp" Type="Boolean" />
+          <Property Name="TaskHabitDown" Type="Boolean" />
+          <Property Name="TaskRewardValue" Type="Int32" />
+          <Property Name="EveryXDays" Type="Int32" />
+          <NavigationProperty Name="CustomTaskItems" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTask" ToRole="CustomTaskItem" />
+        </EntityType>
+        <EntityType Name="DefaultTaskItem">
+          <Key>
+            <PropertyRef Name="TaskItemsId" />
+          </Key>
+          <Property Name="TaskItemsId" Type="Int32" Nullable="false" />
+          <Property Name="ItemName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaskId" Type="Int32" />
+          <NavigationProperty Name="DefaultTask" Relationship="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks" FromRole="DefaultTaskItem" ToRole="DefaultTask" />
+        </EntityType>
+        <EntityType Name="DefaultTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="TaskTag" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
+          <Property Name="ReminderId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ReminderStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ReminderTime" Type="DateTime" Precision="3" />
+          <Property Name="TaskFrequency" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="TaskRepeat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskStreak" Type="Int32" />
+          <Property Name="TaskStartDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskHabitUp" Type="Boolean" />
+          <Property Name="TaskHabitDown" Type="Boolean" />
+          <Property Name="TaskRewardValue" Type="Int32" />
+          <Property Name="EveryXDays" Type="Int32" />
+          <NavigationProperty Name="DefaultTaskItems" Relationship="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks" FromRole="DefaultTask" ToRole="DefaultTaskItem" />
+        </EntityType>
+        <Association Name="FK_CustomTaskItems_CustomTasks">
+          <End Type="habiticatravelModel.CustomTask" Role="CustomTask" Multiplicity="1" />
+          <End Type="habiticatravelModel.CustomTaskItem" Role="CustomTaskItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomTask">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="CustomTaskItem">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DefaultTaskItems_DefaultTasks">
+          <End Type="habiticatravelModel.DefaultTask" Role="DefaultTask" Multiplicity="0..1" />
+          <End Type="habiticatravelModel.DefaultTaskItem" Role="DefaultTaskItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DefaultTask">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="DefaultTaskItem">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -155,6 +354,72 @@
                 <ScalarProperty Name="BuffsPer" ColumnName="BuffsPer" />
                 <ScalarProperty Name="Buffs_int" ColumnName="Buffs_int" />
                 <ScalarProperty Name="BuffsStr" ColumnName="BuffsStr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomTaskItems">
+            <EntityTypeMapping TypeName="habiticatravelModel.CustomTaskItem">
+              <MappingFragment StoreEntitySet="CustomTaskItems">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="TaskItemsId" ColumnName="TaskItemsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomTasks">
+            <EntityTypeMapping TypeName="habiticatravelModel.CustomTask">
+              <MappingFragment StoreEntitySet="CustomTasks">
+                <ScalarProperty Name="EveryXDays" ColumnName="EveryXDays" />
+                <ScalarProperty Name="TaskRewardValue" ColumnName="TaskRewardValue" />
+                <ScalarProperty Name="TaskHabitDown" ColumnName="TaskHabitDown" />
+                <ScalarProperty Name="TaskHabitUp" ColumnName="TaskHabitUp" />
+                <ScalarProperty Name="TaskStartDate" ColumnName="TaskStartDate" />
+                <ScalarProperty Name="TaskStreak" ColumnName="TaskStreak" />
+                <ScalarProperty Name="TaskRepeat" ColumnName="TaskRepeat" />
+                <ScalarProperty Name="TaskFrequency" ColumnName="TaskFrequency" />
+                <ScalarProperty Name="ReminderTime" ColumnName="ReminderTime" />
+                <ScalarProperty Name="ReminderStartDate" ColumnName="ReminderStartDate" />
+                <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
+                <ScalarProperty Name="TaskDifficulty" ColumnName="TaskDifficulty" />
+                <ScalarProperty Name="TaskDueDate" ColumnName="TaskDueDate" />
+                <ScalarProperty Name="TaskNotes" ColumnName="TaskNotes" />
+                <ScalarProperty Name="TaskTag" ColumnName="TaskTag" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DefaultTaskItems">
+            <EntityTypeMapping TypeName="habiticatravelModel.DefaultTaskItem">
+              <MappingFragment StoreEntitySet="DefaultTaskItems">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="TaskItemsId" ColumnName="TaskItemsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DefaultTasks">
+            <EntityTypeMapping TypeName="habiticatravelModel.DefaultTask">
+              <MappingFragment StoreEntitySet="DefaultTasks">
+                <ScalarProperty Name="EveryXDays" ColumnName="EveryXDays" />
+                <ScalarProperty Name="TaskRewardValue" ColumnName="TaskRewardValue" />
+                <ScalarProperty Name="TaskHabitDown" ColumnName="TaskHabitDown" />
+                <ScalarProperty Name="TaskHabitUp" ColumnName="TaskHabitUp" />
+                <ScalarProperty Name="TaskStartDate" ColumnName="TaskStartDate" />
+                <ScalarProperty Name="TaskStreak" ColumnName="TaskStreak" />
+                <ScalarProperty Name="TaskRepeat" ColumnName="TaskRepeat" />
+                <ScalarProperty Name="TaskFrequency" ColumnName="TaskFrequency" />
+                <ScalarProperty Name="ReminderTime" ColumnName="ReminderTime" />
+                <ScalarProperty Name="ReminderStartDate" ColumnName="ReminderStartDate" />
+                <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
+                <ScalarProperty Name="TaskDifficulty" ColumnName="TaskDifficulty" />
+                <ScalarProperty Name="TaskDueDate" ColumnName="TaskDueDate" />
+                <ScalarProperty Name="TaskNotes" ColumnName="TaskNotes" />
+                <ScalarProperty Name="TaskTag" ColumnName="TaskTag" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
