@@ -232,9 +232,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\CreateUserTask.cs" />
     <Compile Include="Utility\HabiticaCreateTag.cs" />
-    <Compile Include="Utility\HabiticaRegister.cs" />
-    <Compile Include="Utility\HabiticaPost.cs" />
+    <Compile Include="Utility\HabiticaRegisterNewUser.cs" />
     <Compile Include="Utility\HabiticaResetPassword.cs" />
+    <Compile Include="Utility\HabiticaUserLogin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

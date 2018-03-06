@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HabiticaTravel.Utility
 {
-    public partial class HabiticaPost
+    public partial class HabiticaRegisterNewUser
     {
       
         public static async Task<string> CreateTag(HabiticaUser user)
