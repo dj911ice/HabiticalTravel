@@ -10,16 +10,23 @@ namespace HabiticaTravel.Utility
 {
     public static partial class HabiticaPost
     {
-        public static async Task<string> UserLogin(ApplicationUser user, RegisterViewModel model)
+        public static async Task<dynamic> UserLogin(string username, string password)
         {
-            return await "https://habitica.com/api/v3/user/auth/local/login"
+            try
+            {
+                return await "https://habitica.com/api/v3/user/auth/local/login"
                         .PostJsonAsync(new
                         {
-                            username = user.UserName,
-                            password = model.Password,
+                            username,
+                            password,
 
                         }).ReceiveJson();
-
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+                throw;
+            }
         }
     }
 }
