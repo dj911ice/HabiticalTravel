@@ -1,0 +1,154 @@
+﻿@model HabiticaTravel.Models.DefaultTask
+
+<div>
+
+    <h4>Choose One of Our Tasks</h4>
+    <hr />
+    @for (int i = 0; i < ViewBag.MyTasks.Count(); i++)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskTag)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskTag)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskNotes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskNotes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskDueDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskDueDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskDifficulty)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskDifficulty)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReminderId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReminderId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReminderStartDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReminderStartDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReminderTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReminderTime)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskFrequency)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskFrequency)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskRepeat)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskRepeat)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskStreak)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskStreak)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskStartDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskStartDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskHabitUp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskHabitUp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskHabitDown)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskHabitDown)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TaskRewardValue)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskRewardValue)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EveryXDays)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EveryXDays)
+            </dd>
+
+        </dl>
+    }
+
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TaskId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
