@@ -12,11 +12,12 @@ namespace HabiticaTravel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HabiticaUser
+    public partial class DefaultTaskItem
     {
-        public int HabiticaUserId { get; set; } // created in our DB
-        public string Uuid { get; set; } // created by habitica 
-        public string ApiToken { get; set; }
-        public string UserId { get; set; } // part of entity
+        public int TaskItemsId { get; set; }
+        public string ItemName { get; set; }
+        public Nullable<int> TaskId { get; set; }
+    
+        public virtual DefaultTask DefaultTask { get; set; }
     }
 }

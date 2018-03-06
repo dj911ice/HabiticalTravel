@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Flurl.Http;
 using HabiticaTravel.Models;
+using Newtonsoft.Json.Linq;
 
 namespace HabiticaTravel.Utility
 {
@@ -12,9 +13,10 @@ namespace HabiticaTravel.Utility
     {
         public static async Task<string> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
-
-            return await "https://habitica.com/api/v3/user/auth/local/login"
-                    .PostUrlEncodedAsync(new
+            try
+            {
+                return await "https://habitica.com/api/v3/user/auth/local/register"
+                    .PostJsonAsync(new
                     {
                         username = user.UserName,
                         email = user.Email,
@@ -23,6 +25,12 @@ namespace HabiticaTravel.Utility
 
                     })
                     .ReceiveString();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseString();
+                throw;
+            }
         }
     }
 

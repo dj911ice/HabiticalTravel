@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HabiticaTravel.Models;
 using HabiticaTravel.Utility;
+using Newtonsoft.Json.Linq;
+using HabiticaTravel.Controllers.Habitica;
+using System.Web.Routing;
 
 namespace HabiticaTravel.Controllers
 {
@@ -152,22 +155,50 @@ namespace HabiticaTravel.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    // RegisterNewUser()
-                    HabiticaPost.RegisterNewUser(user, model);
-                    return RedirectToAction("Index", "Home");
+                // stored the outpout, which is a string, into and then did the classic JObject parsing,
+                // so we can navigate the key,values dictionary style. 
+               
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+
+                string output = await HabiticaPost.RegisterNewUser(user, model);
+                var JSON = JObject.Parse(output);
+
+                if (bool.Parse(JSON["success"].ToString()))
+                {
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        // RegisterNewUser()
+
+                        TempData["JSON"] = JSON;
+                        TempData["user"] = user;
+
+                        //var routeValues = new RouteValueDictionary
+                        //{
+                        //    { "user" , user },
+                        //    { "model", model }
+                        //};
+
+                        return RedirectToAction("RegisterNewUser", "Habitica");
+
+                    }
+                    AddErrors(result);
+
                 }
-                AddErrors(result);
+                else
+                {
+                    return View("../Shared/Error");
+                }
+                
             }
 
             // If we got this far, something failed, redisplay form

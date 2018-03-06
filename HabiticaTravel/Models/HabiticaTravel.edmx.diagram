@@ -6,7 +6,17 @@
     <edmx:Diagrams>
       <Diagram DiagramId="6e96bbc275594a9d92482da6c883b40b" Name="Diagram1">
         <EntityTypeShape EntityType="habiticatravelModel.HabiticaUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+<<<<<<< HEAD
         <EntityTypeShape EntityType="habiticatravelModel.UserStat" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="habiticatravelModel.CustomTaskItem" Width="1.5" PointX="7.625" PointY="8.5" />
+        <EntityTypeShape EntityType="habiticatravelModel.CustomTask" Width="1.5" PointX="5.375" PointY="7" />
+        <EntityTypeShape EntityType="habiticatravelModel.DefaultTaskItem" Width="1.5" PointX="7.625" PointY="2.5" />
+        <EntityTypeShape EntityType="habiticatravelModel.DefaultTask" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="habiticatravelModel.FK_CustomTaskItems_CustomTasks" />
+        <AssociationConnector Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks" />
+=======
+        
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; something something
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
