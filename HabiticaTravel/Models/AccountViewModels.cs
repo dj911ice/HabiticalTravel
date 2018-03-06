@@ -65,6 +65,8 @@ namespace HabiticaTravel.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(20,ErrorMessage = "Login Name must be between 1 and 20 characters long.")]
+        [RegularExpression("^[a-zA-Z0-9_-]*$")]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
