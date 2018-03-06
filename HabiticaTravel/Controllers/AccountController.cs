@@ -160,9 +160,13 @@ namespace HabiticaTravel.Controllers
                 // so we can navigate the key,values dictionary style. 
                
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                
 
-                string output = await HabiticaPost.RegisterNewUser(user, model);
-                var JSON = JObject.Parse(output);
+                // we added the register with habitica action here to test if the user exist, if they do exist, we do NOT create a user
+                // in a database, we instead throw an error page, we will change it to redirect to a page that will allow
+                // the user to instead login with his/her habitica page.
+                var JSON = (JObject)JObject.FromObject(await HabiticaPost.RegisterNewUser(user, model));
+                //var JSON = JObject.Parse(output);
 
                 if (bool.Parse(JSON["success"].ToString()))
                 {
@@ -181,12 +185,6 @@ namespace HabiticaTravel.Controllers
 
                         TempData["JSON"] = JSON;
                         TempData["user"] = user;
-
-                        //var routeValues = new RouteValueDictionary
-                        //{
-                        //    { "user" , user },
-                        //    { "model", model }
-                        //};
 
                         return RedirectToAction("RegisterNewUser", "Habitica");
 
