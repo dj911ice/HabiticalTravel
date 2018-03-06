@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HabiticaTravel.Models;
 using HabiticaTravel.Utility;
+using Newtonsoft.Json.Linq;
 
 namespace HabiticaTravel.Controllers
 {
@@ -164,7 +165,8 @@ namespace HabiticaTravel.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     // RegisterNewUser()
-                    HabiticaPost.RegisterNewUser(user, model);
+                    var output = await HabiticaPost.RegisterNewUser(user, model);
+                    JObject.Parse(output);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

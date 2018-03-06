@@ -13,13 +13,12 @@ namespace HabiticaTravel.Utility
         public static async Task<string> UserLogin(ApplicationUser user, RegisterViewModel model)
         {
             return await "https://habitica.com/api/v3/user/auth/local/register"
-                        .PostUrlEncodedAsync(new
+                        .PostJsonAsync(new
                         {
                             username = user.UserName,
                             password = model.Password,
 
-                        })
-                        .ReceiveString();
+                        }).ReceiveJson();
 
         }
     }

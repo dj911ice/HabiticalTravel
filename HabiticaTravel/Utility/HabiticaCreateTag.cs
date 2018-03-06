@@ -10,14 +10,15 @@ namespace HabiticaTravel.Utility
 {
     public partial class HabiticaPost
     {
-        public static async Task<string> CreateTag()
+        public static async Task<string> CreateTag(HabiticaUser user)
         {
             return await "https://habitica.com/api/v3/user/reset-password"
-                .PostUrlEncodedAsync(new
-                {
-                    name = "Travel",
-                })
-                .ReceiveString();
+                        .WithHeaders(new
+                        {
+                            x_api_user = user.Uuid,
+                            x_api_key = user.ApiToken
+                        }).GetJsonAsync();
+                        
         }
     }
 }
