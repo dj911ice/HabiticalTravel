@@ -7,7 +7,7 @@ using HabiticaTravel.Models;
 
 namespace HabiticaTravel.Controllers
 {
-    public class DefaultTasksController : Controller
+    public class TasksController : Controller
     {
         // GET: DefaultTasks
         public ActionResult DefaultTasks()
