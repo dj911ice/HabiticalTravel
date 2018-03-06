@@ -8,7 +8,7 @@ using System.Web;
 
 namespace HabiticaTravel.Utility
 {
-    public static partial class HabiticaRegisterNewUser
+    public static partial class HabiticaPost
     {
         public static async Task<string> UserLogin(ApplicationUser user, RegisterViewModel model)
         {

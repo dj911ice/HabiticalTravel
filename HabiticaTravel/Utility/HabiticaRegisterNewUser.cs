@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Web;
 using Flurl.Http;
 using HabiticaTravel.Models;
+using Newtonsoft.Json.Linq;
 
 namespace HabiticaTravel.Utility
 {
-    public static partial class HabiticaRegisterNewUser
+    public static partial class HabiticaPost
     {
         public static async Task<string> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
@@ -22,7 +23,7 @@ namespace HabiticaTravel.Utility
                         confirmPassword = model.ConfirmPassword,
 
                     })
-                    .ReceiveJson();
+                    .ReceiveString();
         }
     }
 

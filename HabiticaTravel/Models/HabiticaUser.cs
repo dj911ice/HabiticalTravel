@@ -14,9 +14,9 @@ namespace HabiticaTravel.Models
     
     public partial class HabiticaUser
     {
-        public int HabiticaUserId { get; set; }
-        public string Uuid { get; set; }
+        public int HabiticaUserId { get; set; } // created in our DB
+        public string Uuid { get; set; } // created by habitica 
         public string ApiToken { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } // part of entity
     }
 }

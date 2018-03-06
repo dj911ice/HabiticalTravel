@@ -8,7 +8,7 @@ using HabiticaTravel.Models;
 
 namespace HabiticaTravel.Utility
 {
-    public static partial class HabiticaRegisterNewUser
+    public static partial class HabiticaPost
     {
         public static async Task<string> ResetPassword(ApplicationUser user, ForgotPasswordViewModel model)
 

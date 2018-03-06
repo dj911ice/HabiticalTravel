@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using HabiticaTravel.Models;
 using HabiticaTravel.Utility;
 using Newtonsoft.Json.Linq;
+using HabiticaTravel.Controllers.Habitica;
+using System.Web.Routing;
 
 namespace HabiticaTravel.Controllers
 {
@@ -153,7 +155,7 @@ namespace HabiticaTravel.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -165,9 +167,18 @@ namespace HabiticaTravel.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     // RegisterNewUser()
-                    var output = await HabiticaRegisterNewUser.RegisterNewUser(user, model);
-                    JObject.Parse(output);
-                    return RedirectToAction("Index", "Home");
+                    
+                    TempData["user"] = user;
+                    TempData["model"] = model;
+
+                    //var routeValues = new RouteValueDictionary
+                    //{
+                    //    { "user" , user },
+                    //    { "model", model }
+                    //};
+
+                    return RedirectToAction("RegisterNewUser", "Habitica");
+
                 }
                 AddErrors(result);
             }
