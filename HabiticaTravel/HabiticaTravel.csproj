@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DefaultTasksController.cs" />
     <Compile Include="Controllers\Habitica\HabiticaAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -350,9 +351,11 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
+    <Content Include="Views\Home\DefaultTasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DefaultTasks\" />
     <Folder Include="Views\GetUser\" />
     <Folder Include="Views\HabiticaAccount\" />
     <Folder Include="Views\Register\" />
