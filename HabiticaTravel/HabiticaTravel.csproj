@@ -198,10 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-<<<<<<< HEAD
     <Compile Include="Controllers\DefaultTasksController.cs" />
-=======
->>>>>>> parent of 6b67e78... Created Habitica User Form w/o styling
     <Compile Include="Controllers\Habitica\HabiticaAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -366,10 +363,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Home\DefaultTasks.cshtml" />
-=======
->>>>>>> parent of 6b67e78... Created Habitica User Form w/o styling
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
