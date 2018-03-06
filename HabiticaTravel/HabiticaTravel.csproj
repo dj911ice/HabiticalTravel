@@ -364,6 +364,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
     <Content Include="Views\Tasks\DefaultTasks.cshtml" />
+    <Content Include="Views\Habitica\HabiticaUserForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
