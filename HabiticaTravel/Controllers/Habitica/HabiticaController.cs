@@ -31,12 +31,12 @@ namespace HabiticaTravel.Controllers.Habitica
             return View();
         }
 
-        public ActionResult RegisterNewUser( )
+        public ActionResult RegisterNewUser()
         {
 
             var JSON = (JObject)TempData["JSON"];
             var user = (ApplicationUser)TempData["user"];
-            
+
             // these are both of our ORM copies, so the the first one is our Habitica User,
             // second ORM is basicaly the an object that wraps around our ApplicationUser, the reason
             // we have to do it this way is because UserManager allows us to preform CRUD operation
@@ -63,7 +63,7 @@ namespace HabiticaTravel.Controllers.Habitica
             HabiticaORM.HabiticaUsers.Add(HabiticaUser);
             HabiticaORM.SaveChanges();
             return RedirectToAction("Index", "Home");
-            
+
         }
 
     }
