@@ -31,7 +31,7 @@ namespace HabiticaTravel.Controllers.Habitica
             return View();
         }
 
-        public ActionResult RegisterNewUser()
+        public ActionResult RegisterNewUser( )
         {
 
             var JSON = (JObject)TempData["JSON"];
@@ -64,13 +64,6 @@ namespace HabiticaTravel.Controllers.Habitica
             HabiticaORM.SaveChanges();
             return RedirectToAction("Index", "Home");
             
-        }
-
-        public ActionResult LoginWithHabitica()
-        {
-            
-
-            return RedirectToAction("Index", "Home");
         }
 
     }
