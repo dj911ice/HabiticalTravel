@@ -161,8 +161,7 @@ namespace HabiticaTravel.Controllers
                
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
-                string output = await HabiticaPost.RegisterNewUser(user, model);
-                var JSON = JObject.Parse(output);
+                var JSON =  (JObject)JObject.FromObject(await HabiticaPost.RegisterNewUser(user, model));
 
                 if (bool.Parse(JSON["success"].ToString()))
                 {

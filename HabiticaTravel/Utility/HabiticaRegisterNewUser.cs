@@ -11,7 +11,7 @@ namespace HabiticaTravel.Utility
 {
     public static partial class HabiticaPost
     {
-        public static async Task<string> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
+        public static async Task<dynamic> RegisterNewUser(ApplicationUser user, RegisterViewModel model)
         {
             try
             {
@@ -24,11 +24,11 @@ namespace HabiticaTravel.Utility
                         confirmPassword = model.ConfirmPassword,
 
                     })
-                    .ReceiveString();
+                    .ReceiveJson();
             }
             catch (FlurlHttpException ex)
             {
-                return ex.GetResponseString();
+                return ex.GetResponseJson();
                 throw;
             }
         }
