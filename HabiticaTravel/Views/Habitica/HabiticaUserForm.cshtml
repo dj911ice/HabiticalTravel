@@ -1,7 +1,7 @@
 ﻿<br /><br />
       <form action="/" method="post">
           <div>
-              <input type="text" name="TaskName" placeholder="New Task" />
+            <input type="text" id="task-name" name="TaskName" placeholder="New Task" onclick="return ShowOption()" />
               <select>
                   <option>Please Choose</option>
                   <option value="habit">Habit</option>
@@ -11,6 +11,7 @@
               </select>
           </div>
           <div><input type="hidden" name="Travel" /></div>
+           <div class="task-name"></div>
           <div>
               <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
           </div>
@@ -120,6 +121,23 @@
             $('#datetimepicker3').datetimepicker({
                 format: 'LT'
             });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function ShowOptions() {
+
+            $('.task-name').hide();
+            if $(('#task-name').value == 'habit')
+            {
+                $(  '<div>',
+                        '<select>',
+                            '<option>Habit Picker</option>',
+                            '<option value="true">Good Habit</option>',
+                            '<option value="true">Bad Habit</option>',
+                        '</select>',
+                    '</div>'
+                ).appendTo('.task-name').show();
+            }
         });
     </script>
 }
