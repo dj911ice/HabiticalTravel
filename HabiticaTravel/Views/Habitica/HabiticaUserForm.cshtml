@@ -1,7 +1,7 @@
 ﻿<br /><br />
       <form action="/" method="post">
           <div>
-            <input type="text" id="task-name" name="TaskName" placeholder="New Task" onclick="return ShowOption()" />
+            <input type="text" id="task-name" name="TaskName" placeholder="New Task" />
               <select>
                   <option>Please Choose</option>
                   <option value="habit">Habit</option>
@@ -9,6 +9,7 @@
                   <option value="todo">To-Do</option>
                   <option value="reward">Reward</option>
               </select>
+              <input type="button" value="Show Habit Options" onclick="ShowOptions()" />
           </div>
           <div><input type="hidden" name="Travel" /></div>
            <div class="task-name"></div>
@@ -124,20 +125,22 @@
         });
     </script>
     <script type="text/javascript">
-        $(function ShowOptions() {
-
-            $('.task-name').hide();
-            if $(('#task-name').value == 'habit')
+        function ShowOptions() {
+            var habit = document.getElementById('habit').value;
+            if (String(habit) == 'habit')
             {
-                $(  '<div>',
+                $(  
                         '<select>',
                             '<option>Habit Picker</option>',
                             '<option value="true">Good Habit</option>',
                             '<option value="true">Bad Habit</option>',
-                        '</select>',
-                    '</div>'
+                        '</select>'
+                    
                 ).appendTo('.task-name').show();
             }
-        });
+            else {
+                $('.task-name').hide();
+            }
+        };
     </script>
 }
