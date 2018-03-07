@@ -195,7 +195,8 @@ namespace HabiticaTravel.Controllers
                 }
                 else
                 {
-                    return View("../Shared/Error");
+                    ViewBag.Message = "You already have an account with Habitica. Would you like to sign in with your Habitica account?";
+                    return View("../Habitica/AlreadyRegisteredWithHabitica");
                 }
                 
             }

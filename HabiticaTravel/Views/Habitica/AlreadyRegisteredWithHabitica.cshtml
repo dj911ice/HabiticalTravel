@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_NotAuthorized.cshtml";
 }
 
-<h2>You already have an account with Habitica.</h2>
+<h2>@ViewBag.Message</h2>
 <br />
-<h3>Would you like to sign in with your Habitica account ?</h3>
 
-<a href="/Habitica/HabiticaLogin">Log in with Habitica</a>
-<a href="/Habitica/RegisterNewUser">Register</a>
+
+<a href="/Habitica/HabiticaLogin">Log in with Habitica</a><br />
+<a href="/Account/Register">Register</a>
 
 
 

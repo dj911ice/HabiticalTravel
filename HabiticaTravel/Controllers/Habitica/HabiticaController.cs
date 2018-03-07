@@ -75,14 +75,14 @@ namespace HabiticaTravel.Controllers.Habitica
 
         public ActionResult HabiticaLogin()
         {
-
+            
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> HabiticaAccountCredentials(RegisterViewModel model)
+        public async Task<ActionResult> HabiticaLoginHandler(RegisterViewModel model)
         {
             var JSON = (JObject)JObject.FromObject(await HabiticaPost.UserLogin(model.Email, model.Password));
             if (bool.Parse(JSON["success"].ToString()))
@@ -142,7 +142,8 @@ namespace HabiticaTravel.Controllers.Habitica
             {
                 // this is just a place holder, we need to pass a view that tells user 
                 // that 
-                return View("../Shared/Error");
+                ViewBag.Message = "You do not have an account with Habitica. Please Register.";
+                return View("../Habitica/AlreadyRegisteredWithHabitica");
             }
             return RedirectToAction("Index", "Home");
         }
