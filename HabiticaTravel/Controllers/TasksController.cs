@@ -14,10 +14,15 @@ namespace HabiticaTravel.Controllers
         {
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
 
-            ViewBag.MyTasks = MyHabitica.DefaultTasks.ToList();
-            ViewBag.MyTaskItems = MyHabitica.DefaultTaskItems.ToList();
+            ViewBag.MyTasks = MyHabitica?.DefaultTasks?.ToList();
+            ViewBag.MyTaskItems = MyHabitica?.DefaultTaskItems?.ToList();
             
 
+            return View();
+        }
+
+        public ActionResult CloneTask()
+        {
             return View();
         }
     }
