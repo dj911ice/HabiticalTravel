@@ -1,7 +1,15 @@
 ﻿@model HabiticaTravel.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+                /**/
+
+                ViewBag.Title = "Register";
 }
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/Habitica")
+}
+
 
 <h2>@ViewBag.Title.</h2>
 
@@ -16,11 +24,11 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", name = "UserEmail" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label", name = "UserPassword" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
@@ -32,6 +40,6 @@
     </div>
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+    <script src="~/Scripts/HabiticaJavaScript/Validation.js"></script>
+
