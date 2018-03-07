@@ -12,12 +12,19 @@
           </div>
           <div><input type="hidden" name="Travel" /></div>
           <div>
-              <textarea name="TaskNotes" placeholder="Task Notes"> </textarea>
+              <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
           </div>
           <div class="container">
               <div class="row">
-                  <div class='col-sm-6'>
-                      <input type='text' class="form-control" id='datetimepicker4' name="TaskDueDate" />
+                  <div class='col-sm-3'>
+                      <div class="form-group">
+                          <div class='input-group datetimepicker1' id='datetimepicker1'>
+                              <input type='text' class="form-control" name="TaskDueDate" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
@@ -32,12 +39,32 @@
           </div>
           <div class="container">
               <div class="row">
-                  <div class='col-sm-6'>
-                      <input type='text' class="form-control" id='datetimepicker4' name="ReminderStartDate" />
+                  <div class='col-sm-3'>
+                      <div class="form-group">
+                          <div class='input-group datetimepicker1' id='datetimepicker1'>
+                              <input type='text' class="form-control" name="ReminderStartDate" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
-          <div><!--Insert DateTime Clock: ReminderTime--></div>
+          <div class="container">
+              <div class="row">
+                  <div class='col-sm-3'>
+                      <div class="form-group">
+                          <div class='input-group date' id='datetimepicker3'>
+                              <input type='text' class="form-control" name="ReminderTime" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-time"></span>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
           <div>
               <select>
                   <option>Choose Task Frequency</option>
@@ -55,7 +82,21 @@
               <label>Saturday</label> <input type="checkbox" name="s" value="false" />
           </div>
           <div><input type="number" name="" disabled placeholder="Task Streaks" /></div>
-          <div><!--Insert DateTime Calender: TaskStartDate--></div>
+
+          <div class="container">
+              <div class="row">
+                  <div class='col-sm-3'>
+                      <div class="form-group">
+                          <div class='input-group datetimepicker1' id='datetimepicker1'>
+                              <input type='text' class="form-control" name="TaskStartDate" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
           <div>
               <select>
                   <option>Habit Picker</option>
@@ -69,9 +110,16 @@
       </form>
 
 @section scripts{
-      <script type="text/javascript">
-              $(function () {
-                  $('#datetimepicker4').datetimepicker();
-              });
-      </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datetimepicker1').datetimepicker();
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+            });
+        });
+    </script>
 }
