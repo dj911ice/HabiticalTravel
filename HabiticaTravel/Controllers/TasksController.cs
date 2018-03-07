@@ -53,20 +53,23 @@ namespace HabiticaTravel.Controllers
             };
 
             MyHabitica.CustomTasks.Add(ClonedTask);
-            MyHabitica.SaveChanges();
+
 
             List<DefaultTaskItem> CloneItemsList = new List<DefaultTaskItem>(MyHabitica.DefaultTasks.Find(TaskId).DefaultTaskItems.ToList());
             List<CustomTaskItem> NewItemsList = new List<CustomTaskItem>();
             
+
             for (int i = 0; i < CloneItemsList.Count; i++)
             {
-                CustomTaskItem TempItem = new CustomTaskItem
+                var TempItem = new CustomTaskItem
                 {
                     ItemName = CloneItemsList[i].ItemName,
                     TaskId = MyHabitica.CustomTasks.Find(ClonedTask).TaskId
                 };
                 MyHabitica.CustomTaskItems.Add(TempItem);
+                ClonedTask.CustomTaskItems.Add(TempItem);
             }
+            
             MyHabitica.SaveChanges();
 
             return View();

@@ -245,8 +245,8 @@
                                                             <input type="checkbox" /><bold>@j.ItemName</bold><br />
                                                         }
                                                     }
-
-                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks"/>
+                                                    <input type="hidden" value="@ViewBag.MyTasks[i].TaskId" name="TaskId" />
+                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks" />
                                                 </form>
                                             </div>
                                         </div>
@@ -257,10 +257,10 @@
 
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 1].TaskName</h4>
-                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i].TaskId">
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+1].TaskId">
                                                     @foreach (var j in ViewBag.MyTaskItems)
                                                     {
-                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 1].TaskId)
                                                         {
                                                             <input type="checkbox" /><bold>@j.ItemName</bold><br />
                                                         }
@@ -275,10 +275,10 @@
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 2].TaskName</h4>
-                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i].TaskId">
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+2].TaskId">
                                                     @foreach (var j in ViewBag.MyTaskItems)
                                                     {
-                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 2].TaskId)
                                                         {
                                                             <input type="checkbox" /><bold>@j.ItemName</bold><br />
                                                         }
@@ -293,10 +293,10 @@
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 3].TaskName</h4>
-                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i].TaskId">
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+3].TaskId">
                                                     @foreach (var j in ViewBag.MyTaskItems)
                                                     {
-                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 3].TaskId)
                                                         {
                                                             <input type="checkbox" /><bold>@j.ItemName</bold><br />
                                                         }

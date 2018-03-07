@@ -35,12 +35,13 @@
           <Property Name="TaskHabitDown" Type="bit" />
           <Property Name="TaskRewardValue" Type="int" />
           <Property Name="EveryXDays" Type="int" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="DefaultTaskItems">
           <Key>
             <PropertyRef Name="TaskItemsId" />
           </Key>
-          <Property Name="TaskItemsId" Type="int" Nullable="false" />
+          <Property Name="TaskItemsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="128" />
           <Property Name="TaskId" Type="int" />
         </EntityType>
@@ -51,7 +52,7 @@
           <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TaskType" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="TaskTag" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TaskTag" Type="nchar" MaxLength="6" />
           <Property Name="TaskNotes" Type="nvarchar" MaxLength="256" />
           <Property Name="TaskDueDate" Type="datetime" />
           <Property Name="TaskDifficulty" Type="float" Nullable="false" />
@@ -247,6 +248,7 @@
           <Property Name="TaskRewardValue" Type="Int32" />
           <Property Name="EveryXDays" Type="Int32" />
           <NavigationProperty Name="CustomTaskItems" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTask" ToRole="CustomTaskItem" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DefaultTaskItem">
           <Key>
@@ -264,7 +266,7 @@
           <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="TaskTag" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="TaskTag" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
           <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
           <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
@@ -369,6 +371,7 @@
           <EntitySetMapping Name="CustomTasks">
             <EntityTypeMapping TypeName="habiticatravelModel.CustomTask">
               <MappingFragment StoreEntitySet="CustomTasks">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="EveryXDays" ColumnName="EveryXDays" />
                 <ScalarProperty Name="TaskRewardValue" ColumnName="TaskRewardValue" />
                 <ScalarProperty Name="TaskHabitDown" ColumnName="TaskHabitDown" />
