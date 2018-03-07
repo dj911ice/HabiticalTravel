@@ -19,6 +19,7 @@ namespace HabiticaTravel.Controllers.Habitica
 {
     public partial class HabiticaController : Controller
     {
+        
         // THESE PROPERTIES AND FIELDS ARE SUPER IMPORTANT, THEY ARE HERE TO ALLOW US TO REGISTER
         // A NEW USER IF THEY ALREADY HAVE AN ACCOUNT WITH HABITICA, I COPIED THIS CODE ESSENTIALLY
         // FROM THE ORIGINAL ACCOUNT FROM IDENTY AND IM JUST USING IT FOR A SINGLE PURPOSE.
@@ -101,8 +102,7 @@ namespace HabiticaTravel.Controllers.Habitica
 
                 if (User == null)
                 {
-                    if (ModelState.IsValid)
-                    {
+                    
                         var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                         var result = await UserManager.CreateAsync(user, model.Password);
                         if (result.Succeeded)
@@ -113,7 +113,7 @@ namespace HabiticaTravel.Controllers.Habitica
                             return RedirectToAction("Index", "Home");
                         }
                         AddErrors(result);
-                    }
+                    
 
                     
 
@@ -123,8 +123,9 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     // simply updating the habitica User that is not null with the
                     // HabiticaUser object that was created on line 88
-                    var CurrentHabUser = HabiticaORM.HabiticaUsers.Find(User.Id);
-                    HabiticaORM.Entry(CurrentHabUser).CurrentValues.SetValues(UpdatedHabiticaUser);
+                    
+                    var CurrentHabUser = HabiticaORM.HabiticaUsers.Where(u => User.Id == u.UserId).Single();
+                    HabiticaORM.Entry(CurrentHabUser).CurrentValues.SetValues(new { Uuid = (string)JSON["data"]["id"], ApiToken = (string)JSON["data"]["apiToken"] });
                     HabiticaORM.SaveChanges();
 
                     // this will update the Identity ORM, seems like less code but you know what they say

@@ -11,9 +11,11 @@ namespace HabiticaTravel.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class HabiticaUser
     {
+        [NotMapped]
         public int HabiticaUserId { get; set; } // created in our DB
         public string Uuid { get; set; } // created by habitica 
         public string ApiToken { get; set; }

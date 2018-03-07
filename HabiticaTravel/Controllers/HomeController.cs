@@ -10,7 +10,12 @@ namespace HabiticaTravel.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                //send them to the AuthenticatedIndex page instead of the index page
+                return View();
+            }
+            return View("../Home/NotAuthorized", "../Shared/_NotAuthorized");
         }
     }
 }
