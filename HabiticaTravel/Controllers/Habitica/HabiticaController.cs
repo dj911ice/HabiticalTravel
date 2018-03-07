@@ -108,6 +108,8 @@ namespace HabiticaTravel.Controllers.Habitica
                         if (result.Succeeded)
                         {
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            var newUser = userManager.FindByEmail(user.Email);
+                            UpdatedHabiticaUser.UserId = newUser.Id;
                             HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
                             HabiticaORM.SaveChanges();
                             return RedirectToAction("Index", "Home");
