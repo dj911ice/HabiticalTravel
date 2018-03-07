@@ -5,7 +5,7 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("HabiticaAccountCredentials", "Habitica", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("HabiticaAccountCredentials", "Habitica", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "HabiticaLogin" }))
 {
     @Html.AntiForgeryToken()
     <h4>Login with Habitica.</h4>
