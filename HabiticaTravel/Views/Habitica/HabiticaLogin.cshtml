@@ -1,15 +1,14 @@
-﻿@model HabiticaTravel.Models.RegisterViewModel
+﻿
 @{
-
-
     ViewBag.Title = "Habitica Login";
+    Layout = "~/Views/Shared/_NotAuthorized.cshtml";
 }
 
-
+@model HabiticaTravel.Models.RegisterViewModel
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("HabiticaAccountCredentials", "Habitica", FormMethod.Post, new { @class = "form-horizontal", id = "HabiticaLogin", role = "form",  }))
+@using (Html.BeginForm("HabiticaAccountCredentials", "Habitica", FormMethod.Post, new { @class = "form-horizontal", id = "HabiticaLogin", role = "form", }))
 {
     @Html.AntiForgeryToken()
     <h4>Login with Habitica.</h4>
@@ -21,7 +20,7 @@
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
 
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", name = "UserEmail", data_val = "false" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", name = "UserEmail", data_val = "true" })
 
         </div>
     </div>
