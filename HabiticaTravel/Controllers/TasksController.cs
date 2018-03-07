@@ -15,6 +15,8 @@ namespace HabiticaTravel.Controllers
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
 
             ViewBag.MyTasks = MyHabitica.DefaultTasks.ToList();
+            ViewBag.MyTaskItems = MyHabitica.DefaultTaskItems.ToList();
+            
 
             return View();
         }

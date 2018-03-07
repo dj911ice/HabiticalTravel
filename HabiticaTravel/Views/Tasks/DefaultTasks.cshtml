@@ -146,8 +146,8 @@
                 padding: 2px 0;
             }
 
-                .carousel .task-details strike {
-                    opacity: 0.7;
+                .carousel .task-details bold {
+                    font-weight: bold;
                     margin-right: 5px;
                 }
 
@@ -237,61 +237,72 @@
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i].TaskName</h4>
+                                                <form class="task-details">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                </form>
 
-                                                -                                            <p class="item-price"><strike>$400.00</strike> <b>$369.00</b></p>
-                                                +                                            <p class="task-details"><strike>$400.00</strike> <b>$369.00</b></p>
-                                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                                <a href="#" class="btn btn-primary">Add to Your Tasks</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="thumb-wrapper">
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
-                                            -                                        <div class="img-box">
-                                                -                                            <img src="/examples/images/products/headphone.jpg" class="img-responsive img-fluid" alt="">
-                                                -
-                                            </div>
-                                            +
+
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 1].TaskName</h4>
-
-                                                -                                            <p class="item-price"><strike>$25.00</strike> <b>$23.99</b></p>
-                                                +                                            <p class="task-details"><strike>$25.00</strike> <b>$23.99</b></p>
-                                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                                <form class="task-details">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                </form>
+                                                <a href="#" class="btn btn-primary">Add to Your Tasks</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="thumb-wrapper">
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
-                                            -                                        <div class="img-box">
-                                                -                                            <img src="/examples/images/products/macbook-air.jpg" class="img-responsive img-fluid" alt="">
-                                                -
-                                            </div>
-                                            +
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 2].TaskName</h4>
-
-                                                -                                            <p class="item-price"><strike>$899.00</strike> <b>$649.00</b></p>
-                                                +                                            <p class="task-details"><strike>$899.00</strike> <b>$649.00</b></p>
-                                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                                <form class="task-details">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                </form>
+                                                <a href="#" class="btn btn-primary">Add to Your Tasks</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="thumb-wrapper">
                                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
-                                            -                                        <div class="img-box">
-                                                -                                            <img src="/examples/images/products/nikon.jpg" class="img-responsive img-fluid" alt="">
-                                                -
-                                            </div>
-                                            +
                                             <div class="thumb-content">
                                                 <h4>@ViewBag.MyTasks[i + 3].TaskName</h4>
-
-                                                -                                            <p class="item-price"><strike>$315.00</strike> <b>$250.00</b></p>
-                                                +                                            <p class="task-details"><strike>$315.00</strike> <b>$250.00</b></p>
-                                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                                <form class="task-details">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                </form>
+                                                <a href="#" class="btn btn-primary">Add to Your Tasks</a>
                                             </div>
                                         </div>
                                     </div>
