@@ -11,9 +11,6 @@ namespace HabiticaTravel
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
-            
-
-
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -30,7 +27,7 @@ namespace HabiticaTravel
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Habitica").Include(
+            bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                        "~/Scripts/Validation.js"));
 
 

@@ -1,7 +1,6 @@
-﻿$(function ()
-{
+﻿$(function () {
 
-    $("#HabiticaLogin").validate()({
+    $("#HabiticaLogin").validate({
 
         rules: {
             Email: {
