@@ -78,6 +78,7 @@ namespace HabiticaTravel.Controllers.Habitica
             return View();
         }
 
+        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> HabiticaAccountCredentials(RegisterViewModel model)
@@ -107,13 +108,14 @@ namespace HabiticaTravel.Controllers.Habitica
                         if (result.Succeeded)
                         {
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
+                            HabiticaORM.SaveChanges();
                             return RedirectToAction("Index", "Home");
                         }
                         AddErrors(result);
                     }
 
-                    HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
-                    HabiticaORM.SaveChanges();
+                    
 
                     return View(model);
                 }
@@ -127,6 +129,7 @@ namespace HabiticaTravel.Controllers.Habitica
 
                     // this will update the Identity ORM, seems like less code but you know what they say
                     // ...Hell yeah...
+                    User.Email = model.Email;
                     userManager.Update(User);
                     
                 }
