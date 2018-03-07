@@ -366,6 +366,7 @@
     <Content Include="Views\Home\NotAuthorized.cshtml" />
     <Content Include="Views\Shared\_NotAuthorized.cshtml" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
+    <Content Include="Views\Habitica\AlreadyRegisteredWithHabitica.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
