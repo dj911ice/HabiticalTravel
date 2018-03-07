@@ -142,7 +142,7 @@ namespace HabiticaTravel.Controllers.Habitica
                 // that 
                 return View("../Shared/Error");
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult HabiticaUserForm()
