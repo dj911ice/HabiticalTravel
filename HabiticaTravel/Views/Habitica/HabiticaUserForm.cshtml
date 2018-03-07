@@ -1,18 +1,23 @@
 ﻿<br /><br />
       <form action="/" method="post">
           <div>
-            <input type="text" id="task-name" name="TaskName" placeholder="New Task" />
+              @*<input type="text" id="task-form" name="TaskName" placeholder="New Task" /><br /><br />
+              <input type="button" id="habit" value="habit" onclick="ShowOptions()" />
+              <input type="button" id="daily" value="daily" />
+              <input type="button" id="todo" value="todo" />
+              <input type="button" id="reward" value="reward" />*@
               <select>
                   <option>Please Choose</option>
-                  <option value="habit">Habit</option>
+                  <option id="habit" value="habit">Habit</option>
                   <option value="daily">Daily</option>
                   <option value="todo">To-Do</option>
                   <option value="reward">Reward</option>
               </select>
               <input type="button" value="Show Habit Options" onclick="ShowOptions()" />
-          </div>
+          </div><br />
+          <div id="task-options"></div>
           <div><input type="hidden" name="Travel" /></div>
-           <div class="task-name"></div>
+           
           <div>
               <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
           </div>
@@ -127,20 +132,18 @@
     <script type="text/javascript">
         function ShowOptions() {
             var habit = document.getElementById('habit').value;
+
             if (String(habit) == 'habit')
             {
-                $(  
-                        '<select>',
-                            '<option>Habit Picker</option>',
-                            '<option value="true">Good Habit</option>',
-                            '<option value="true">Bad Habit</option>',
-                        '</select>'
-                    
-                ).appendTo('.task-name').show();
-            }
-            else {
-                $('.task-name').hide();
+                $("#SelForm").remove();
+                $('#task-options').append('<form action="/" method post><select id="SelForm">',
+                    '<select>',
+                    '<option>Habit Picker</option>',
+                    '<option value="true">Good Habit</option>',
+                    '<option value="true">Bad Habit</option>',
+                    '</select></form>');
             }
         };
     </script>
 }
+    
