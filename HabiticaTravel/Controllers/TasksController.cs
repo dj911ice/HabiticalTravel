@@ -49,10 +49,33 @@ namespace HabiticaTravel.Controllers
                 TaskHabitDown = TaskToClone.TaskHabitDown,
                 TaskRewardValue = TaskToClone.TaskRewardValue,
                 EveryXDays = TaskToClone.EveryXDays,
-                UserId = MyUser.Id
+                UserId = MyUser.Id,
+                CustomTaskItems = new List<CustomTaskItem>()
             };
 
             MyHabitica.CustomTasks.Add(ClonedTask);
+            try
+            {
+                MyHabitica.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
+
 
 
             List<DefaultTaskItem> CloneItemsList = new List<DefaultTaskItem>(MyHabitica.DefaultTasks.Find(TaskId).DefaultTaskItems.ToList());
@@ -61,16 +84,37 @@ namespace HabiticaTravel.Controllers
 
             for (int i = 0; i < CloneItemsList.Count; i++)
             {
-                var TempItem = new CustomTaskItem
-                {
-                    ItemName = CloneItemsList[i].ItemName,
-                    TaskId = MyHabitica.CustomTasks.Find(ClonedTask).TaskId
-                };
+                var TempItem = new CustomTaskItem();
+                int TempId = ClonedTask.TaskId;
+                CustomTask TempTask = MyHabitica.CustomTasks.Find(TempId);
+                TempItem.ItemName = CloneItemsList[i].ItemName;
+                TempItem.TaskId = TempTask.TaskId;
+
                 MyHabitica.CustomTaskItems.Add(TempItem);
                 ClonedTask.CustomTaskItems.Add(TempItem);
             }
-            
-            MyHabitica.SaveChanges();
+
+            try
+            {
+                MyHabitica.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
 
             return View();
         }

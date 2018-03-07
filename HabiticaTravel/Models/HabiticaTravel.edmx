@@ -20,7 +20,7 @@
           <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TaskType" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="TaskTag" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TaskTag" Type="nchar" MaxLength="6" />
           <Property Name="TaskNotes" Type="nvarchar" MaxLength="256" />
           <Property Name="TaskDueDate" Type="datetime" />
           <Property Name="TaskDifficulty" Type="float" Nullable="false" />
@@ -232,7 +232,7 @@
           <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="TaskTag" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="TaskTag" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
           <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
           <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
