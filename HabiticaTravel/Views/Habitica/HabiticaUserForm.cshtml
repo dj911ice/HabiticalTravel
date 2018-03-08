@@ -2,25 +2,61 @@
       <form action="/" method="post">
           <div>
               @*<input type="text" id="task-form" name="TaskName" placeholder="New Task" /><br /><br />
-              <input type="button" id="habit" value="habit" onclick="ShowOptions()" />
-              <input type="button" id="daily" value="daily" />
-              <input type="button" id="todo" value="todo" />
-              <input type="button" id="reward" value="reward" />*@
+            <input type="button" id="habit" value="habit" onclick="ShowOptions()" />
+            <input type="button" id="daily" value="daily" />
+            <input type="button" id="todo" value="todo" />
+            <input type="button" id="reward" value="reward" />*@
               <select>
                   <option>Please Choose</option>
-                  <option id="habit" value="habit">Habit</option>
-                  <option value="daily">Daily</option>
-                  <option value="todo">To-Do</option>
-                  <option value="reward">Reward</option>
+                  <option id="type" value="habit">Habit</option>
+                  <option id="type" value="daily">Daily</option>
+                  <option id="type" value="todo">To-Do</option>
+                  <option id="type" value="reward">Reward</option>
               </select>
               <input type="button" value="Show Habit Options" onclick="ShowOptions()" />
-          </div><br />
-          <div id="task-options"></div>
-          <div><input type="hidden" name="Travel" /></div>
-           
-          <div>
-              <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
           </div>
+          <div>
+              <select>
+                  <option>Habit Picker</option>
+                  <option value="true">Good Habit</option>
+                  <option value="true">Bad Habit</option>
+              </select>
+          </div>
+          <div>
+              <div>
+                  <select>
+                      <option>Choose Task Frequency</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="daily">Daily</option>
+                  </select>
+              </div>
+              <div>
+                  <label>Sunday</label> <input type="checkbox" name="su" value="false" />
+                  <label>Monday</label> <input type="checkbox" name="m" value="false" />
+                  <label>Tuesday</label> <input type="checkbox" name="t" value="false" />
+                  <label>Wednesday</label> <input type="checkbox" name="w" value="false" />
+                  <label>Thursday</label> <input type="checkbox" name="th" value="false" />
+                  <label>Friday</label> <input type="checkbox" name="f" value="false" />
+                  <label>Saturday</label> <input type="checkbox" name="s" value="false" />
+              </div>
+              <div><input type="number" name="EveryXDays" placeholder="Every X Days" disabled /></div>
+              <div><input type="number" name="TaskStreak" disabled placeholder="Task Streaks" /></div>
+          </div>
+          <div class="container">
+              <div class="row">
+                  <div class='col-sm-3'>
+                      <div class="form-group">
+                          <div class='input-group datetimepicker1' id='datetimepicker1'>
+                              <input type='text' class="form-control" name="TaskStartDate" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <br />
           <div class="container">
               <div class="row">
                   <div class='col-sm-3'>
@@ -34,6 +70,12 @@
                       </div>
                   </div>
               </div>
+          </div>
+          <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
+          @*<div id="task-options"></div>*@
+          <div><input type="hidden" name="Travel" /></div>
+          <div>
+              <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
           </div>
           <div>
               <select>
@@ -72,47 +114,6 @@
                   </div>
               </div>
           </div>
-          <div>
-              <select>
-                  <option>Choose Task Frequency</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="daily">Daily</option>
-              </select>
-          </div>
-          <div>
-              <label>Sunday</label> <input type="checkbox" name="su" value="false" />
-              <label>Monday</label> <input type="checkbox" name="m" value="false" />
-              <label>Tuesday</label> <input type="checkbox" name="t" value="false" />
-              <label>Wednesday</label> <input type="checkbox" name="w" value="false" />
-              <label>Thursday</label> <input type="checkbox" name="th" value="false" />
-              <label>Friday</label> <input type="checkbox" name="f" value="false" />
-              <label>Saturday</label> <input type="checkbox" name="s" value="false" />
-          </div>
-          <div><input type="number" name="" disabled placeholder="Task Streaks" /></div>
-
-          <div class="container">
-              <div class="row">
-                  <div class='col-sm-3'>
-                      <div class="form-group">
-                          <div class='input-group datetimepicker1' id='datetimepicker1'>
-                              <input type='text' class="form-control" name="TaskStartDate" />
-                              <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                              </span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div>
-              <select>
-                  <option>Habit Picker</option>
-                  <option value="true">Good Habit</option>
-                  <option value="true">Bad Habit</option>
-              </select>
-          </div>
-          <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
-          <div><input type="number" name="EveryXDays" placeholder="Every X Days" disabled /></div>
           <input type="submit" name="Submit" />
       </form>
 
@@ -129,11 +130,11 @@
             });
         });
     </script>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         function ShowOptions() {
-            var habit = document.getElementById('habit').value;
+            var type = document.getElementById('type').value;
 
-            if (String(habit) == 'habit')
+            if (String(type) === 'habit')
             {
                 $("#SelForm").remove();
                 $('#task-options').append('<form action="/" method post><select id="SelForm">',
@@ -144,6 +145,6 @@
                     '</select></form>');
             }
         };
-    </script>
+    </script>*@
 }
     
