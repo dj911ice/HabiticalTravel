@@ -370,7 +370,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Tasks\DefaultTasks.cshtml" />
-    <Content Include="Views\Habitica\HabiticaUserForm.cshtml" />
+    <Content Include="Views\Tasks\CustomTask.cshtml" />
     <Content Include="Views\Home\NotAuthorized.cshtml" />
     <Content Include="Views\Shared\_NotAuthorized.cshtml" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />

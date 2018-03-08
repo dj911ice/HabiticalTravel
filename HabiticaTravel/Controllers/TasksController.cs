@@ -127,7 +127,7 @@ namespace HabiticaTravel.Controllers
 
             return View();
         }
-        public ActionResult CustomTaskView()
+        public ActionResult CustomTask()
         {
             return View();
         }
@@ -177,7 +177,7 @@ namespace HabiticaTravel.Controllers
 
             var HabiticaORM = new habiticatravelEntities();
 
-            ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
+            ViewBag.task = HabiticaORM.CustomTasks.Find(TaskId);
 
 
             return View();
