@@ -377,12 +377,8 @@
     <Content Include="Views\Habitica\AlreadyRegisteredWithHabitica.cshtml" />
     <Content Include="Views\Habitica\CustomTaskView.cshtml" />
     <Content Include="Views\Tasks\TaskDetails.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Shared\_ProfileLayout.cshtml" />
-
-=======
     <Content Include="Views\Tasks\ViewTask.cshtml" />
->>>>>>> added ViewTask view
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
