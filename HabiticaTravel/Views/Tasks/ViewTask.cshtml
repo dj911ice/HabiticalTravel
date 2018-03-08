@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "ViewTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.TaskName</h2>
+    <ul>
+        <li>@ViewBag.TaskType</li>
+        <li>@ViewBag.TaskTag</li>
+        <li><p>@ViewBag.TaskNotes</p></li>
+        <li>@ViewBag.TaskDueDate</li>
+        <li>@ViewBag.ReminderStartDate</li>
+        <li>@ViewBag.ReminderTime</li>
+        <li>@ViewBag.TaskFrequency</li>
+        <li>@ViewBag.TaskRepeat</li>
+        <li>@ViewBag.TaskStreak</li>
+        <li>@ViewBag.TaskStartDate</li>
+        <li>@ViewBag.TaskHabitUp</li>
+        <li>@ViewBag.TaskHabitDown</li>
+        <li>@ViewBag.TaskRewardValue</li>
+        <li>@ViewBag.EveryXDays</li>
+    </ul>
+</div>
+

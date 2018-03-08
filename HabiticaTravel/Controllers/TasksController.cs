@@ -179,9 +179,15 @@ namespace HabiticaTravel.Controllers
 
             ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
 
+<<<<<<< HEAD
             return View("CustomTaskView");
 
 
+=======
+            return View();
+        
+            
+>>>>>>> added ViewTask view
         }
     }
 }
