@@ -7,9 +7,9 @@ using System.Web;
 namespace HabiticaTravel.ViewModel
 {
 
-    public class TaskAndItems //viewmodel of book and News :)
+    public class TaskAndItems //viewmodel of task and taskItem
     {
-        public IEnumerable<CustomTask> CustomTask { get; set; }
+        public CustomTask CustomTask { get; set; }
         public IEnumerable<CustomTaskItem> CustomTaskItem { get; set; }
     }
 }

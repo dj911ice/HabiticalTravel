@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HabiticaTravel.Models;
@@ -117,16 +118,22 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult AddCustomTask(TaskAndItems Custom)
+        public async Task<ActionResult> AddCustomTask(TaskAndItems Custom)
         {
             var HabiticaORM = new habiticatravelEntities();
-            // HabiticaORM.CustomTasks.Add(Custom.CustomTask);
+
+            var newTask = Custom.CustomTask.First();
+
+            HabiticaORM.CustomTask.Add(newTask);
+            await HabiticaORM.SaveChangesAsync();
+
+            var currentTask = HabiticaORM.CustomTask.Where(t => newTask.TaskName == t.TaskName).First();
+
+            currentTask.CustomTaskItems = Custom.CustomTaskItem.ToList();
+
             HabiticaORM.SaveChanges();
 
-            // HabiticaORM.CustomTaskItems.Add(Custom.CustomTaskItem);
-            HabiticaORM.SaveChanges();
-
-            return View();
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult CustomTask()
         {

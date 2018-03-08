@@ -1,118 +1,119 @@
-﻿<br /><br />
-@Model HabiticaTravel.ViewModel.TaskAndItems
-      <form action="/Tasks/AddCustomTask" method="post">
-          <div>
-              <input type="text" name="TaskName" />
-              <select>
-                  <option>Please Choose</option>
-                  <option id="type" name="TaskType" value="habit">Habit</option>
-                  <option id="type" name="TaskType" value="daily">Daily</option>
-                  <option id="type" name="TaskType" value="todo">To-Do</option>
-                  <option id="type" name="TaskType" value="reward">Reward</option>
-              </select>
-              @*<input type="button" value="Show Habit Options" onclick="ShowOptions()" />*@
-          </div>
-          <div>
-              <select>
-                  <option>Habit Picker</option>
-                  <option name="TaskHabitUp" value="true">Good Habit</option>
-                  <option name="TaskHabitDown" value="true">Bad Habit</option>
-              </select>
-          </div>
-          <div>
-              <div>
-                  <select>
-                      <option>Choose Task Frequency</option>
-                      <option name="TaskFrequency" value="weekly">Weekly</option>
-                      <option name="TaskFrequency" value="daily">Daily</option>
-                  </select>
-              </div>
-              <div>
-                  <label>Sunday</label><input type="checkbox" name="TaskRepeat" value="su" />
-                  <label>Monday</label> <input type="checkbox" name="TaskRepeat" value="m" />
-                  <label>Tuesday</label> <input type="checkbox" name="TaskRepeat" value="t" />
-                  <label>Wednesday</label> <input type="checkbox" name="TaskRepeat" value="w" />
-                  <label>Thursday</label> <input type="checkbox" name="TaskRepeat" value="th" />
-                  <label>Friday</label> <input type="checkbox" name="TaskRepeat" value="f" />
-                  <label>Saturday</label> <input type="checkbox" name="TaskRepeat" value="s" />
-              </div>
-              <div><input type="number" name="EveryXDays" placeholder="Every X Days" disabled /></div>
-              <div><input type="number" name="TaskStreak" disabled placeholder="Task Streaks" /></div>
-          </div>
-          <div class="container">
-              <div class="row">
-                  <div class='col-sm-3'>
-                      <div class="form-group">
-                          <div class='input-group datetimepicker1' id='datetimepicker1'>
-                              <input type='text' class="form-control" name="TaskStartDate" />
-                              <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                              </span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <br />
-          <div class="container">
-              <div class="row">
-                  <div class='col-sm-3'>
-                      <div class="form-group">
-                          <div class='input-group datetimepicker1' id='datetimepicker1'>
-                              <input type='text' class="form-control" name="TaskDueDate" />
-                              <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                              </span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
-         
-          <div><input type="hidden" name="TravelTag" /></div>
-          <div>
-              <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
-          </div>
-          <div>
-              <select>
-                  <option>Choose Task Difficulty</option>
-                  <option name="TaskDifficulty" value="0.1">Trivial</option>
-                  <option name="TaskDifficulty" value="1">Easy</option>
-                  <option name="TaskDifficulty" value="1.5">Medium</option>
-                  <option name="TaskDifficulty" value="2">Hard</option>
-              </select>
-          </div>
-          <div class="container">
-              <div class="row">
-                  <div class='col-sm-3'>
-                      <div class="form-group">
-                          <div class='input-group datetimepicker1' id='datetimepicker1'>
-                              <input type='text' class="form-control" name="ReminderStartDate" />
-                              <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                              </span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="container">
-              <div class="row">
-                  <div class='col-sm-3'>
-                      <div class="form-group">
-                          <div class='input-group date' id='datetimepicker3'>
-                              <input type='text' class="form-control" name="ReminderTime" />
-                              <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-time"></span>
-                              </span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <input type="submit" name="Submit" />
-      </form>
+
+<br /><br />
+﻿@model HabiticaTravel.ViewModel.TaskAndItems
+<form action="/Tasks/AddCustomTask" method="post">
+    <div>
+        <input type="text" name="TaskName" />
+        <select name="TaskType">
+            <option>Please Choose</option>
+            <option id="type" value="habit">Habit</option>
+            <option id="type" value="daily">Daily</option>
+            <option id="type" value="todo">To-Do</option>
+            <option id="type" value="reward">Reward</option>
+        </select>
+        @*<input type="button" value="Show Habit Options" onclick="ShowOptions()" />*@
+    </div>
+    <div>
+        <select>
+            <option>Habit Picker</option>
+            <option name="TaskHabitUp" value="true">Good Habit</option>
+            <option name="TaskHabitDown" value="true">Bad Habit</option>
+        </select>
+    </div>
+    <div>
+        <div>
+            <select>
+                <option>Choose Task Frequency</option>
+                <option name="TaskFrequency" value="weekly">Weekly</option>
+                <option name="TaskFrequency" value="daily">Daily</option>
+            </select>
+        </div>
+        <div>
+            <label>Sunday</label><input type="checkbox" name="TaskRepeat" value="su" />
+            <label>Monday</label> <input type="checkbox" name="TaskRepeat" value="m" />
+            <label>Tuesday</label> <input type="checkbox" name="TaskRepeat" value="t" />
+            <label>Wednesday</label> <input type="checkbox" name="TaskRepeat" value="w" />
+            <label>Thursday</label> <input type="checkbox" name="TaskRepeat" value="th" />
+            <label>Friday</label> <input type="checkbox" name="TaskRepeat" value="f" />
+            <label>Saturday</label> <input type="checkbox" name="TaskRepeat" value="s" />
+        </div>
+        <div><input type="number" name="EveryXDays" placeholder="Every X Days" disabled /></div>
+        <div><input type="number" name="TaskStreak" disabled placeholder="Task Streaks" /></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group datetimepicker1' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="TaskStartDate" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group datetimepicker1' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="TaskDueDate" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
+
+    <div><input type="hidden" name="TravelTag" /></div>
+    <div>
+        <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
+    </div>
+    <div>
+        <select>
+            <option>Choose Task Difficulty</option>
+            <option name="TaskDifficulty" value="0.1">Trivial</option>
+            <option name="TaskDifficulty" value="1">Easy</option>
+            <option name="TaskDifficulty" value="1.5">Medium</option>
+            <option name="TaskDifficulty" value="2">Hard</option>
+        </select>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group datetimepicker1' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="ReminderStartDate" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker3'>
+                        <input type='text' class="form-control" name="ReminderTime" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" name="Submit" />
+</form>
 
 @section scripts{
     <script type="text/javascript">
@@ -128,20 +129,19 @@
         });
     </script>
     @*<script type="text/javascript">
-        function ShowOptions() {
-            var type = document.getElementById('type').value;
+            function ShowOptions() {
+                var type = document.getElementById('type').value;
 
-            if (String(type) === 'habit')
-            {
-                $("#SelForm").remove();
-                $('#task-options').append('<form action="/" method post><select id="SelForm">',
-                    '<select>',
-                    '<option>Habit Picker</option>',
-                    '<option value="true">Good Habit</option>',
-                    '<option value="true">Bad Habit</option>',
-                    '</select></form>');
-            }
-        };
-    </script>*@
+                if (String(type) === 'habit')
+                {
+                    $("#SelForm").remove();
+                    $('#task-options').append('<form action="/" method post><select id="SelForm">',
+                        '<select>',
+                        '<option>Habit Picker</option>',
+                        '<option value="true">Good Habit</option>',
+                        '<option value="true">Bad Habit</option>',
+                        '</select></form>');
+                }
+            };
+        </script>*@
 }
-    
