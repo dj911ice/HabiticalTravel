@@ -375,11 +375,9 @@
     <Content Include="Views\Shared\_NotAuthorized.cshtml" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
     <Content Include="Views\Habitica\AlreadyRegisteredWithHabitica.cshtml" />
-
     <Content Include="Views\Habitica\CustomTaskView.cshtml" />
-
     <Content Include="Views\Tasks\TaskDetails.cshtml" />
-
+    <Content Include="Views\Shared\_ProfileLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

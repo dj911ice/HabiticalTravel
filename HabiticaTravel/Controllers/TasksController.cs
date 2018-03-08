@@ -20,7 +20,7 @@ namespace HabiticaTravel.Controllers
 
             ViewBag.MyTasks = MyHabitica?.DefaultTasks?.ToList();
             ViewBag.MyTaskItems = MyHabitica?.DefaultTaskItems?.ToList();
-            
+
 
             return View();
         }
@@ -78,7 +78,7 @@ namespace HabiticaTravel.Controllers
 
             List<DefaultTaskItem> CloneItemsList = new List<DefaultTaskItem>(MyHabitica.DefaultTasks.Find(TaskId).DefaultTaskItems.ToList());
             List<CustomTaskItem> NewItemsList = new List<CustomTaskItem>();
-            
+
             for (int i = 0; i < CloneItemsList.Count; i++)
             {
                 var TempItem = new CustomTaskItem();
@@ -131,10 +131,17 @@ namespace HabiticaTravel.Controllers
         {
             return View();
         }
-        public ActionResult EditCustomTask()
+        public ActionResult GetCustomTaskBYTaskId(int TaskId)
         {
+            var HabiticaORM = new habiticatravelEntities();
+
+            CustomTask TaskToEdit = HabiticaORM.CustomTasks.Find(TaskId);
+
+            ViewBag.TaskToBeEdited = TaskToEdit;
+
             return View();
         }
+<<<<<<< HEAD
         
         public ActionResult DeleteCustomTask(int TaskId)
         {
@@ -146,6 +153,23 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+=======
+
+        public ActionResult SaveCustomTaskChanges(CustomTask NewTask)
+        {
+
+            var HabiticaORM = new habiticatravelEntities();
+
+
+            HabiticaORM.Entry(HabiticaORM.CustomTasks.Find(NewTask.TaskId)).CurrentValues.SetValues(NewTask);
+
+            HabiticaORM.SaveChanges();
+
+            return View();
+
+        }
+
+>>>>>>> Added actions to  save customTask changes action and Edit customer task By TaskID
         public ActionResult ViewTask(int TaskId)
         {
             // going to find the task based on the task id , display all the task info into a view.
@@ -156,8 +180,8 @@ namespace HabiticaTravel.Controllers
             ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
 
             return View("CustomTaskView");
-        
-            
+
+
         }
     }
 }
