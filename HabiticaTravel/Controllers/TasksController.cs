@@ -113,7 +113,7 @@ namespace HabiticaTravel.Controllers
                 throw raise;
             }
 
-            return View("/Home/Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
