@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
@@ -9,18 +11,15 @@
     @RenderSection("Styles", required: false)
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="~/Content/CustomCss/ProfileSidebar.css" rel="stylesheet" />
-
+    @model HabiticaTravel.Models.UserStat
 </head>
 <body>
     <div>
-        <h2>This is basic functionality for User Profile Display</h2>
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <div class="container">
             <div class="row">
 
-
-                <h1>Creative User Profile <br><small>#User-Interface #User #Profile #jquery #Social #contact #accordion</small></h1>
+                <h1>@Model.ProfileName <br><small>#User-Interface #User #Profile #jquery #Social #contact #accordion</small></h1>
                 <!-- Contenedor -->
                 <ul id="accordion" class="accordion">
                     <li>
