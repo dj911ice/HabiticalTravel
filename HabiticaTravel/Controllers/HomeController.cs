@@ -45,35 +45,42 @@ namespace HabiticaTravel.Controllers
             MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             var MyHabiticaUser = MyHabitica.HabiticaUsers.SqlQuery(sql: "select top 1 * from dbo.HabiticaUsers where UserId = @MyUser", parameters: new SqlParameter("@MyUser", MyUser)).ToList();
 
-            CurrentUser = MyHabiticaUser[0].HabiticaUserId.ToString();
-            CurrentApiToken = MyHabiticaUser[0].ApiToken.ToString();
-            
-            HttpWebRequest MyRequest = WebRequest.CreateHttp("https://habitica.com/api/v3/user");
-
-            MyRequest.UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36";
-
-            MyRequest.Headers["x-api-user"] = $"{CurrentUser}";
-            MyRequest.Headers["x-api-key"] = $"{CurrentApiToken}";
-            
-            HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
-
-            if (MyResponse.StatusCode == HttpStatusCode.OK)
+            if (MyUser == null || MyHabiticaUser == null)
             {
-                StreamReader MyReader = new StreamReader(MyResponse.GetResponseStream());
-
-                string Output = MyReader.ReadToEnd(); //reads the entire response back
-
-                //now parse the json/xml data to html for the view
-
-                JObject JParser = JObject.Parse(Output);
-
-
-                return RedirectToAction("DisplayStats",JParser);
+                return RedirectToAction("Index");
             }
             else
             {
-                //can email/save to file the error code for development
-                return View("../Shared/Error");
+                CurrentUser = MyHabiticaUser[0].HabiticaUserId.ToString();
+                CurrentApiToken = MyHabiticaUser[0].ApiToken.ToString();
+
+                HttpWebRequest MyRequest = WebRequest.CreateHttp("https://habitica.com/api/v3/user");
+
+                MyRequest.UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36";
+
+                MyRequest.Headers["x-api-user"] = $"{CurrentUser}";
+                MyRequest.Headers["x-api-key"] = $"{CurrentApiToken}";
+
+                HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
+
+                if (MyResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    StreamReader MyReader = new StreamReader(MyResponse.GetResponseStream());
+
+                    string Output = MyReader.ReadToEnd(); //reads the entire response back
+
+                    //now parse the json/xml data to html for the view
+
+                    JObject JParser = JObject.Parse(Output);
+
+
+                    return RedirectToAction("DisplayStats", JParser);
+                }
+                else
+                {
+                    //can email/save to file the error code for development
+                    return View("../Shared/Error");
+                }
             }
         }
 
