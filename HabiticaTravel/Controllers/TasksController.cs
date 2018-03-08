@@ -130,7 +130,7 @@ namespace HabiticaTravel.Controllers
 
             ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
 
-            return View();
+            return View("CustomTaskView");
         
             
         }
