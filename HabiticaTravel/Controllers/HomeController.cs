@@ -31,7 +31,7 @@ namespace HabiticaTravel.Controllers
 
                 ViewBag.Tasks = ORM.CustomTasks.Where(t => t.UserId == currentUser.Id).ToList();
 
-                return View();
+                return RedirectToAction("GetUserStats");
             }
             return View("../Home/NotAuthorized", "../Shared/_NotAuthorized");
         }
@@ -43,7 +43,7 @@ namespace HabiticaTravel.Controllers
 
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
             MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            var MyHabiticaUser = MyHabitica.HabiticaUsers.SqlQuery(sql: "select top 1 * from dbo.HabiticaUsers where UserId = @MyUser", parameters: new SqlParameter("@MyUser", MyUser)).ToList();
+            HabiticaUser MyHabiticaUser = MyHabitica.HabiticaUsers.Where(y => y.UserId == MyUser.Id).FirstOrDefault();
 
             if (MyUser == null || MyHabiticaUser == null)
             {
@@ -51,8 +51,8 @@ namespace HabiticaTravel.Controllers
             }
             else
             {
-                CurrentUser = MyHabiticaUser[0].HabiticaUserId.ToString();
-                CurrentApiToken = MyHabiticaUser[0].ApiToken.ToString();
+                CurrentUser = MyHabiticaUser.HabiticaUserId.ToString();
+                CurrentApiToken = MyHabiticaUser.ApiToken.ToString();
 
                 HttpWebRequest MyRequest = WebRequest.CreateHttp("https://habitica.com/api/v3/user");
 
@@ -92,45 +92,54 @@ namespace HabiticaTravel.Controllers
             }
 
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
-            ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
-            UserStat NewStat = new UserStat
+            if (!System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                UserId = MyUser.Id,
-                UserStatsPer = (int)JParser["stats"]["per"],
-                UserStats_int = (int)JParser["stats"]["int"],
-                UserStatsCon = (int)JParser["stats"]["con"],
-                UserStatsStr = (int)JParser["stats"]["str"],
-                UserStatsPoints = (int)JParser["stats"]["points"],
-                UserStats_class = JParser["stats"]["class"].ToString(),
-                UserStatsLvl = (int)JParser["stats"]["lvl"],
-                UserStatsGp = (int)JParser["stats"]["gp"],
-                UserStatsExp = (int)JParser["stats"]["exp"],
-                UserStatsMp = (int)JParser["stats"]["mp"],
-                UserStatsHp = (int)JParser["stats"]["hp"],
-                UserStatsToNextLevel = (int)JParser["stats"]["toNextLevel"],
-                UserStatsMaxHealth = (int)JParser["stats"]["maxHealth"],
-                UserStatsMaxMP = (int)JParser["stats"]["maxMP"],
-                TrainingCon = (int)JParser["stats"]["training"]["con"],
-                TrainingStr = (int)JParser["stats"]["training"]["str"],
-                TrainingPer = (int)JParser["stats"]["training"]["per"],
-                Training_int = (int)JParser["stats"]["training"]["int"],
-                BuffsSeafoam = (bool)JParser["stats"]["buffs"]["seafoam"],
-                BuffsShinySeed = (bool)JParser["stats"]["buffs"]["shinySeed"],
-                BuffsSpookySparkles = (bool)JParser["stats"]["buffs"]["spookySparkles"],
-                BuffsSnowball = (bool)JParser["stats"]["buffs"]["snowball"],
-                BuffsStreaks = (bool)JParser["stats"]["buffs"]["streaks"],
-                BuffsStealth = (int)JParser["stats"]["buffs"]["stealth"],
-                BuffsCon = (int)JParser["stats"]["buffs"]["con"],
-                BuffsPer = (int)JParser["stats"]["buffs"]["per"],
-                Buffs_int = (int)JParser["stats"]["buffs"]["int"],
-                BuffsStr = (int)JParser["stats"]["buffs"]["str"],
-                ProfileName = JParser["profile"]["name"].ToString(),
-                ProfilePhoto = JParser["profile"][""].ToString(),
-                ProfileBlurb = JParser["profile"]["blurb"].ToString()
-            };
+                return RedirectToAction("Index");
+            }
+            else
+            {
 
-            return PartialView("_ProfileLayout",NewStat);
+                ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                UserStat NewStat = new UserStat
+                {
+                    UserId = MyUser.Id,
+                    UserStatsPer = (int)JParser["stats"]["per"],
+                    UserStats_int = (int)JParser["stats"]["int"],
+                    UserStatsCon = (int)JParser["stats"]["con"],
+                    UserStatsStr = (int)JParser["stats"]["str"],
+                    UserStatsPoints = (int)JParser["stats"]["points"],
+                    UserStats_class = JParser["stats"]["class"].ToString(),
+                    UserStatsLvl = (int)JParser["stats"]["lvl"],
+                    UserStatsGp = (int)JParser["stats"]["gp"],
+                    UserStatsExp = (int)JParser["stats"]["exp"],
+                    UserStatsMp = (int)JParser["stats"]["mp"],
+                    UserStatsHp = (int)JParser["stats"]["hp"],
+                    UserStatsToNextLevel = (int)JParser["stats"]["toNextLevel"],
+                    UserStatsMaxHealth = (int)JParser["stats"]["maxHealth"],
+                    UserStatsMaxMP = (int)JParser["stats"]["maxMP"],
+                    TrainingCon = (int)JParser["stats"]["training"]["con"],
+                    TrainingStr = (int)JParser["stats"]["training"]["str"],
+                    TrainingPer = (int)JParser["stats"]["training"]["per"],
+                    Training_int = (int)JParser["stats"]["training"]["int"],
+                    BuffsSeafoam = (bool)JParser["stats"]["buffs"]["seafoam"],
+                    BuffsShinySeed = (bool)JParser["stats"]["buffs"]["shinySeed"],
+                    BuffsSpookySparkles = (bool)JParser["stats"]["buffs"]["spookySparkles"],
+                    BuffsSnowball = (bool)JParser["stats"]["buffs"]["snowball"],
+                    BuffsStreaks = (bool)JParser["stats"]["buffs"]["streaks"],
+                    BuffsStealth = (int)JParser["stats"]["buffs"]["stealth"],
+                    BuffsCon = (int)JParser["stats"]["buffs"]["con"],
+                    BuffsPer = (int)JParser["stats"]["buffs"]["per"],
+                    Buffs_int = (int)JParser["stats"]["buffs"]["int"],
+                    BuffsStr = (int)JParser["stats"]["buffs"]["str"],
+                    ProfileName = JParser["profile"]["name"].ToString(),
+                    ProfilePhoto = JParser["profile"][""].ToString(),
+                    ProfileBlurb = JParser["profile"]["blurb"].ToString()
+                };
+
+                return PartialView("_ProfileLayout", NewStat);
+            }
         }
     }
 }
