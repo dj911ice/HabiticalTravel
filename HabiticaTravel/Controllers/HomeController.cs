@@ -123,7 +123,7 @@ namespace HabiticaTravel.Controllers
                 ProfileBlurb = JParser["profile"]["blurb"].ToString()
             };
 
-            return View("ShowProfile");
+            return PartialView("_ProfileLayout",NewStat);
         }
     }
 }
