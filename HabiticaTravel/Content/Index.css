@@ -1,0 +1,10 @@
+﻿.task-item {
+    background-color: purple;
+    color: white;
+    padding: 0.5em;
+    margin-top: 2em;
+    height: 10em;
+    max-height: 10em;
+    max-width: 25em;
+    box-shadow: 3px 5px #888888;
+}

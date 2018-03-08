@@ -5,5 +5,26 @@
 @Styles.Render("~/Content/Habitica")
 
 <div class="container-fluid text-center">
-  <h1>home page after login</h1>
+  @if (ViewBag.Tasks == null)
+  {
+      <h1>Currently no tasks</h1>
+  }
+  else
+  {
+      <div class="container-fluid">
+        <div class="row">
+            @foreach (var task in ViewBag.Tasks)
+            {
+                <div class="col-xs-4">
+                    <div class="task-item">
+                        <h3>@task.TaskName</h3>
+                        <h5>@task.TaskType</h5>
+                        <p>@task.TaskNotes</p>
+                    </div>
+                </div>
+            }
+        </div>
+      </div>
+      
+  }
 </div>
