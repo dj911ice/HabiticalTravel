@@ -44,5 +44,8 @@ namespace HabiticaTravel.Models
         public Nullable<int> BuffsPer { get; set; }
         public Nullable<int> Buffs_int { get; set; }
         public Nullable<int> BuffsStr { get; set; }
+        public string ProfileName { get; set; }
+        public string ProfilePhoto { get; set; }
+        public string ProfileBlurb { get; set; }
     }
 }

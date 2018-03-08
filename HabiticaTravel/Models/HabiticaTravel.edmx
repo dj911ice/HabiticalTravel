@@ -111,6 +111,9 @@
           <Property Name="BuffsPer" Type="int" />
           <Property Name="Buffs_int" Type="int" />
           <Property Name="BuffsStr" Type="int" />
+          <Property Name="ProfileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProfilePhoto" Type="nvarchar" MaxLength="128" />
+          <Property Name="ProfileBlurb" Type="text" />
         </EntityType>
         <Association Name="FK_CustomTaskItems_CustomTasks">
           <End Role="CustomTasks" Type="Self.CustomTasks" Multiplicity="1" />
@@ -199,6 +202,9 @@
           <Property Name="BuffsPer" Type="Int32" />
           <Property Name="Buffs_int" Type="Int32" />
           <Property Name="BuffsStr" Type="Int32" />
+          <Property Name="ProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePhoto" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileBlurb" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="habiticatravelEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUser" />
@@ -326,6 +332,9 @@
           <EntitySetMapping Name="UserStats">
             <EntityTypeMapping TypeName="habiticatravelModel.UserStat">
               <MappingFragment StoreEntitySet="UserStats">
+                <ScalarProperty Name="ProfileBlurb" ColumnName="ProfileBlurb" />
+                <ScalarProperty Name="ProfilePhoto" ColumnName="ProfilePhoto" />
+                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
                 <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserStatsPer" ColumnName="UserStatsPer" />
