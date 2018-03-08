@@ -380,8 +380,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\HabiticaJavaScript\" />
+    <Folder Include="Views\GetUser\" />
     <Folder Include="Views\HabiticaAccount\" />
-    <Folder Include="Views\Habitica\GetUser\" />
     <Folder Include="Views\Register\" />
   </ItemGroup>
   <ItemGroup>
