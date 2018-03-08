@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using HabiticaTravel.Models;
+﻿using HabiticaTravel.Models;
 using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
-using System.Security.Claims;
-using Microsoft.Owin.Security;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 
 namespace HabiticaTravel.Controllers.Habitica
 {
     public partial class HabiticaController : Controller
     {
-        
+
         // THESE PROPERTIES AND FIELDS ARE SUPER IMPORTANT, THEY ARE HERE TO ALLOW US TO REGISTER
         // A NEW USER IF THEY ALREADY HAVE AN ACCOUNT WITH HABITICA, I COPIED THIS CODE ESSENTIALLY
         // FROM THE ORIGINAL ACCOUNT FROM IDENTY AND IM JUST USING IT FOR A SINGLE PURPOSE.
@@ -75,7 +69,7 @@ namespace HabiticaTravel.Controllers.Habitica
 
         public ActionResult HabiticaLogin()
         {
-            
+
             return View();
         }
 
@@ -92,7 +86,6 @@ namespace HabiticaTravel.Controllers.Habitica
                     Uuid = (string)JSON["data"]["id"],
                     ApiToken = (string)JSON["data"]["apiToken"],
                 };
-
                 var HabiticaORM = new habiticatravelEntities();
                 userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
@@ -102,22 +95,18 @@ namespace HabiticaTravel.Controllers.Habitica
 
                 if (User == null)
                 {
-                    
-                        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                        var result = await UserManager.CreateAsync(user, model.Password);
-                        if (result.Succeeded)
-                        {
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                            var newUser = userManager.FindByEmail(user.Email);
-                            UpdatedHabiticaUser.UserId = newUser.Id;
-                            HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
-                            HabiticaORM.SaveChanges();
-                            return RedirectToAction("Index", "Home");
-                        }
-                        AddErrors(result);
-                    
-
-                    
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var newUser = userManager.FindByEmail(user.Email);
+                        UpdatedHabiticaUser.UserId = newUser.Id;
+                        HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
+                        HabiticaORM.SaveChanges();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
 
                     return View(model);
                 }
@@ -125,18 +114,17 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     // simply updating the habitica User that is not null with the
                     // HabiticaUser object that was created on line 88
-                    
-                    var CurrentHabUser = HabiticaORM.HabiticaUsers.Where(u => User.Id == u.UserId).Single();
-                    HabiticaORM.Entry(CurrentHabUser).CurrentValues.SetValues(new { Uuid = (string)JSON["data"]["id"], ApiToken = (string)JSON["data"]["apiToken"] });
-                    HabiticaORM.SaveChanges();
-
-                    // this will update the Identity ORM, seems like less code but you know what they say
-                    // ...Hell yeah...
-                    User.Email = model.Email;
-                    userManager.Update(User);
-                    
+                    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
+                    switch (result)
+                    {
+                        case SignInStatus.Success:
+                            return RedirectToAction("Index", "Home");
+                        case SignInStatus.Failure:
+                        default:
+                            ModelState.AddModelError("", "Invalid login attempt.");
+                            return View(model);
+                    }
                 }
-                
             }
             else
             {
@@ -145,7 +133,7 @@ namespace HabiticaTravel.Controllers.Habitica
                 ViewBag.Message = "You do not have an account with Habitica. Please Register.";
                 return View("../Habitica/AlreadyRegisteredWithHabitica");
             }
-            return RedirectToAction("Index", "Home");
+
         }
 
         public ActionResult HabiticaUserForm()
