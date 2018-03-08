@@ -131,5 +131,23 @@ namespace HabiticaTravel.Controllers
         {
             return View();
         }
+        public ActionResult EditCustomTask()
+        {
+            return View();
+        }   
+
+        public ActionResult ViewTask(string TaskId)
+        {
+            // going to find the task based on the task id , display all the task info into a view.
+            // pk is TaskID , store that task in an object. Store it in a view bag. and send the viewbag to the view 
+
+            var HabiticaORM = new habiticatravelEntities();
+
+            ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
+
+            return View("CustomTaskView");
+        
+            
+        }
     }
 }
