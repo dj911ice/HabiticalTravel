@@ -141,7 +141,7 @@ namespace HabiticaTravel.Controllers
 
             return View();
         }
-<<<<<<< HEAD
+
         
         public ActionResult DeleteCustomTask(int TaskId)
         {
@@ -153,7 +153,7 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-=======
+
 
         public ActionResult SaveCustomTaskChanges(CustomTask NewTask)
         {
@@ -169,7 +169,7 @@ namespace HabiticaTravel.Controllers
 
         }
 
->>>>>>> Added actions to  save customTask changes action and Edit customer task By TaskID
+
         public ActionResult ViewTask(int TaskId)
         {
             // going to find the task based on the task id , display all the task info into a view.
@@ -179,15 +179,11 @@ namespace HabiticaTravel.Controllers
 
             ViewBag.TaskItems = HabiticaORM.CustomTasks.Find(TaskId);
 
-<<<<<<< HEAD
-            return View("CustomTaskView");
 
-
-=======
             return View();
         
             
->>>>>>> added ViewTask view
+
         }
     }
 }
