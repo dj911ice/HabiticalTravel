@@ -122,6 +122,7 @@ namespace HabiticaTravel.Controllers
         {
             var HabiticaORM = new habiticatravelEntities();
 
+
             var newTask = Custom.CustomTask.First();
 
             HabiticaORM.CustomTask.Add(newTask);
