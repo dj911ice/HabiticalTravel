@@ -114,7 +114,8 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     // simply updating the habitica User that is not null with the
                     // HabiticaUser object that was created on line 88
-                    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
+                    
+                    var result = await SignInManager.PasswordSignInAsync(User.UserName, model.Password, false, shouldLockout: false);
                     switch (result)
                     {
                         case SignInStatus.Success:
