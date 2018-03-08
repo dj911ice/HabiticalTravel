@@ -1,11 +1,7 @@
 ﻿<br /><br />
-      <form action="/" method="post">
+@Model HabiticaTravel.Models.TaskAndItems
+      <form action="/Tasks/AddCustomTask" method="post">
           <div>
-              @*<input type="text" id="task-form" name="TaskName" placeholder="New Task" /><br /><br />
-            <input type="button" id="habit" value="habit" onclick="ShowOptions()" />
-            <input type="button" id="daily" value="daily" />
-            <input type="button" id="todo" value="todo" />
-            <input type="button" id="reward" value="reward" />*@
               <select>
                   <option>Please Choose</option>
                   <option id="type" value="habit">Habit</option>
@@ -72,7 +68,7 @@
               </div>
           </div>
           <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
-          @*<div id="task-options"></div>*@
+         
           <div><input type="hidden" name="Travel" /></div>
           <div>
               <textarea name="TaskNotes" placeholder="Task Notes"></textarea>

@@ -207,6 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CustomModels\TaskAndItems.cs" />
     <Compile Include="Models\CustomTask.cs">
       <DependentUpon>HabiticaTravel.tt</DependentUpon>
     </Compile>
@@ -374,12 +375,13 @@
     <Content Include="Views\Shared\_NotAuthorized.cshtml" />
     <Content Include="Views\Habitica\HabiticaLogin.cshtml" />
     <Content Include="Views\Habitica\AlreadyRegisteredWithHabitica.cshtml" />
+    <Content Include="Views\Habitica\CustomTaskView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\HabiticaJavaScript\" />
-    <Folder Include="Views\GetUser\" />
     <Folder Include="Views\HabiticaAccount\" />
+    <Folder Include="Views\Habitica\GetUser\" />
     <Folder Include="Views\Register\" />
   </ItemGroup>
   <ItemGroup>

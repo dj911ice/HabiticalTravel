@@ -115,5 +115,21 @@ namespace HabiticaTravel.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult AddCustomTask(TaskAndItem Custom)
+        {
+            var HabiticaORM = new habiticatravelEntities();
+            HabiticaORM.CustomTasks.Add(Custom.CustomTask);
+            HabiticaORM.SaveChanges();
+
+            HabiticaORM.CustomTaskItems.Add(Custom.CustomTaskItem);
+            HabiticaORM.SaveChanges();
+
+            return View("CustomTaskView");
+        }
+        public ActionResult CustomTaskView()
+        {
+            return View();
+        }
     }
 }
