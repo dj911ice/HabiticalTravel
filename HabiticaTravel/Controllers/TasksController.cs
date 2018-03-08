@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HabiticaTravel.Models;
+using HabiticaTravel.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -116,13 +117,13 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult AddCustomTask(TaskAndItem Custom)
+        public ActionResult AddCustomTask(TaskAndItems Custom)
         {
             var HabiticaORM = new habiticatravelEntities();
-            HabiticaORM.CustomTasks.Add(Custom.CustomTask);
+            // HabiticaORM.CustomTasks.Add(Custom.CustomTask);
             HabiticaORM.SaveChanges();
 
-            HabiticaORM.CustomTaskItems.Add(Custom.CustomTaskItem);
+            // HabiticaORM.CustomTaskItems.Add(Custom.CustomTaskItem);
             HabiticaORM.SaveChanges();
 
             return View();

@@ -19,7 +19,10 @@ namespace HabiticaTravel.Models
             : base("name=habiticatravelEntities")
         {
         }
-    
+
+        public DbSet<CustomTask> CustomTask { get; set; } //make a DbSet of your classes
+        public DbSet<CustomTaskItem> CustomTaskItem { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
