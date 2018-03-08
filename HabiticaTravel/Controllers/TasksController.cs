@@ -76,12 +76,9 @@ namespace HabiticaTravel.Controllers
                 throw raise;
             }
 
-
-
             List<DefaultTaskItem> CloneItemsList = new List<DefaultTaskItem>(MyHabitica.DefaultTasks.Find(TaskId).DefaultTaskItems.ToList());
             List<CustomTaskItem> NewItemsList = new List<CustomTaskItem>();
             
-
             for (int i = 0; i < CloneItemsList.Count; i++)
             {
                 var TempItem = new CustomTaskItem();
@@ -116,7 +113,7 @@ namespace HabiticaTravel.Controllers
                 throw raise;
             }
 
-            return View();
+            return View("/Home/Index");
         }
     }
 }
