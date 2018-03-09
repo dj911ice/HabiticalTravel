@@ -6,6 +6,17 @@
 @Styles.Render("~/Content/Habitica")
 @Html.Partial("_ProfileLayout")
 
+
+<div class="modal fade delete-task-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content text-center">
+            <h3>Are you sure you want to delete this item?</h3>
+            <p>Deleting this item is permanent, there is no going back, click Remove to delete item, or click out of this box to cancel.</p><br />
+            <a name="taskId" class="index-button remove">Remove</a>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid text-center">
     @if (ViewBag.Tasks == null)
     {
@@ -23,6 +34,7 @@
                             <h5>@task.TaskType</h5>
                             <p>@task.TaskNotes</p><br />
                             <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
+                            <a href="#" data-target=".delete-task-modal" data-toggle="modal" class="index-button remove" data-item-id="/Tasks/RemoveTask?taskId=@task.TaskId">Delete</a>
                         </div>
                     </div>
                 }
@@ -31,3 +43,21 @@
 
     }
 </div>
+
+
+<script>
+    var date = @TaskDate
+    var milliseconds = @(TaskDate - DateTime.Now).TotalMilliseconds
+    $(document).ready(function(){
+        if(milliseconds > 0){
+            alert('Your task will be due on ' + str(date));
+            window.setTimeout(function(){
+                alert('Time has come');
+                //Or any other thing you might want to do
+            }, milliseconds);
+        }
+        else{
+            alert('The time has already come');
+        }
+    }
+</script>
