@@ -1,4 +1,5 @@
-﻿
+﻿@model HabiticaTravel.Models.UserStat
+
 <!DOCTYPE html>
 
 <html>
@@ -6,12 +7,13 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("Styles", required: false)
+
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="~/Content/CustomCss/ProfileSidebar.css" rel="stylesheet" />
-    @model HabiticaTravel.Models.UserStat
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*@RenderSection("Styles", required: false)*@
 </head>
 <body>
     <div>
@@ -148,7 +150,7 @@
 
     </div>
     <div>
-        @RenderBody()
+        @*@RenderBody()*@
     </div>
 
     <script src="~/Scripts/HabiticaJavaScript/ProfileSidebar.js"></script>
@@ -159,6 +161,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/datetime")
     @Scripts.Render("~/bundles/Habitica")
-    @RenderSection("scripts", required: false)
+    @*@RenderSection("scripts", required: false)*@
 </body>
 </html>

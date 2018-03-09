@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace HabiticaTravel
 {
@@ -28,11 +27,14 @@ namespace HabiticaTravel
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
-                       "~/Scripts/Validation.js"));
+                       "~/Scripts/Validation.js",
+                       "~/Scripts/HabiticaJavaScript/DatePicker.js",
+                       "~/Scripts/HabiticaJavaScript/AddTask.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/CustomCss/Jquery-ui.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/Habitica").Include(

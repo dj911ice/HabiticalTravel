@@ -1,15 +1,13 @@
 ﻿using HabiticaTravel.Models;
+using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using System.Data.SqlClient;
-using System.Linq;
 
 namespace HabiticaTravel.Controllers
 {
@@ -29,16 +27,16 @@ namespace HabiticaTravel.Controllers
 
                 var ORM = new habiticatravelEntities();
 
-                ViewBag.Tasks = ORM.CustomTasks.Where(t => t.UserId == currentUser.Id).ToList();
+                TempData["userTasks"] = ORM.CustomTasks.Where(t => t.UserId == currentUser.Id).ToList();
 
                 return RedirectToAction("GetUserStats");
             }
             return View("../Home/NotAuthorized", "../Shared/_NotAuthorized");
         }
 
-        public ActionResult GetUserStats()
+        public async Task<ActionResult> GetUserStats()
         {
-            string CurrentUser = "", CurrentApiToken = "";
+            // string CurrentUser = "", CurrentApiToken = "";
             ApplicationUser MyUser;
 
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
@@ -51,30 +49,33 @@ namespace HabiticaTravel.Controllers
             }
             else
             {
-                CurrentUser = MyHabiticaUser.HabiticaUserId.ToString();
-                CurrentApiToken = MyHabiticaUser.ApiToken.ToString();
+                //CurrentUser = MyHabiticaUser.HabiticaUserId.ToString();
+                //CurrentApiToken = MyHabiticaUser.ApiToken.ToString();
 
-                HttpWebRequest MyRequest = WebRequest.CreateHttp("https://habitica.com/api/v3/user");
+                //HttpWebRequest MyRequest = WebRequest.CreateHttp("https://habitica.com/api/v3/user");
 
-                MyRequest.UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36";
+                //MyRequest.UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36";
 
-                MyRequest.Headers["x-api-user"] = $"{CurrentUser}";
-                MyRequest.Headers["x-api-key"] = $"{CurrentApiToken}";
+                //MyRequest.Headers["x-api-user"] = $"{CurrentUser}";
+                //MyRequest.Headers["x-api-key"] = $"{CurrentApiToken}";
 
-                HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
+                //HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
 
-                if (MyResponse.StatusCode == HttpStatusCode.OK)
+                var JSON = (JObject)JObject.FromObject(await HabiticaGet.UserData(MyHabiticaUser));
+
+                if (bool.Parse(JSON["success"].ToString()))
                 {
-                    StreamReader MyReader = new StreamReader(MyResponse.GetResponseStream());
+                    //StreamReader MyReader = new StreamReader(MyResponse.GetResponseStream());
 
-                    string Output = MyReader.ReadToEnd(); //reads the entire response back
+                    //string Output = MyReader.ReadToEnd(); //reads the entire response back
 
-                    //now parse the json/xml data to html for the view
+                    ////now parse the json/xml data to html for the view
 
-                    JObject JParser = JObject.Parse(Output);
+                    //JObject JParser = JObject.Parse(Output);
 
+                    TempData["User"] = JSON["data"];
 
-                    return RedirectToAction("DisplayStats", JParser);
+                    return RedirectToAction("DisplayStats");
                 }
                 else
                 {
@@ -84,11 +85,12 @@ namespace HabiticaTravel.Controllers
             }
         }
 
-        public ActionResult DisplayStats(JObject JParser)
+        public ActionResult DisplayStats()
         {
-            if (JParser == null)
+            var data = (JObject)TempData["User"];
+            if (data == null)
             {
-                throw new ArgumentNullException(nameof(JParser));
+                throw new ArgumentNullException(nameof(data));
             }
 
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
@@ -102,43 +104,45 @@ namespace HabiticaTravel.Controllers
 
                 ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
-                UserStat NewStat = new UserStat
+                var NewStat = new UserStat
                 {
                     UserId = MyUser.Id,
-                    UserStatsPer = (int)JParser["stats"]["per"],
-                    UserStats_int = (int)JParser["stats"]["int"],
-                    UserStatsCon = (int)JParser["stats"]["con"],
-                    UserStatsStr = (int)JParser["stats"]["str"],
-                    UserStatsPoints = (int)JParser["stats"]["points"],
-                    UserStats_class = JParser["stats"]["class"].ToString(),
-                    UserStatsLvl = (int)JParser["stats"]["lvl"],
-                    UserStatsGp = (int)JParser["stats"]["gp"],
-                    UserStatsExp = (int)JParser["stats"]["exp"],
-                    UserStatsMp = (int)JParser["stats"]["mp"],
-                    UserStatsHp = (int)JParser["stats"]["hp"],
-                    UserStatsToNextLevel = (int)JParser["stats"]["toNextLevel"],
-                    UserStatsMaxHealth = (int)JParser["stats"]["maxHealth"],
-                    UserStatsMaxMP = (int)JParser["stats"]["maxMP"],
-                    TrainingCon = (int)JParser["stats"]["training"]["con"],
-                    TrainingStr = (int)JParser["stats"]["training"]["str"],
-                    TrainingPer = (int)JParser["stats"]["training"]["per"],
-                    Training_int = (int)JParser["stats"]["training"]["int"],
-                    BuffsSeafoam = (bool)JParser["stats"]["buffs"]["seafoam"],
-                    BuffsShinySeed = (bool)JParser["stats"]["buffs"]["shinySeed"],
-                    BuffsSpookySparkles = (bool)JParser["stats"]["buffs"]["spookySparkles"],
-                    BuffsSnowball = (bool)JParser["stats"]["buffs"]["snowball"],
-                    BuffsStreaks = (bool)JParser["stats"]["buffs"]["streaks"],
-                    BuffsStealth = (int)JParser["stats"]["buffs"]["stealth"],
-                    BuffsCon = (int)JParser["stats"]["buffs"]["con"],
-                    BuffsPer = (int)JParser["stats"]["buffs"]["per"],
-                    Buffs_int = (int)JParser["stats"]["buffs"]["int"],
-                    BuffsStr = (int)JParser["stats"]["buffs"]["str"],
-                    ProfileName = JParser["profile"]["name"].ToString(),
-                    ProfilePhoto = JParser["profile"][""].ToString(),
-                    ProfileBlurb = JParser["profile"]["blurb"].ToString()
+                    UserStatsPer = (int)data["stats"]["per"],
+                    UserStats_int = (int)data["stats"]["int"],
+                    UserStatsCon = (int)data["stats"]["con"],
+                    UserStatsStr = (int)data["stats"]["str"],
+                    UserStatsPoints = (int)data["stats"]["points"],
+                    UserStats_class = data["stats"]["class"].ToString(),
+                    UserStatsLvl = (int)data["stats"]["lvl"],
+                    UserStatsGp = (int)data["stats"]["gp"],
+                    UserStatsExp = (int)data["stats"]["exp"],
+                    UserStatsMp = (int)data["stats"]["mp"],
+                    UserStatsHp = (int)data["stats"]["hp"],
+                    UserStatsToNextLevel = (int)data["stats"]["toNextLevel"],
+                    UserStatsMaxHealth = (int)data["stats"]["maxHealth"],
+                    UserStatsMaxMP = (int)data["stats"]["maxMP"],
+                    TrainingCon = (int)data["stats"]["training"]["con"],
+                    TrainingStr = (int)data["stats"]["training"]["str"],
+                    TrainingPer = (int)data["stats"]["training"]["per"],
+                    Training_int = (int)data["stats"]["training"]["int"],
+                    BuffsSeafoam = (bool)data["stats"]["buffs"]["seafoam"],
+                    BuffsShinySeed = (bool)data["stats"]["buffs"]["shinySeed"],
+                    BuffsSpookySparkles = (bool)data["stats"]["buffs"]["spookySparkles"],
+                    BuffsSnowball = (bool)data["stats"]["buffs"]["snowball"],
+                    BuffsStreaks = (bool)data["stats"]["buffs"]["streaks"],
+                    BuffsStealth = (int)data["stats"]["buffs"]["stealth"],
+                    BuffsCon = (int)data["stats"]["buffs"]["con"],
+                    BuffsPer = (int)data["stats"]["buffs"]["per"],
+                    Buffs_int = (int)data["stats"]["buffs"]["int"],
+                    BuffsStr = (int)data["stats"]["buffs"]["str"],
+                    ProfileName = data["profile"]["name"].ToString(),
+                    ProfilePhoto = data["profile"]["imageUrl"].ToString(),
+                    ProfileBlurb = data["profile"]["blurb"].ToString()
                 };
 
-                return PartialView("_ProfileLayout", NewStat);
+                ViewBag.Tasks = TempData["userTasks"];
+
+                return View("index", NewStat);
             }
         }
     }

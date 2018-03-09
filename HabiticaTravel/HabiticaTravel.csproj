@@ -200,6 +200,7 @@
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\CustomCss\ProfileSidebar.css" />
+    <Content Include="Content\CustomCss\jquery-ui.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\HomeLogin.css" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Utility\GetUser.cs" />
     <Compile Include="ViewModel\TaskAndItems.cs" />
     <Compile Include="Models\CustomTask.cs">
       <DependentUpon>HabiticaTravel.tt</DependentUpon>
@@ -384,6 +386,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\HabiticaJavaScript\AddTask.js" />
+    <Content Include="Scripts\HabiticaJavaScript\DatePicker.js" />
     <Content Include="Scripts\HabiticaJavaScript\ProfileSidebar.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -411,7 +415,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -468,6 +474,7 @@
     <Folder Include="Views\GetUser\" />
     <Folder Include="Views\HabiticaAccount\" />
     <Folder Include="Views\Register\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

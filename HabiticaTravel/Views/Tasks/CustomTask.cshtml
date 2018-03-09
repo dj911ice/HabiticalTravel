@@ -1,149 +1,184 @@
-
-
-<br /><br />
 ﻿@model HabiticaTravel.ViewModel.TaskAndItems
-<form action="/Tasks/AddCustomTask" method="post">
-    <div>
-        <input type="text" name="TaskName" />
-        <select name="TaskType">
-            <option>Please Choose</option>
-            <option id="type" value="habit">Habit</option>
-            <option id="type" value="daily">Daily</option>
-            <option id="type" value="todo">To-Do</option>
-            <option id="type" value="reward">Reward</option>
-        </select>
-        @*<input type="button" value="Show Habit Options" onclick="ShowOptions()" />*@
-    </div>
-    <div>
-        <select>
-            <option>Habit Picker</option>
-            <option name="TaskHabitUp" value="true">Good Habit</option>
-            <option name="TaskHabitDown" value="true">Bad Habit</option>
-        </select>
-    </div>
-    <div>
-        <div>
-            <select>
-                <option>Choose Task Frequency</option>
-                <option name="TaskFrequency" value="weekly">Weekly</option>
-                <option name="TaskFrequency" value="daily">Daily</option>
-            </select>
-        </div>
-        <div>
-            <label>Sunday</label><input type="checkbox" name="TaskRepeat" value="su" />
-            <label>Monday</label> <input type="checkbox" name="TaskRepeat" value="m" />
-            <label>Tuesday</label> <input type="checkbox" name="TaskRepeat" value="t" />
-            <label>Wednesday</label> <input type="checkbox" name="TaskRepeat" value="w" />
-            <label>Thursday</label> <input type="checkbox" name="TaskRepeat" value="th" />
-            <label>Friday</label> <input type="checkbox" name="TaskRepeat" value="f" />
-            <label>Saturday</label> <input type="checkbox" name="TaskRepeat" value="s" />
-        </div>
-        <div><input type="number" name="EveryXDays" placeholder="Every X Days" disabled /></div>
-        <div><input type="number" name="TaskStreak" disabled placeholder="Task Streaks" /></div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class='col-sm-3'>
-                <div class="form-group">
-                    <div class='input-group datetimepicker1' id='datetimepicker1'>
-                        <input type='text' class="form-control" name="TaskStartDate" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br />
-    <div class="container">
-        <div class="row">
-            <div class='col-sm-3'>
-                <div class="form-group">
-                    <div class='input-group datetimepicker1' id='datetimepicker1'>
-                        <input type='text' class="form-control" name="TaskDueDate" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div><input type="number" name="TaskRewardValue" placeholder="Task Reward Value" disabled /></div>
 
-    <div><input type="hidden" name="TravelTag" /></div>
-    <div>
-        <textarea name="TaskNotes" placeholder="Task Notes"></textarea>
-    </div>
-    <div>
-        <select>
-            <option>Choose Task Difficulty</option>
-            <option name="TaskDifficulty" value="0.1">Trivial</option>
-            <option name="TaskDifficulty" value="1">Easy</option>
-            <option name="TaskDifficulty" value="1.5">Medium</option>
-            <option name="TaskDifficulty" value="2">Hard</option>
-        </select>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class='col-sm-3'>
-                <div class="form-group">
-                    <div class='input-group datetimepicker1' id='datetimepicker1'>
-                        <input type='text' class="form-control" name="ReminderStartDate" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class='col-sm-3'>
-                <div class="form-group">
-                    <div class='input-group date' id='datetimepicker3'>
-                        <input type='text' class="form-control" name="ReminderTime" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <input type="submit" name="Submit" />
-</form>
+@{
+    /**/
+
+    ViewBag.Title = "Custom Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 
-@section scripts{
-    <script type="text/javascript">
-        $(function () {
-            $('.datetimepicker1').datetimepicker();
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker3').datetimepicker({
-                format: 'LT'
-            });
-        });
-    </script>
-    @*<script type="text/javascript">
-            function ShowOptions() {
-                var type = document.getElementById('type').value;
+    // In a real system we would get this list from the database
+    SelectList TaskType = new SelectList(
+        new List<SelectListItem>
+        {
+new SelectListItem { Value = "...", Text = "...please select item"},
+new SelectListItem { Value = "Habbit", Text = "Habbit"},
+new SelectListItem { Value = "Daily", Text = "Daily"},
+new SelectListItem { Value = "ToDo", Text = "ToDo" },
+new SelectListItem { Value = "Reward", Text = "Reward"},
+        }, "Value", "Text");
 
-                if (String(type) === 'habit')
-                {
-                    $("#SelForm").remove();
-                    $('#task-options').append('<form action="/" method post><select id="SelForm">',
-                        '<select>',
-                        '<option>Habit Picker</option>',
-                        '<option value="true">Good Habit</option>',
-                        '<option value="true">Bad Habit</option>',
-                        '</select></form>');
-                }
-            };
-        </script>*@
+
+
+    SelectList Frequency = new SelectList(
+        new List<SelectListItem>
+        {
+new SelectListItem { Value = "...", Text = "...please select item"},
+new SelectListItem { Value = "Weekly", Text = "Weekly"},
+new SelectListItem { Value = "Daily", Text = "Daily"},
+        }, "Value", "Text");
+
+    SelectList Repeat = new SelectList(
+       new List<SelectListItem>
+       {
+new SelectListItem { Value = "...", Text = "...please select item"},
+new SelectListItem { Value = "Monday", Text = "Monday"},
+new SelectListItem { Value = "Tuesday", Text = "Tuesday"},
+new SelectListItem { Value = "Wedensday", Text = "Wedensday"},
+new SelectListItem { Value = "Thursday", Text = "Thursday"},
+new SelectListItem { Value = "Friday", Text = "Friday"},
+new SelectListItem { Value = "Saturday", Text = "Saturday"},
+new SelectListItem { Value = "Sunday", Text = "Sunday"},
+       }, "Value", "Text");
+
+    SelectList Difficulty = new SelectList(
+   new List<SelectListItem>
+   {
+new SelectListItem { Value = "...", Text = "...please select item"},
+new SelectListItem { Value = "0.1", Text = "Trivial"},
+new SelectListItem { Value = "1", Text = "Easy"},
+new SelectListItem { Value = "1.5", Text = "Medium"},
+new SelectListItem { Value = "2", Text = "Hard"},
+   }, "Value", "Text");
+
 }
+
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("AddCustomTask", "Tasks", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Fill out this form.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    @Html.HiddenFor(ti => ti.CustomTask.TaskTag, new { htmlAttributes = new { @class = "form-control" } })
+
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskName, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskType, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(ti => ti.CustomTask.TaskType, TaskType, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskHabitUp, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            Good Habbit: @Html.RadioButtonFor(ti => ti.CustomTask.TaskHabitUp, true, new { @class = "form-control" })
+            Bad Habbit: @Html.RadioButtonFor(ti => ti.CustomTask.TaskHabitUp, false, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskFrequency, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(ti => ti.CustomTask.TaskFrequency, Frequency, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskRepeat, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(ti => ti.CustomTask.TaskRepeat, Repeat, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.EveryXDays, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskName, new { htmlAttributes = new { @class = "form-control", disabled = true, placeholder = "Every X Days" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskStartDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskDueDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskDueDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskRewardValue, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskRewardValue, new { htmlAttributes = new { @class = "form-control", disabled = true, placeholder = "Task Reward Value" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control", placeholder = "Task Notes" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskDifficulty, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(ti => ti.CustomTask.TaskDifficulty, Difficulty, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.ReminderStartDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.ReminderStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.ReminderTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.ReminderTime, new { htmlAttributes = new { @class = "form-control date-picker" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.CustomTaskItems, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <ul id="TaskList">
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+<button class="btn-success" id="addTaskHandler">Add a task!</button>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

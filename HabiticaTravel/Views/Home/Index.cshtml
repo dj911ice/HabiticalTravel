@@ -1,32 +1,33 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+    //Layout = "~/Views/Shared/_ProfileLayout.cshtml";
 }
 
 @Styles.Render("~/Content/Habitica")
+@Html.Partial("_ProfileLayout")
 
 <div class="container-fluid text-center">
-  @if (ViewBag.Tasks == null)
-  {
-      <h1>Currently no tasks</h1>
-  }
-  else
-  {
-      <div class="container-fluid">
-        <div class="row">
-            @foreach (var task in ViewBag.Tasks)
-            {
-                <div class="col-xs-4">
-                    <div class="task-item">
-                        <h3>@task.TaskName</h3>
-                        <h5>@task.TaskType</h5>
-                        <p>@task.TaskNotes</p><br />
-                        <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
+    @if (ViewBag.Tasks == null)
+    {
+        <h1>Currently no tasks</h1>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row">
+                @foreach (var task in ViewBag.Tasks)
+                {
+                    <div class="col-xs-4">
+                        <div class="task-item">
+                            <h3>@task.TaskName</h3>
+                            <h5>@task.TaskType</h5>
+                            <p>@task.TaskNotes</p><br />
+                            <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-      </div>
-      
-  }
+
+    }
 </div>

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using HabiticaTravel.Models;
+using HabiticaTravel.ViewModel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using HabiticaTravel.Models;
-using HabiticaTravel.ViewModel;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 
 
 namespace HabiticaTravel.Controllers
@@ -118,19 +117,28 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<ActionResult> AddCustomTask(TaskAndItems Custom)
+        public async Task<ActionResult> AddCustomTask(TaskAndItems model)
         {
+
+            var currentUser = System.Web.HttpContext.Current
+                .GetOwinContext()
+                .GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext
+                .Current.User.Identity.GetUserId());
+
             var HabiticaORM = new habiticatravelEntities();
+            model.CustomTask.UserId = currentUser.Id;
 
-
-            var newTask = Custom.CustomTask.First();
-
-            HabiticaORM.CustomTask.Add(newTask);
+            HabiticaORM.CustomTask.Add(model.CustomTask);
             await HabiticaORM.SaveChangesAsync();
 
-            var currentTask = HabiticaORM.CustomTask.Where(t => newTask.TaskName == t.TaskName).First();
-
-            currentTask.CustomTaskItems = Custom.CustomTaskItem.ToList();
+            var currentTask = HabiticaORM.CustomTask.Where(t => model.CustomTask.TaskName == t.TaskName).FirstOrDefault();
+            var taskItems = model.CustomTaskItem.ToList();
+            foreach (var item in taskItems)
+            {
+                item.TaskId = currentTask.TaskId;
+            }
+            currentTask.CustomTaskItems = taskItems;
 
             HabiticaORM.SaveChanges();
 
@@ -151,7 +159,7 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        
+
         public ActionResult DeleteCustomTask(int TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
@@ -190,8 +198,8 @@ namespace HabiticaTravel.Controllers
 
 
             return View();
-        
-            
+
+
 
         }
     }
