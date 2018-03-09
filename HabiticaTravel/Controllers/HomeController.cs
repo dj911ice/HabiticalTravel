@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,6 +27,7 @@ namespace HabiticaTravel.Controllers
                     .GetUserId());
 
                 var ORM = new habiticatravelEntities();
+
 
                 TempData["userTasks"] = ORM.CustomTasks.Where(t => t.UserId == currentUser.Id).ToList();
 
@@ -147,10 +149,20 @@ namespace HabiticaTravel.Controllers
                 {
                     NewStat.ProfileBlurb = data["profile"]["blurb"].ToString();
                 }
-                
 
-                ViewBag.Tasks = TempData["userTasks"];
+                List<CustomTask> Tasks = (List<CustomTask>)TempData["userTasks"];
 
+                var reminderEndDates = new List<DateTime?>();
+
+                var taskDates = Tasks.Select(t => t.ReminderTime).ToList();
+
+                foreach (var dates in taskDates)
+                {
+                    reminderEndDates.Add(dates);
+                }
+
+                ViewBag.EndDates = reminderEndDates;
+                ViewBag.Tasks = Tasks;
                 return View("index", NewStat);
             }
         }

@@ -17,6 +17,7 @@
     </div>
 </div>
 
+<button class="btn-success" id="reminderHandler">CheckReminders</button>
 <div class="container-fluid text-center">
     @if (ViewBag.Tasks == null)
     {
@@ -46,18 +47,27 @@
 
 
 <script>
-    var date = @TaskDate
-    var milliseconds = @(TaskDate - DateTime.Now).TotalMilliseconds
-    $(document).ready(function(){
-        if(milliseconds > 0){
-            alert('Your task will be due on ' + str(date));
-            window.setTimeout(function(){
-                alert('Time has come');
-                //Or any other thing you might want to do
-            }, milliseconds);
-        }
-        else{
-            alert('The time has already come');
+    var array = @Html.Raw(Json.Encode(@ViewBag.EndDates));
+    var dates = [];
+    for(var i = 0; i < array.length; i++) {
+        dates[i] = array[i];
+    }
+    console.log(dates);
+    var milliseconds = [];
+    for (var i = 0; i < dates.length; i++) {
+        milliseconds[i] = dates[i] - (@DateTime.Now).TotalMilliseconds;
+    }
+
+    $("#reminderHandler").click(function () {
+        console.log("test");
+        alert("clicked");
+        for (var i = 0; i < milliseconds.length; i++) {
+            if (milliseconds > 0) {
+                alert('Your task will be due on ' + str(milliseconds[i]));
+            }
+            else {
+                alert('The time has already come');
+            }
         }
     }
 </script>
