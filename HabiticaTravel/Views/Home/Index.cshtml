@@ -47,27 +47,30 @@
 
 
 <script>
-    var array = @Html.Raw(Json.Encode(@ViewBag.EndDates));
-    var dates = [];
-    for(var i = 0; i < array.length; i++) {
-        dates[i] = array[i];
-    }
-    console.log(dates);
-    var milliseconds = [];
-    for (var i = 0; i < dates.length; i++) {
-        milliseconds[i] = dates[i] - (@DateTime.Now).TotalMilliseconds;
-    }
+    $(function () {
+        $("#reminderHandler").click(function () {
+            var array = @Html.Raw(Json.Encode(@ViewBag.EndDates));
+            var dates = [];
+            for(var i = 0; i < array.length; i++) {
+                dates[i] = array[i];
+            }
+            console.log(dates);
+            var milliseconds = [];
+            for (var i = 0; i < dates.length; i++) {
+                milliseconds[i] = dates[i] - (@DateTime.Now).TotalMilliseconds;
+            }
 
-    $("#reminderHandler").click(function () {
-        console.log("test");
-        alert("clicked");
-        for (var i = 0; i < milliseconds.length; i++) {
-            if (milliseconds > 0) {
-                alert('Your task will be due on ' + str(milliseconds[i]));
+            console.log("test");
+            alert("clicked");
+            for (var i = 0; i < milliseconds.length; i++) {
+                if (milliseconds > 0) {
+                    alert('Your task will be due on ' + str(milliseconds[i]));
+                }
+                else {
+                    alert('The time has already come');
+                }
             }
-            else {
-                alert('The time has already come');
-            }
-        }
-    }
+        })
+    });
+
 </script>
