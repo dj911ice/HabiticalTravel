@@ -231,7 +231,7 @@ namespace HabiticaTravel.Controllers
             HabiticaORM.Entry(DBTask).CurrentValues.SetValues(MyTask);
             HabiticaORM.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
 
         }
 
