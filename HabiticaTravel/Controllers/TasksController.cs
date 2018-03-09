@@ -208,10 +208,21 @@ namespace HabiticaTravel.Controllers
 
             int TaskId = NewTaskAndItems.CustomTask.TaskId;
 
-            CustomTask TaskToClone = HabiticaORM.CustomTasks.Find(TaskId);
+            CustomTask DBTask = HabiticaORM.CustomTasks.Find(TaskId);
 
-            HabiticaORM.Entry(HabiticaORM.CustomTask.Find(NewTaskAndItems.CustomTask.TaskId)).CurrentValues.SetValues(NewTaskAndItems);
+            List<CustomTaskItem> DBItemsList = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList());
 
+            CustomTask MyTask = NewTaskAndItems.CustomTask;
+            List<CustomTaskItem> MyItemsList = new List<CustomTaskItem>();
+
+            foreach(CustomTaskItem T in NewTaskAndItems.CustomTaskItem)
+            {
+                MyItemsList.Add(T);
+                HabiticaORM.Entry(HabiticaORM.CustomTaskItems.Find(T.TaskItemsId)).CurrentValues.SetValues(T);
+            }
+
+            MyTask.CustomTaskItems = MyItemsList;
+            HabiticaORM.Entry(DBTask).CurrentValues.SetValues(MyTask);
             HabiticaORM.SaveChanges();
 
             return RedirectToAction("Index");
