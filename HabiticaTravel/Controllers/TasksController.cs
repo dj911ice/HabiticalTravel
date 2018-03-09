@@ -148,7 +148,7 @@ namespace HabiticaTravel.Controllers
         {
             return View();
         }
-        public ActionResult GetCustomTaskBYTaskId(int TaskId)
+        public ActionResult EditCustomTask(string TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
 
@@ -167,7 +167,7 @@ namespace HabiticaTravel.Controllers
             HabiticaORM.CustomTasks.Remove(HabiticaORM.CustomTasks.Find(TaskId));
             HabiticaORM.SaveChanges();
 
-            return View();
+            return View("Index");
         }
 
 
@@ -202,5 +202,7 @@ namespace HabiticaTravel.Controllers
 
 
         }
+
+      
     }
 }
