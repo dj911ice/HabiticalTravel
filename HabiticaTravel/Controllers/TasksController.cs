@@ -210,17 +210,23 @@ namespace HabiticaTravel.Controllers
 
             CustomTask DBTask = HabiticaORM.CustomTasks.Find(TaskId);
 
-            List<CustomTaskItem> DBItemsList = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList());
+            List<CustomTaskItem> DBItemsList = new List<CustomTaskItem>();
+            if(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems != null)
+            {
+                DBItemsList = HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList();
+            }
 
             CustomTask MyTask = NewTaskAndItems.CustomTask;
             List<CustomTaskItem> MyItemsList = new List<CustomTaskItem>();
 
-            foreach(CustomTaskItem T in NewTaskAndItems.CustomTaskItem)
+            if (NewTaskAndItems.CustomTaskItem != null && DBItemsList.Count != 0)
             {
-                MyItemsList.Add(T);
-                HabiticaORM.Entry(HabiticaORM.CustomTaskItems.Find(T.TaskItemsId)).CurrentValues.SetValues(T);
+                foreach (CustomTaskItem T in NewTaskAndItems.CustomTaskItem)
+                {
+                    MyItemsList.Add(T);
+                    HabiticaORM.Entry(HabiticaORM.CustomTaskItems.Find(T.TaskItemsId)).CurrentValues.SetValues(T);
+                }
             }
-
             MyTask.CustomTaskItems = MyItemsList;
             HabiticaORM.Entry(DBTask).CurrentValues.SetValues(MyTask);
             HabiticaORM.SaveChanges();
