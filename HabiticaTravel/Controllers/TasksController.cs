@@ -150,7 +150,11 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult EditCustomTask(string TaskId)
+
+        
+
+        public ActionResult EditCustomTask(int TaskId)
+
         {
             var HabiticaORM = new habiticatravelEntities();
           
@@ -197,17 +201,20 @@ namespace HabiticaTravel.Controllers
 
 
 
-        public ActionResult SaveCustomTaskChanges(CustomTask NewTask)
+        public ActionResult SaveCustomTaskChanges(TaskAndItems NewTaskAndItems)
         {
 
             var HabiticaORM = new habiticatravelEntities();
 
+            int TaskId = NewTaskAndItems.CustomTask.TaskId;
 
-            HabiticaORM.Entry(HabiticaORM.CustomTasks.Find(NewTask.TaskId)).CurrentValues.SetValues(NewTask);
+            CustomTask TaskToClone = HabiticaORM.CustomTasks.Find(TaskId);
+
+            HabiticaORM.Entry(HabiticaORM.CustomTask.Find(NewTaskAndItems.CustomTask.TaskId)).CurrentValues.SetValues(NewTaskAndItems);
 
             HabiticaORM.SaveChanges();
 
-            return View();
+            return RedirectToAction("Index");
 
         }
 

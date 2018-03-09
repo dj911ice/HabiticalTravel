@@ -3,7 +3,7 @@
 @{
     /**/
 
-    ViewBag.Title = "Custom Task";
+    ViewBag.Title = "Edit Task";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -56,7 +56,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("EditCustomTask", "Tasks", FormMethod.Get, new { htmlAttributes = new { @class = "form-horizontal", role = "form", value = ViewBag.TaskToBeEdited } }))
+@using (Html.BeginForm("SaveCustomTaskChanges", "Tasks", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form"} }))
 {
     @Html.AntiForgeryToken()
     <h4>Fill out this form.</h4>
@@ -169,7 +169,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Save Changes" />
         </div>
     </div>
 }
