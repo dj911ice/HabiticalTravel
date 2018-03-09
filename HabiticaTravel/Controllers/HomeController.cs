@@ -103,6 +103,7 @@ namespace HabiticaTravel.Controllers
             {
 
                 ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                
 
                 var NewStat = new UserStat
                 {
@@ -136,9 +137,17 @@ namespace HabiticaTravel.Controllers
                     Buffs_int = (int)data["stats"]["buffs"]["int"],
                     BuffsStr = (int)data["stats"]["buffs"]["str"],
                     ProfileName = data["profile"]["name"].ToString(),
-                    ProfilePhoto = data["profile"]["imageUrl"].ToString(),
-                    ProfileBlurb = data["profile"]["blurb"].ToString()
                 };
+
+                if(data["profile"].Contains("imageUrl"))
+                {
+                    NewStat.ProfilePhoto = data["profile"]["imageUrl"].ToString();
+                }
+                if(data["profile"].Contains("blurb"))
+                {
+                    NewStat.ProfileBlurb = data["profile"]["blurb"].ToString();
+                }
+                
 
                 ViewBag.Tasks = TempData["userTasks"];
 
