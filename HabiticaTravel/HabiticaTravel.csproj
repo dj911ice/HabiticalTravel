@@ -472,6 +472,7 @@
     <Content Include="Views\Shared\_ProfileLayout.cshtml" />
     <Content Include="Views\Tasks\ViewTask.cshtml" />
     <Content Include="Views\Tasks\EditCustomTask.cshtml" />
+    <Content Include="Views\Home\EditTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

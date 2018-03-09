@@ -148,16 +148,29 @@ namespace HabiticaTravel.Controllers
         {
             return View();
         }
-        public ActionResult EditCustomTask(string TaskId)
+        public ActionResult EditCustomTask(int TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
+          
+            var currentTaskItems = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList());
 
             CustomTask TaskToEdit = HabiticaORM.CustomTasks.Find(TaskId);
 
+            TaskAndItems TaskAndItemToEdit = new TaskAndItems
+            {
+                CustomTask = TaskToEdit,
+                CustomTaskItem = currentTaskItems
+
+            };
+
+
             ViewBag.TaskToBeEdited = TaskToEdit;
 
-            return View();
+            return View(TaskAndItemToEdit);
         }
+
+       
+        
 
 
         public ActionResult DeleteCustomTask(int TaskId)

@@ -36,6 +36,7 @@
                             <p>@task.TaskNotes</p><br />
                             <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
                             <a href="#" data-target=".delete-task-modal" data-toggle="modal" class="index-button remove" data-item-id="/Tasks/RemoveTask?taskId=@task.TaskId">Delete</a>
+                            <a href="/Tasks/EditCustomTask?taskId=@task.TaskId">Edit</a>
                         </div>
                     </div>
                 }
@@ -47,6 +48,7 @@
 
 
 <script>
+
     $(function () {
         $("#reminderHandler").click(function () {
             var array = @Html.Raw(Json.Encode(@ViewBag.EndDates));
@@ -72,5 +74,21 @@
             }
         })
     });
+
+
+    var date = TaskDate
+    var milliseconds = (TaskDate - DateTime.Now).TotalMilliseconds
+    $(document).ready(function(){
+        if(milliseconds > 0){
+            alert('Your task will be due on ' + str(date));
+            window.setTimeout(function(){
+                alert('Time has come');
+                //Or any other thing you might want to do
+            }, milliseconds);
+        }
+        else{
+            alert('The time has already come');
+        }
+    }
 
 </script>

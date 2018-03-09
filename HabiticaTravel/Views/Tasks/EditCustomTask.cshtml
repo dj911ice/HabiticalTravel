@@ -56,7 +56,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("EditCustomTask", "Tasks", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("EditCustomTask", "Tasks", FormMethod.Get, new { htmlAttributes = new { @class = "form-horizontal", role = "form", value = ViewBag.TaskToBeEdited } }))
 {
     @Html.AntiForgeryToken()
     <h4>Fill out this form.</h4>
