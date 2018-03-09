@@ -144,11 +144,13 @@ namespace HabiticaTravel.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
         public ActionResult CustomTask()
         {
             return View();
         }
-        public ActionResult EditCustomTask(int TaskId)
+
+        public ActionResult EditCustomTask(string TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
           
@@ -173,14 +175,24 @@ namespace HabiticaTravel.Controllers
         
 
 
-        public ActionResult DeleteCustomTask(int TaskId)
+        public ActionResult RemoveTask(int TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
 
-            HabiticaORM.CustomTasks.Remove(HabiticaORM.CustomTasks.Find(TaskId));
+            var selectedTask = HabiticaORM.CustomTasks.Where(t => t.TaskId == TaskId).FirstOrDefault();
+            var selectedTaskItems = HabiticaORM.CustomTaskItem.Where(t => t.TaskId == TaskId).ToList();
+
+            foreach (var item in selectedTaskItems)
+            {
+                HabiticaORM.CustomTaskItem.Remove(item);
+
+            }
+
+            HabiticaORM.CustomTask.Remove(selectedTask);
+
             HabiticaORM.SaveChanges();
 
-            return View("Index");
+            return RedirectToAction("Index", "Home");
         }
 
 

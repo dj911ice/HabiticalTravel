@@ -29,8 +29,7 @@ namespace HabiticaTravel
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                        "~/Scripts/Validation.js",
                        "~/Scripts/HabiticaJavaScript/DatePicker.js",
-                       "~/Scripts/HabiticaJavaScript/AddTask.js",
-                       "~/Scripts/HabiticaJavaScript/DeleteTasksModal.js"));
+                       "~/Scripts/HabiticaJavaScript/AddTask.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

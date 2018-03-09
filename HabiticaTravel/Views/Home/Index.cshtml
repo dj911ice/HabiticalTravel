@@ -7,7 +7,7 @@
 @Html.Partial("_ProfileLayout")
 
 
-<div class="modal fade delete-task-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+@*<div class="modal fade delete-task-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content text-center">
             <h3>Are you sure you want to delete this item?</h3>
@@ -15,11 +15,11 @@
             <a name="taskId" class="index-button remove">Remove</a>
         </div>
     </div>
-</div>
+</div>*@
 
 <button class="btn-success" id="reminderHandler">CheckReminders</button>
 <div class="container-fluid text-center">
-    @if (ViewBag.Tasks == null)
+    @if (ViewBag.Tasks.Count == 0)
     {
         <h1>Currently no tasks</h1>
     }
@@ -29,16 +29,17 @@
             <div class="row">
                 @foreach (var task in ViewBag.Tasks)
                 {
-                    <div class="col-xs-4">
-                        <div class="task-item">
-                            <h3>@task.TaskName</h3>
-                            <h5>@task.TaskType</h5>
-                            <p>@task.TaskNotes</p><br />
-                            <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
-                            <a href="#" data-target=".delete-task-modal" data-toggle="modal" class="index-button remove" data-item-id="/Tasks/RemoveTask?taskId=@task.TaskId">Delete</a>
-                            <a href="/Tasks/EditCustomTask?taskId=@task.TaskId">Edit</a>
-                        </div>
+                <div class="col-xs-4">
+                    <div class="task-item">
+                        <h3>@task.TaskName</h3>
+                        <h5>@task.TaskType</h5>
+                        <p>@task.TaskNotes</p><br />
                     </div>
+                    <div class="task-links">
+                        <a href="/Tasks/ViewTask?TaskId=@task.TaskId">Details</a>
+                        <a href="/Tasks/RemoveTask?taskId=@task.TaskId">Remove Task</a>
+                    </div>
+                </div>
                 }
             </div>
         </div>
@@ -47,11 +48,14 @@
 </div>
 
 
-<script>
 
-    $(function () {
-        $("#reminderHandler").click(function () {
-            var array = @Html.Raw(Json.Encode(@ViewBag.EndDates));
+@section Scripts
+{
+    <script src="~/Scripts/HabiticaJavaScript/DeleteTasksModal.js"></script>
+    <script>
+         $(function () {
+            $("#reminderHandler").on("click", () => {
+            var array = @Html.Raw(Json.Encode(ViewBag.EndDates));
             var dates = [];
             for(var i = 0; i < array.length; i++) {
                 dates[i] = array[i];
@@ -59,7 +63,7 @@
             console.log(dates);
             var milliseconds = [];
             for (var i = 0; i < dates.length; i++) {
-                milliseconds[i] = dates[i] - (@DateTime.Now).TotalMilliseconds;
+                milliseconds[i] = dates[i] - @DateTime.Now.Millisecond;
             }
 
             console.log("test");
@@ -74,21 +78,6 @@
             }
         })
     });
+    </script>
+}
 
-
-    var date = TaskDate
-    var milliseconds = (TaskDate - DateTime.Now).TotalMilliseconds
-    $(document).ready(function(){
-        if(milliseconds > 0){
-            alert('Your task will be due on ' + str(date));
-            window.setTimeout(function(){
-                alert('Time has come');
-                //Or any other thing you might want to do
-            }, milliseconds);
-        }
-        else{
-            alert('The time has already come');
-        }
-    }
-
-</script>
