@@ -21,22 +21,30 @@
         <div class="container">
             <div class="row">
 
-                <h1>@Model.ProfileName <br><small>#User-Interface #User #Profile #jquery #Social #contact #accordion</small></h1>
+                <h1>@User.Identity.Name <br></h1>
                 <!-- Contenedor -->
                 <ul id="accordion" class="accordion">
                     <li>
                         <div class="col col_4 iamgurdeep-pic">
-                            <img class="img-responsive iamgurdeeposahan" alt="iamgurdeeposahan" src="http://webncc.in/img/user/gurdeep-singh-osahan.jpg">
-                            <div class="edit-pic">
+                            @if (Model.ProfilePhoto != null)
+                            {
+                                <img class="img-responsive iamgurdeeposahan" alt="iamgurdeeposahan" src="@Model.ProfilePhoto">
+                            }
+                            else
+                            {
+                                <img class="img-responsive iamgurdeeposahan" alt="iamgurdeeposahan" src="~/Content/Images/UserIcon.png">
+                            }
+
+                            @*<div class="edit-pic">
                                 <a href="https://web.facebook.com/iamgurdeeposahan" target="_blank" class="fa fa-facebook"></a>
                                 <a href="https://www.instagram.com/gurdeeposahan/" target="_blank" class="fa fa-instagram"></a>
                                 <a href="https://twitter.com/gurdeeposahan1" target="_blank" class="fa fa-twitter"></a>
                                 <a href="https://plus.google.com/u/0/105032594920038016998" target="_blank" class="fa fa-google"></a>
 
-                            </div>
+                            </div>*@
                             <div class="username">
-                                <h2>Gurdeep Osahan  <small><i class="fa fa-map-marker"></i> India (Punjab)</small></h2>
-                                <p><i class="fa fa-briefcase"></i> Web Design and Development.</p>
+                                <h2>@Model.ProfileName </h2>
+                                <p><i class="fa fa-hand-o-right"></i> @Model.UserStats_class </p>
 
                                 <a href="https://web.facebook.com/iamgurdeeposahan" target="_blank" class="btn-o"> <i class="fa fa-user-plus"></i> Add Friend </a>
                                 <a href="https://www.instagram.com/gurdeeposahan/" target="_blank" class="btn-o"> <i class="fa fa-plus"></i> Follow </a>
