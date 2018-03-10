@@ -56,15 +56,13 @@
     <script>
          $(function () {
             $("#reminderHandler").on("click", () => {
-            var array = @Html.Raw(Json.Encode(ViewBag.EndDates));
-            var dates = [];
-            for(var i = 0; i < array.length; i++) {
-                dates[i] = array[i];
-            }
+            var dates = @Html.Raw(Json.Encode(ViewBag.EndDates));
             console.log(dates);
             var milliseconds = [];
+            var d = new Date();
             for (var i = 0; i < dates.length; i++) {
-                milliseconds[i] = dates[i] - @DateTime.Now.Millisecond;
+
+                milliseconds[i] = d.setDate(dates[i]);
             }
 
             console.log("test");

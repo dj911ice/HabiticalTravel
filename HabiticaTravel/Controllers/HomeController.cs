@@ -152,16 +152,20 @@ namespace HabiticaTravel.Controllers
 
                 List<CustomTask> Tasks = (List<CustomTask>)TempData["userTasks"];
 
-                var reminderEndDates = new List<DateTime?>();
+                
 
                 var taskDates = Tasks.Select(t => t.ReminderTime).ToList();
+                var reminderEndTime = new List<string>();
 
-                foreach (var dates in taskDates)
+
+
+                foreach (DateTime date in taskDates)
                 {
-                    reminderEndDates.Add(dates);
+                    var time = (long)DateTime.UtcNow.Subtract(date.ToUniversalTime()).TotalMilliseconds;
+                    reminderEndTime.Add(date.Subtract(DateTime.UtcNow).ToString()) ;
                 }
 
-                ViewBag.EndDates = reminderEndDates;
+                ViewBag.EndDates = reminderEndTime;
                 ViewBag.Tasks = Tasks;
                 return View("index", NewStat);
             }
