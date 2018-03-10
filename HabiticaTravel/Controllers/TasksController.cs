@@ -151,13 +151,13 @@ namespace HabiticaTravel.Controllers
         }
 
 
-        
+
 
         public ActionResult EditCustomTask(int TaskId)
 
         {
             var HabiticaORM = new habiticatravelEntities();
-          
+
             var currentTaskItems = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList());
 
             CustomTask TaskToEdit = HabiticaORM.CustomTasks.Find(TaskId);
@@ -175,8 +175,8 @@ namespace HabiticaTravel.Controllers
             return View(TaskAndItemToEdit);
         }
 
-       
-        
+
+
 
 
         public ActionResult RemoveTask(int TaskId)
@@ -186,14 +186,15 @@ namespace HabiticaTravel.Controllers
             var selectedTask = HabiticaORM.CustomTasks.Where(t => t.TaskId == TaskId).FirstOrDefault();
             var selectedTaskItems = HabiticaORM.CustomTaskItem.Where(t => t.TaskId == TaskId).ToList();
 
-            foreach (var item in selectedTaskItems)
+            if (selectedTaskItems.Count != 0)
             {
-                HabiticaORM.CustomTaskItem.Remove(item);
+                foreach (var item in selectedTaskItems)
+                {
+                    HabiticaORM.CustomTaskItem.Remove(item);
+                }
 
             }
-
             HabiticaORM.CustomTask.Remove(selectedTask);
-
             HabiticaORM.SaveChanges();
 
             return RedirectToAction("Index", "Home");
@@ -211,7 +212,7 @@ namespace HabiticaTravel.Controllers
             CustomTask DBTask = HabiticaORM.CustomTasks.Find(TaskId);
 
             List<CustomTaskItem> DBItemsList = new List<CustomTaskItem>();
-            if(HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems != null)
+            if (HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems != null)
             {
                 DBItemsList = HabiticaORM.CustomTasks.Find(TaskId).CustomTaskItems.ToList();
             }
@@ -252,6 +253,6 @@ namespace HabiticaTravel.Controllers
 
         }
 
-      
+
     }
 }

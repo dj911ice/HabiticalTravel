@@ -54,24 +54,32 @@
 {
     <script src="~/Scripts/HabiticaJavaScript/DeleteTasksModal.js"></script>
     <script>
-         $(function () {
+        $(function () {
+
+            $("#btnRedirect").click(function(){
+                window.location.href = "@Url.Action("Index","Home")";
+            });
+
             $("#reminderHandler").on("click", () => {
-            var dates = @Html.Raw(Json.Encode(ViewBag.EndDates));
-            console.log(dates);
-            var milliseconds = [];
-            var d = new Date();
-            for (var i = 0; i < dates.length; i++) {
+            function msToTime(duration) {
+                var milliseconds = parseInt((duration % 1000) / 100)
+                    , seconds = parseInt((duration / 1000) % 60)
+                    , minutes = parseInt((duration / (1000 * 60)) % 60)
+                    , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
 
-                milliseconds[i] = d.setDate(dates[i]);
-            }
+                hours = (hours < 10) ? "0" + hours : hours;
+                minutes = (minutes < 10) ? "0" + minutes : minutes;
+                seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-            console.log("test");
-            alert("clicked");
-            for (var i = 0; i < milliseconds.length; i++) {
-                if (milliseconds > 0) {
-                    alert('Your task will be due on ' + str(milliseconds[i]));
+                return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+            };
+            let dates = @Html.Raw(Json.Encode(ViewBag.EndDates));
+            let alertTime = dates.map(d => new Date(parseInt(d.replace(/[^0-9 +]/g, ''))) - new Date());
+            for (let i = 0; i < alertTime.length; i++) {
+                if (alertTime[i] <= 86400000 && alerTime[i] > 0) {
+                    alert(`Time left for task: ${msToTime(alertTime[i])}`);
                 }
-                else {
+                else if (alertTime[i] < 0) {
                     alert('The time has already come');
                 }
             }
