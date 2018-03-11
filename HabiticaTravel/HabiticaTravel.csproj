@@ -205,7 +205,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\HomeLogin.css" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\Habitica\HabiticaController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,6 +213,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\TravelGroup.cs">
+      <DependentUpon>HabiticaTravel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TravelGroupUser.cs">
+      <DependentUpon>HabiticaTravel.tt</DependentUpon>
+    </Compile>
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -476,7 +481,6 @@
     <Content Include="Views\Tasks\ViewTask.cshtml" />
     <Content Include="Views\Tasks\EditCustomTask.cshtml" />
     <Content Include="Views\Home\EditTask.cshtml" />
-    <Content Include="Views\Group\DIsplayGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
