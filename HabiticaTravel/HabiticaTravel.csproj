@@ -205,6 +205,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\HomeLogin.css" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HabiticaAccountController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -478,6 +479,7 @@
     <Content Include="Views\Tasks\ViewTask.cshtml" />
     <Content Include="Views\Tasks\EditCustomTask.cshtml" />
     <Content Include="Views\Home\EditTask.cshtml" />
+    <Content Include="Views\Group\DisplayGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
