@@ -10,7 +10,8 @@
 namespace HabiticaTravel.Models
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class UserStat
     {
         public int ProfileId { get; set; }

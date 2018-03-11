@@ -13,6 +13,9 @@
         <EntityTypeShape EntityType="habiticatravelModel.DefaultTask" Width="1.5" PointX="5.375" PointY="1" />
         <AssociationConnector Association="habiticatravelModel.FK_CustomTaskItems_CustomTasks" />
         <AssociationConnector Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks" />
+        <EntityTypeShape EntityType="habiticatravelModel.TravelGroup" Width="1.5" PointX="10.375" PointY="0.875" />
+        <EntityTypeShape EntityType="habiticatravelModel.TravelGroupUser" Width="1.5" PointX="12.625" PointY="1" />
+        <AssociationConnector Association="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

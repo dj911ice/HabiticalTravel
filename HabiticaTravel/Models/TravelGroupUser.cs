@@ -12,12 +12,13 @@ namespace HabiticaTravel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HabiticaUser
+    public partial class TravelGroupUser
     {
-        public int HabiticaUserId { get; set; }
-        public string Uuid { get; set; }
-        public string ApiToken { get; set; }
+        public int TravelGroupUsersId { get; set; }
         public string UserId { get; set; }
-        public string TaskTagId { get; set; }
+        public int TravelGroupId { get; set; }
+        public string UserGroupRole { get; set; }
+    
+        public virtual TravelGroup TravelGroup { get; set; }
     }
 }

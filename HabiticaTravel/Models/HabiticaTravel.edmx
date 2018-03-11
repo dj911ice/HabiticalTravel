@@ -76,6 +76,26 @@
           <Property Name="Uuid" Type="nvarchar" MaxLength="128" />
           <Property Name="ApiToken" Type="nvarchar" MaxLength="128" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="TaskTagId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="TravelGroups">
+          <Key>
+            <PropertyRef Name="TravelGroupId" />
+          </Key>
+          <Property Name="TravelGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TravelGroupName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="128" />
+          <Property Name="TravelMethod" Type="nvarchar" MaxLength="50" />
+          <Property Name="GroupLeader" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="TravelGroupUsers">
+          <Key>
+            <PropertyRef Name="TravelGroupUsersId" />
+          </Key>
+          <Property Name="TravelGroupUsersId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="TravelGroupId" Type="int" Nullable="false" />
+          <Property Name="UserGroupRole" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserStats">
           <Key>
@@ -139,12 +159,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TravelGroupUsers_TravelGroups">
+          <End Role="TravelGroups" Type="Self.TravelGroups" Multiplicity="1" />
+          <End Role="TravelGroupUsers" Type="Self.TravelGroupUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroups">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="TravelGroupUsers">
+              <PropertyRef Name="TravelGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="habiticatravelModelStoreContainer">
           <EntitySet Name="CustomTaskItems" EntityType="Self.CustomTaskItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomTasks" EntityType="Self.CustomTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DefaultTaskItems" EntityType="Self.DefaultTaskItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DefaultTasks" EntityType="Self.DefaultTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelGroups" EntityType="Self.TravelGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelGroupUsers" EntityType="Self.TravelGroupUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStats" EntityType="Self.UserStats" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="Self.FK_CustomTaskItems_CustomTasks">
             <End Role="CustomTasks" EntitySet="CustomTasks" />
@@ -153,6 +187,10 @@
           <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="Self.FK_DefaultTaskItems_DefaultTasks">
             <End Role="DefaultTasks" EntitySet="DefaultTasks" />
             <End Role="DefaultTaskItems" EntitySet="DefaultTaskItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelGroupUsers_TravelGroups" Association="Self.FK_TravelGroupUsers_TravelGroups">
+            <End Role="TravelGroups" EntitySet="TravelGroups" />
+            <End Role="TravelGroupUsers" EntitySet="TravelGroupUsers" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -167,6 +205,7 @@
           <Property Name="Uuid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ApiToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaskTagId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UserStat">
           <Key>
@@ -220,6 +259,12 @@
           <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks">
             <End Role="DefaultTask" EntitySet="DefaultTasks" />
             <End Role="DefaultTaskItem" EntitySet="DefaultTaskItems" />
+          </AssociationSet>
+          <EntitySet Name="TravelGroups" EntityType="habiticatravelModel.TravelGroup" />
+          <EntitySet Name="TravelGroupUsers" EntityType="habiticatravelModel.TravelGroupUser" />
+          <AssociationSet Name="FK_TravelGroupUsers_TravelGroups" Association="habiticatravelModel.FK_TravelGroupUsers_TravelGroups">
+            <End Role="TravelGroup" EntitySet="TravelGroups" />
+            <End Role="TravelGroupUser" EntitySet="TravelGroupUsers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CustomTaskItem">
@@ -313,6 +358,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TravelGroup">
+          <Key>
+            <PropertyRef Name="TravelGroupId" />
+          </Key>
+          <Property Name="TravelGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TravelGroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Destination" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TravelMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupLeader" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TravelGroupUsers" Relationship="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" FromRole="TravelGroup" ToRole="TravelGroupUser" />
+        </EntityType>
+        <EntityType Name="TravelGroupUser">
+          <Key>
+            <PropertyRef Name="TravelGroupUsersId" />
+          </Key>
+          <Property Name="TravelGroupUsersId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TravelGroupId" Type="Int32" Nullable="false" />
+          <Property Name="UserGroupRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" FromRole="TravelGroupUser" ToRole="TravelGroup" />
+        </EntityType>
+        <Association Name="FK_TravelGroupUsers_TravelGroups">
+          <End Type="habiticatravelModel.TravelGroup" Role="TravelGroup" Multiplicity="1" />
+          <End Type="habiticatravelModel.TravelGroupUser" Role="TravelGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroup">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="TravelGroupUser">
+              <PropertyRef Name="TravelGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -322,6 +400,7 @@
           <EntitySetMapping Name="HabiticaUsers">
             <EntityTypeMapping TypeName="habiticatravelModel.HabiticaUser">
               <MappingFragment StoreEntitySet="HabiticaUsers">
+                <ScalarProperty Name="TaskTagId" ColumnName="TaskTagId" />
                 <ScalarProperty Name="HabiticaUserId" ColumnName="HabiticaUserId" />
                 <ScalarProperty Name="Uuid" ColumnName="Uuid" />
                 <ScalarProperty Name="ApiToken" ColumnName="ApiToken" />
@@ -432,6 +511,27 @@
                 <ScalarProperty Name="TaskType" ColumnName="TaskType" />
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelGroups">
+            <EntityTypeMapping TypeName="habiticatravelModel.TravelGroup">
+              <MappingFragment StoreEntitySet="TravelGroups">
+                <ScalarProperty Name="GroupLeader" ColumnName="GroupLeader" />
+                <ScalarProperty Name="TravelMethod" ColumnName="TravelMethod" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="TravelGroupName" ColumnName="TravelGroupName" />
+                <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelGroupUsers">
+            <EntityTypeMapping TypeName="habiticatravelModel.TravelGroupUser">
+              <MappingFragment StoreEntitySet="TravelGroupUsers">
+                <ScalarProperty Name="UserGroupRole" ColumnName="UserGroupRole" />
+                <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TravelGroupUsersId" ColumnName="TravelGroupUsersId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
