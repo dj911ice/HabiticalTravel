@@ -88,23 +88,9 @@ namespace HabiticaTravel.Controllers
                 habiticatravelEntities orm = new habiticatravelEntities();
                 List<CustomTask> Tasks = orm.CustomTasks.Where(t => t.UserId == userId).ToList();
 
-
-
                 var taskDates = Tasks.Select(t => t.ReminderTime).ToList();
                 var reminderEndTime = new List<DateTime>();
 
-
-
-                //foreach (var date in taskDates)
-                //{
-                //    if (date == null)
-                //    {
-                //        continue;
-                //    }
-                //    reminderEndTime.Add((DateTime)date);
-                //}
-
-                // ViewBag.EndDates = reminderEndTime;
                 ViewBag.Tasks = Tasks;
                 return View("index", userStats);
             }
