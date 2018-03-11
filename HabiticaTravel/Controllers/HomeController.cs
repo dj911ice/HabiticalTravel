@@ -1,30 +1,24 @@
 ﻿using HabiticaTravel.Models;
 using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
 {
     public class HomeController : Controller
     {
+        private UserStat userStats;
+
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
                 //send them to the AuthenticatedIndex page instead of the index page
-                var currentUser = System.Web.HttpContext.Current
-                    .GetOwinContext()
-                    .GetUserManager<ApplicationUserManager>()
-                    .FindById(System.Web.HttpContext
-                    .Current.User.Identity
-                    .GetUserId());
 
                 return RedirectToAction("DisplayStats");
             }
@@ -34,14 +28,9 @@ namespace HabiticaTravel.Controllers
 
         public async Task<ActionResult> DisplayStats()
         {
-            ApplicationUser currentUser = System.Web.HttpContext.Current
-                   .GetOwinContext()
-                   .GetUserManager<ApplicationUserManager>()
-                   .FindById(System.Web.HttpContext
-                   .Current.User.Identity
-                   .GetUserId());
+            var userId = User.Identity.GetUserId();
 
-            var data = await HabiticaUtil.GetUserStats(currentUser);
+            var data = await HabiticaUtil.GetUserStats(userId);
             data = (JObject)data["data"];
 
             if (data == null)
@@ -55,52 +44,50 @@ namespace HabiticaTravel.Controllers
             }
             else
             {
-
-                ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
-                var NewStat = new UserStat();
-                NewStat.UserId = MyUser.Id;
-                NewStat.UserStatsPer = (int)data["stats"]["per"];
-                NewStat.UserStats_int = (int)data["stats"]["int"];
-                NewStat.UserStatsCon = (int)data["stats"]["con"];
-                NewStat.UserStatsStr = (int)data["stats"]["str"];
-                NewStat.UserStatsPoints = (int)data["stats"]["points"];
-                NewStat.UserStats_class = data["stats"]["class"].ToString();
-                NewStat.UserStatsLvl = (int)data["stats"]["lvl"];
-                NewStat.UserStatsGp = (int)data["stats"]["gp"];
-                NewStat.UserStatsExp = (int)data["stats"]["exp"];
-                NewStat.UserStatsMp = (int)data["stats"]["mp"];
-                NewStat.UserStatsHp = (int)data["stats"]["hp"];
-                NewStat.UserStatsToNextLevel = (int)data["stats"]["toNextLevel"];
-                NewStat.UserStatsMaxHealth = (int)data["stats"]["maxHealth"];
-                NewStat.UserStatsMaxMP = (int)data["stats"]["maxMP"];
-                NewStat.TrainingCon = (int)data["stats"]["training"]["con"];
-                NewStat.TrainingStr = (int)data["stats"]["training"]["str"];
-                NewStat.TrainingPer = (int)data["stats"]["training"]["per"];
-                NewStat.Training_int = (int)data["stats"]["training"]["int"];
-                NewStat.BuffsSeafoam = (bool)data["stats"]["buffs"]["seafoam"];
-                NewStat.BuffsShinySeed = (bool)data["stats"]["buffs"]["shinySeed"];
-                NewStat.BuffsSpookySparkles = (bool)data["stats"]["buffs"]["spookySparkles"];
-                NewStat.BuffsSnowball = (bool)data["stats"]["buffs"]["snowball"];
-                NewStat.BuffsStreaks = (bool)data["stats"]["buffs"]["streaks"];
-                NewStat.BuffsStealth = (int)data["stats"]["buffs"]["stealth"];
-                NewStat.BuffsCon = (int)data["stats"]["buffs"]["con"];
-                NewStat.BuffsPer = (int)data["stats"]["buffs"]["per"];
-                NewStat.Buffs_int = (int)data["stats"]["buffs"]["int"];
-                NewStat.BuffsStr = (int)data["stats"]["buffs"]["str"];
-                NewStat.ProfileName = data["profile"]["name"].ToString();
-
+                userStats = new UserStat
+                {
+                    UserId = userId,
+                    UserStatsPer = (int)data["stats"]["per"],
+                    UserStats_int = (int)data["stats"]["int"],
+                    UserStatsCon = (int)data["stats"]["con"],
+                    UserStatsStr = (int)data["stats"]["str"],
+                    UserStatsPoints = (int)data["stats"]["points"],
+                    UserStats_class = data["stats"]["class"].ToString(),
+                    UserStatsLvl = (int)data["stats"]["lvl"],
+                    UserStatsGp = (int)data["stats"]["gp"],
+                    UserStatsExp = (int)data["stats"]["exp"],
+                    UserStatsMp = (int)data["stats"]["mp"],
+                    UserStatsHp = (int)data["stats"]["hp"],
+                    UserStatsToNextLevel = (int)data["stats"]["toNextLevel"],
+                    UserStatsMaxHealth = (int)data["stats"]["maxHealth"],
+                    UserStatsMaxMP = (int)data["stats"]["maxMP"],
+                    TrainingCon = (int)data["stats"]["training"]["con"],
+                    TrainingStr = (int)data["stats"]["training"]["str"],
+                    TrainingPer = (int)data["stats"]["training"]["per"],
+                    Training_int = (int)data["stats"]["training"]["int"],
+                    BuffsSeafoam = (bool)data["stats"]["buffs"]["seafoam"],
+                    BuffsShinySeed = (bool)data["stats"]["buffs"]["shinySeed"],
+                    BuffsSpookySparkles = (bool)data["stats"]["buffs"]["spookySparkles"],
+                    BuffsSnowball = (bool)data["stats"]["buffs"]["snowball"],
+                    BuffsStreaks = (bool)data["stats"]["buffs"]["streaks"],
+                    BuffsStealth = (int)data["stats"]["buffs"]["stealth"],
+                    BuffsCon = (int)data["stats"]["buffs"]["con"],
+                    BuffsPer = (int)data["stats"]["buffs"]["per"],
+                    Buffs_int = (int)data["stats"]["buffs"]["int"],
+                    BuffsStr = (int)data["stats"]["buffs"]["str"],
+                    ProfileName = data["profile"]["name"].ToString()
+                };
                 if (data["profile"].Contains("imageUrl"))
                 {
-                    NewStat.ProfilePhoto = data["profile"]["imageUrl"].ToString();
+                    userStats.ProfilePhoto = data["profile"]["imageUrl"].ToString();
                 }
                 if (data["profile"].Contains("blurb"))
                 {
-                    NewStat.ProfileBlurb = data["profile"]["blurb"].ToString();
+                    userStats.ProfileBlurb = data["profile"]["blurb"].ToString();
                 }
 
                 habiticatravelEntities orm = new habiticatravelEntities();
-                List<CustomTask> Tasks = orm.CustomTasks.Where(t => t.UserId == currentUser.Id).ToList();
+                List<CustomTask> Tasks = orm.CustomTasks.Where(t => t.UserId == userId).ToList();
 
 
 
@@ -109,18 +96,18 @@ namespace HabiticaTravel.Controllers
 
 
 
-                foreach (var date in taskDates)
-                {
-                    if (date == null)
-                    {
-                        continue;
-                    }
-                    reminderEndTime.Add((DateTime)date);
-                }
+                //foreach (var date in taskDates)
+                //{
+                //    if (date == null)
+                //    {
+                //        continue;
+                //    }
+                //    reminderEndTime.Add((DateTime)date);
+                //}
 
-                ViewBag.EndDates = reminderEndTime;
+                // ViewBag.EndDates = reminderEndTime;
                 ViewBag.Tasks = Tasks;
-                return View("index", NewStat);
+                return View("index", userStats);
             }
         }
     }
