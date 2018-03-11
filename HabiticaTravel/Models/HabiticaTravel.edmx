@@ -97,6 +97,15 @@
           <Property Name="TravelGroupId" Type="int" Nullable="false" />
           <Property Name="UserGroupRole" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="UserGroupScores">
+          <Key>
+            <PropertyRef Name="UserGroupScoresId" />
+          </Key>
+          <Property Name="UserGroupScoresId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserStats">
           <Key>
             <PropertyRef Name="ProfileId" />
@@ -171,6 +180,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserGroupScores_TravelGroups">
+          <End Role="TravelGroups" Type="Self.TravelGroups" Multiplicity="1" />
+          <End Role="UserGroupScores" Type="Self.UserGroupScores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroups">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="UserGroupScores">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="habiticatravelModelStoreContainer">
           <EntitySet Name="CustomTaskItems" EntityType="Self.CustomTaskItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomTasks" EntityType="Self.CustomTasks" Schema="dbo" store:Type="Tables" />
@@ -179,6 +200,7 @@
           <EntitySet Name="HabiticaUsers" EntityType="Self.HabiticaUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TravelGroups" EntityType="Self.TravelGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TravelGroupUsers" EntityType="Self.TravelGroupUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserGroupScores" EntityType="Self.UserGroupScores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStats" EntityType="Self.UserStats" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="Self.FK_CustomTaskItems_CustomTasks">
             <End Role="CustomTasks" EntitySet="CustomTasks" />
@@ -191,6 +213,10 @@
           <AssociationSet Name="FK_TravelGroupUsers_TravelGroups" Association="Self.FK_TravelGroupUsers_TravelGroups">
             <End Role="TravelGroups" EntitySet="TravelGroups" />
             <End Role="TravelGroupUsers" EntitySet="TravelGroupUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGroupScores_TravelGroups" Association="Self.FK_UserGroupScores_TravelGroups">
+            <End Role="TravelGroups" EntitySet="TravelGroups" />
+            <End Role="UserGroupScores" EntitySet="UserGroupScores" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -265,6 +291,11 @@
           <AssociationSet Name="FK_TravelGroupUsers_TravelGroups" Association="habiticatravelModel.FK_TravelGroupUsers_TravelGroups">
             <End Role="TravelGroup" EntitySet="TravelGroups" />
             <End Role="TravelGroupUser" EntitySet="TravelGroupUsers" />
+          </AssociationSet>
+          <EntitySet Name="UserGroupScores" EntityType="habiticatravelModel.UserGroupScore" />
+          <AssociationSet Name="FK_UserGroupScores_TravelGroups" Association="habiticatravelModel.FK_UserGroupScores_TravelGroups">
+            <End Role="TravelGroup" EntitySet="TravelGroups" />
+            <End Role="UserGroupScore" EntitySet="UserGroupScores" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CustomTaskItem">
@@ -368,6 +399,7 @@
           <Property Name="TravelMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupLeader" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TravelGroupUsers" Relationship="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" FromRole="TravelGroup" ToRole="TravelGroupUser" />
+          <NavigationProperty Name="UserGroupScores" Relationship="habiticatravelModel.FK_UserGroupScores_TravelGroups" FromRole="TravelGroup" ToRole="UserGroupScore" />
         </EntityType>
         <EntityType Name="TravelGroupUser">
           <Key>
@@ -388,6 +420,28 @@
             </Principal>
             <Dependent Role="TravelGroupUser">
               <PropertyRef Name="TravelGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserGroupScore">
+          <Key>
+            <PropertyRef Name="UserGroupScoresId" />
+          </Key>
+          <Property Name="UserGroupScoresId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_UserGroupScores_TravelGroups" FromRole="UserGroupScore" ToRole="TravelGroup" />
+        </EntityType>
+        <Association Name="FK_UserGroupScores_TravelGroups">
+          <End Type="habiticatravelModel.TravelGroup" Role="TravelGroup" Multiplicity="1" />
+          <End Type="habiticatravelModel.UserGroupScore" Role="UserGroupScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroup">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="UserGroupScore">
+              <PropertyRef Name="GroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -532,6 +586,16 @@
                 <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="TravelGroupUsersId" ColumnName="TravelGroupUsersId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroupScores">
+            <EntityTypeMapping TypeName="habiticatravelModel.UserGroupScore">
+              <MappingFragment StoreEntitySet="UserGroupScores">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserGroupScoresId" ColumnName="UserGroupScoresId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

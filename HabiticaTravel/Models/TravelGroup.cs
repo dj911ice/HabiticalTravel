@@ -18,6 +18,7 @@ namespace HabiticaTravel.Models
         public TravelGroup()
         {
             this.TravelGroupUsers = new HashSet<TravelGroupUser>();
+            this.UserGroupScores = new HashSet<UserGroupScore>();
         }
     
         public int TravelGroupId { get; set; }
@@ -28,5 +29,7 @@ namespace HabiticaTravel.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TravelGroupUser> TravelGroupUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGroupScore> UserGroupScores { get; set; }
     }
 }
