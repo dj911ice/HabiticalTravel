@@ -1,18 +1,13 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using HabiticaTravel.Models;
+using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using HabiticaTravel.Models;
-using HabiticaTravel.Utility;
 using Newtonsoft.Json.Linq;
-using HabiticaTravel.Controllers.Habitica;
-using System.Web.Routing;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
 {
@@ -26,7 +21,7 @@ namespace HabiticaTravel.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,9 +33,9 @@ namespace HabiticaTravel.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -124,7 +119,7 @@ namespace HabiticaTravel.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -158,10 +153,10 @@ namespace HabiticaTravel.Controllers
 
                 // stored the outpout, which is a string, into and then did the classic JObject parsing,
                 // so we can navigate the key,values dictionary style. 
-               
+
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
-                var JSON =  (JObject)JObject.FromObject(await HabiticaPost.RegisterNewUser(user, model));
+                var JSON = (JObject)JObject.FromObject(await HabiticaHTTP.PostRegisterNewUser(user, model));
 
                 if (bool.Parse(JSON["success"].ToString()))
                 {
@@ -198,7 +193,7 @@ namespace HabiticaTravel.Controllers
                     ViewBag.Message = "You already have an account with Habitica. Would you like to sign in with your Habitica account?";
                     return View("../Habitica/AlreadyRegisteredWithHabitica");
                 }
-                
+
             }
 
             // If we got this far, something failed, redisplay form

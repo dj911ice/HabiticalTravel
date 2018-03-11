@@ -29,7 +29,6 @@ namespace HabiticaTravel.Controllers
         public async Task<ActionResult> DisplayStats()
         {
             var userId = User.Identity.GetUserId();
-
             var data = await HabiticaUtil.GetUserStats(userId);
             data = (JObject)data["data"];
 

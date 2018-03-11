@@ -1,12 +1,9 @@
 ﻿using HabiticaTravel.Models;
-using HabiticaTravel.ViewModel;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 
@@ -30,7 +27,7 @@ namespace HabiticaTravel.Controllers
         {
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
             DefaultTask TaskToClone = MyHabitica.DefaultTasks.Find(TaskId);
-            ApplicationUser MyUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userId = User.Identity.GetUserId();
             CustomTask ClonedTask = new CustomTask
             {
                 TaskName = TaskToClone.TaskName,
@@ -50,7 +47,7 @@ namespace HabiticaTravel.Controllers
                 TaskHabitDown = TaskToClone.TaskHabitDown,
                 TaskRewardValue = TaskToClone.TaskRewardValue,
                 EveryXDays = TaskToClone.EveryXDays,
-                UserId = MyUser.Id,
+                UserId = userId,
                 CustomTaskItems = new List<CustomTaskItem>()
             };
 
@@ -120,19 +117,15 @@ namespace HabiticaTravel.Controllers
         public async Task<ActionResult> AddCustomTask(TaskAndItems model)
         {
 
-            var currentUser = System.Web.HttpContext.Current
-                .GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext
-                .Current.User.Identity.GetUserId());
+            string userId = User.Identity.GetUserId();
 
             var HabiticaORM = new habiticatravelEntities();
-            model.CustomTask.UserId = currentUser.Id;
+            model.CustomTask.UserId = userId;
 
-            HabiticaORM.CustomTask.Add(model.CustomTask);
+            HabiticaORM.CustomTasks.Add(model.CustomTask);
             await HabiticaORM.SaveChangesAsync();
 
-            var currentTask = HabiticaORM.CustomTask.Where(t => model.CustomTask.TaskName == t.TaskName).FirstOrDefault();
+            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskName == t.TaskName).FirstOrDefault();
             var taskItems = model.CustomTaskItem.ToList();
             foreach (var item in taskItems)
             {
@@ -184,17 +177,17 @@ namespace HabiticaTravel.Controllers
             var HabiticaORM = new habiticatravelEntities();
 
             var selectedTask = HabiticaORM.CustomTasks.Where(t => t.TaskId == TaskId).FirstOrDefault();
-            var selectedTaskItems = HabiticaORM.CustomTaskItem.Where(t => t.TaskId == TaskId).ToList();
+            var selectedTaskItems = HabiticaORM.CustomTaskItems.Where(t => t.TaskId == TaskId).ToList();
 
             if (selectedTaskItems.Count != 0)
             {
                 foreach (var item in selectedTaskItems)
                 {
-                    HabiticaORM.CustomTaskItem.Remove(item);
+                    HabiticaORM.CustomTaskItems.Remove(item);
                 }
 
             }
-            HabiticaORM.CustomTask.Remove(selectedTask);
+            HabiticaORM.CustomTasks.Remove(selectedTask);
             HabiticaORM.SaveChanges();
 
             return RedirectToAction("Index", "Home");

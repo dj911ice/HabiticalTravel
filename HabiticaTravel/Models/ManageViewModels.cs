@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HabiticaTravel.Models
 {
@@ -81,5 +81,11 @@ namespace HabiticaTravel.Models
     {
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+    }
+
+    public class TaskAndItems //viewmodel of task and taskItem
+    {
+        public CustomTask CustomTask { get; set; }
+        public List<CustomTaskItem> CustomTaskItem { get; set; }
     }
 }

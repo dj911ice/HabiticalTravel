@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers.Habitica
 {
-    public partial class HabiticaController : Controller
+    public partial class HabiticaAccountController : Controller
     {
 
         // THESE PROPERTIES AND FIELDS ARE SUPER IMPORTANT, THEY ARE HERE TO ALLOW US TO REGISTER
@@ -28,11 +28,11 @@ namespace HabiticaTravel.Controllers.Habitica
             }
         }
 
-        public HabiticaController()
+        public HabiticaAccountController()
         {
         }
 
-        public HabiticaController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public HabiticaAccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -78,7 +78,7 @@ namespace HabiticaTravel.Controllers.Habitica
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> HabiticaLoginHandler(RegisterViewModel model)
         {
-            var JSON = (JObject)JObject.FromObject(await HabiticaPost.UserLogin(model.Email, model.Password));
+            var JSON = (JObject)JObject.FromObject(await HabiticaHTTP.PostUserLogin(model.Email, model.Password));
             if (bool.Parse(JSON["success"].ToString()))
             {
                 var UpdatedHabiticaUser = new HabiticaUser
@@ -114,7 +114,7 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     // simply updating the habitica User that is not null with the
                     // HabiticaUser object that was created on line 88
-                    
+
                     var result = await SignInManager.PasswordSignInAsync(User.UserName, model.Password, false, shouldLockout: false);
                     switch (result)
                     {

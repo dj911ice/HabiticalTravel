@@ -57,7 +57,6 @@
     <script src="~/Scripts/HabiticaJavaScript/DeleteTasksModal.js"></script>
     <script>
         $(function () {
-
             var msToTime = function(duration) {
                 var milliseconds = parseInt((duration % 1000) / 100)
                     , seconds = parseInt((duration / 1000) % 60)
@@ -80,7 +79,7 @@
                     $(".task-reminder").filter(function (i){return $(this).text() == obj}).text(`Time left for task: ${msToTime(date)}`)
                 }
                 else if (date < 0) {
-                    $(".task-reminder").filter(function (i){return $(this).text() == obj}).text('The time has already come');
+                    $(".task-reminder").filter(function (i){return $(this).text() == obj}).text('task time is up, sorry buddy, hell yeah....');
                 }
             });
         });
