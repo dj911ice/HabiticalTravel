@@ -1,4 +1,4 @@
-﻿using HabiticaTravel.Models;
+using HabiticaTravel.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -126,12 +126,22 @@ namespace HabiticaTravel.Controllers
             await HabiticaORM.SaveChangesAsync();
 
             var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskName == t.TaskName).FirstOrDefault();
-            var taskItems = model.CustomTaskItem.ToList();
-            foreach (var item in taskItems)
+
+            if(model.CustomTask.CustomTaskItems.Count != 0)
             {
-                item.TaskId = currentTask.TaskId;
+                var taskItems = model.CustomTaskItem.ToList();
+                foreach (var item in taskItems)
+                {
+                    item.TaskId = currentTask.TaskId;
+                }
+                currentTask.CustomTaskItems = taskItems;
             }
-            currentTask.CustomTaskItems = taskItems;
+            else
+
+            {
+                currentTask.CustomTaskItems = new List<CustomTaskItem>();
+            }
+            
 
             HabiticaORM.SaveChanges();
 
