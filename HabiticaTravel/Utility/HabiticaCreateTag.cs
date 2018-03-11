@@ -10,16 +10,18 @@ namespace HabiticaTravel.Utility
 {
     public partial class HabiticaGet
     {
-      
-        public static async Task<string> CreateTag(HabiticaUser user)
-        {
-            return await "https://habitica.com/api/v3/user/reset-password"
+
+        public static async Task<string> CreateTag(HabiticaUser user) => await "https://habitica.com/api/v3/tags"
                         .WithHeaders(new
                         {
                             x_api_user = user.Uuid,
                             x_api_key = user.ApiToken
-                        }).GetJsonAsync();
-                        
-        }
+                        })
+                        .PostJsonAsync(new
+                        {
+                            name = "Habitica Abroad"
+
+                        })
+                        .ReceiveJson();
     }
 }
