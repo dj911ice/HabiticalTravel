@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -86,6 +88,7 @@ namespace HabiticaTravel.Controllers.Habitica
                     Uuid = (string)JSON["data"]["id"],
                     ApiToken = (string)JSON["data"]["apiToken"],
                 };
+
                 var HabiticaORM = new habiticatravelEntities();
                 userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
@@ -97,11 +100,24 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
+                    
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         var newUser = userManager.FindByEmail(user.Email);
                         UpdatedHabiticaUser.UserId = newUser.Id;
+
+                        // pulling user data so we can check if that user has the HabiticaAbroad tag, reason we care
+                        // is we do not want to create duplicate tags on their habitica account. 
+                        var userData = (JObject)JObject.FromObject(await HabiticaHTTP.GetUserData(UpdatedHabiticaUser));
+                        List<Tag> tags = userData["data"]["tags"].ToObject<List<Tag>>();
+                        var isTagged = tags.Where(t => t.id == "Habitica Abroad");
+
+                        if (isTagged == null)
+                        {
+                            var tagKey = JObject.FromObject(await HabiticaHTTP.PostCreateTag(UpdatedHabiticaUser));
+                            UpdatedHabiticaUser.TaskTagId = (string)tagKey["data"]["id"];
+                        }
                         HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
                         HabiticaORM.SaveChanges();
                         return RedirectToAction("Index", "Home");
@@ -168,8 +184,7 @@ namespace HabiticaTravel.Controllers.Habitica
                 UserId = idenUser.Id
             };
 
-            var tagKey = JObject.FromObject(await HabiticaHTTP.PostCreateTag(habiticaUser));
-
+            var tagKey = (JObject)JObject.FromObject(await HabiticaHTTP.PostCreateTag(habiticaUser));
             habiticaUser.TaskTagId = (string)tagKey["data"]["id"];
             // finishing off our CRUD operation, we are adding the new HabiticaUser into our database
             // and saving our changes so it wil reflect in the database.  then we are simply returning 

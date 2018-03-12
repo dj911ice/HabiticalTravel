@@ -57,7 +57,7 @@ namespace HabiticaTravel.Utility
             }
         }
 
-        public static async Task<string> PostCreateTag(HabiticaUser user)
+        public static async Task<dynamic> PostCreateTag(HabiticaUser user)
         {
             try
             {

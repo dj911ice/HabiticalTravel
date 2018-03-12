@@ -88,4 +88,10 @@ namespace HabiticaTravel.Models
         public CustomTask CustomTask { get; set; }
         public List<CustomTaskItem> CustomTaskItem { get; set; }
     }
+
+    public class Tag
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+    }
 }

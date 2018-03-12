@@ -155,7 +155,6 @@ namespace HabiticaTravel.Controllers
                 // so we can navigate the key,values dictionary style. 
 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-
                 var JSON = (JObject)JObject.FromObject(await HabiticaHTTP.PostRegisterNewUser(user, model));
 
                 if (bool.Parse(JSON["success"].ToString()))
@@ -163,7 +162,7 @@ namespace HabiticaTravel.Controllers
 
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
-                    {
+                    {  
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -182,7 +181,7 @@ namespace HabiticaTravel.Controllers
                         //    { "model", model }
                         //};
 
-                        return RedirectToAction("RegisterNewUser", "Habitica");
+                        return RedirectToAction("RegisterNewUser", "HabiticaAccount");
 
                     }
                     AddErrors(result);
