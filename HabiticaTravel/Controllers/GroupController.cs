@@ -11,7 +11,20 @@ namespace HabiticaTravel.Controllers
     public class GroupController : Controller
     {
         // GET: Group
-        public ActionResult DisplayGroup() // Essentially our index View
+        public ActionResult ManageMyGroup() 
+        {
+            var MyORM = new habiticatravelEntities();
+
+            var userId = User.Identity.GetUserId();
+
+            ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
+
+            ViewBag.CurrentUser = userId;
+
+            return View();
+        }
+
+        public ActionResult DisplayGroupScoreboard() // Essentially our index View
         {
             var MyORM = new habiticatravelEntities();
 
@@ -33,7 +46,7 @@ namespace HabiticaTravel.Controllers
 
             HabiticaORM.SaveChanges();
 
-            return View("DisplayGroup");
+            return View();
         }
 
         public ActionResult AddNewUserToGroup(TravelGroupUser NewUser) // Adds new user to travel group
