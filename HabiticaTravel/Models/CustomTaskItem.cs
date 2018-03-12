@@ -17,6 +17,7 @@ namespace HabiticaTravel.Models
         public int TaskItemsId { get; set; }
         public string ItemName { get; set; }
         public int TaskId { get; set; }
+        public string HabiticaItemId { get; set; }
     
         public virtual CustomTask CustomTask { get; set; }
     }

@@ -127,9 +127,13 @@ namespace HabiticaTravel.Controllers
             HabiticaORM.CustomTasks.Add(model.CustomTask);
             await HabiticaORM.SaveChangesAsync();
 
-            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskName == t.TaskName).FirstOrDefault();
+            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
+            var TaskConfirm =  JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
 
-            if(model.CustomTask.CustomTaskItems.Count != 0)
+            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
+            currentTask.HabiticaTaskId = TaskConfirm["data"]["_id"];
+
+            if (model.CustomTask.CustomTaskItems.Count != 0)
             {
                 var taskItems = model.CustomTaskItem.ToList();
                 foreach (var item in taskItems)

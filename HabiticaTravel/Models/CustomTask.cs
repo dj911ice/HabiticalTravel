@@ -27,7 +27,6 @@ namespace HabiticaTravel.Models
         public string TaskNotes { get; set; }
         public Nullable<System.DateTime> TaskDueDate { get; set; }
         public double TaskDifficulty { get; set; }
-        public string ReminderId { get; set; }
         public Nullable<System.DateTime> ReminderStartDate { get; set; }
         public Nullable<System.DateTime> ReminderTime { get; set; }
         public string TaskFrequency { get; set; }
