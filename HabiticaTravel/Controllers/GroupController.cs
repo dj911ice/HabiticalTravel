@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HabiticaTravel.Models;
+using Microsoft.AspNet.Identity;
 
 namespace HabiticaTravel.Controllers
 {
@@ -12,12 +13,36 @@ namespace HabiticaTravel.Controllers
         // GET: Group
         public ActionResult DisplayGroup() // Essentially our index View
         {
-            var HabiticaORM = new habiticatravelEntities();
+            var MyORM = new habiticatravelEntities();
 
-            ViewBag.GroupUsers = HabiticaORM.UserGroupScores.ToList();
+            ViewBag.GroupUsers = MyORM.UserGroupScores.ToList();
 
 
             return View();
         }
+
+
+        public ActionResult DeleteGroupUser(int TravelGroupId, int TravelGroupUsersId)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            var ThegroupID = MyORM.TravelGroups.Where(tg => tg.TravelGroupId == TravelGroupId).FirstOrDefault();
+            var GroupUsers = MyORM.TravelGroupUsers.Where(tg => tg.TravelGroupUsersId == TravelGroupUsersId).ToList();
+
+            if (GroupUsers.Count != 0)
+            {
+                foreach (var gUser in GroupUsers)
+                {
+                    MyORM.TravelGroupUsers.Remove(gUser);
+                }
+
+            }
+            MyORM.TravelGroups.Remove(ThegroupID);
+            MyORM.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+
+        }
     }
+
 }
