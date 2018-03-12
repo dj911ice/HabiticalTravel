@@ -15,21 +15,34 @@ namespace HabiticaTravel.Controllers
         {
             var MyORM = new habiticatravelEntities();
 
-
-            ViewBag.GroupUsers = HabiticaORM.TravelGroupUsers.ToList();
+            ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
 
 
 
             return View();
         }
 
-        public ActionResult AddNewUserToGroup(TravelGroupUser NewUser)
+        public ActionResult AddNewTravelGroup(TravelGroup TGroupId) // Adds new travel group
+        {
+            var HabiticaORM = new habiticatravelEntities();
+            var NewTravelGroup = HabiticaORM.TravelGroups.Where(tgi => tgi.TravelGroupId == TGroupId.TravelGroupId).ToList();
+
+            foreach (var TravelGroup in NewTravelGroup)
+            {
+                HabiticaORM.TravelGroups.Add(TravelGroup);
+            }
+
+            HabiticaORM.SaveChanges();
+
+            return View("DisplayGroup");
+        }
+
+        public ActionResult AddNewUserToGroup(TravelGroupUser NewUser) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
             var userId = User.Identity.GetUserId();
             var NewGroupUser = HabiticaORM.TravelGroupUsers.Where(u => u.UserId == NewUser.UserId).ToList();
-
 
             //2. Add member to group
             foreach (var GroupUser in NewGroupUser)
