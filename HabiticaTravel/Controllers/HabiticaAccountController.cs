@@ -142,12 +142,12 @@ namespace HabiticaTravel.Controllers.Habitica
             return View();
         }
 
-        public ActionResult RegisterNewUser()
+        public async Task<ActionResult> RegisterNewUser()
         {
             // test
             var JSON = (JObject)TempData["JSON"];
             var user = (ApplicationUser)TempData["user"];
-
+            
             // these are both of our ORM copies, so the the first one is our Habitica User,
             // second ORM is basicaly the an object that wraps around our ApplicationUser, the reason
             // we have to do it this way is because UserManager allows us to preform CRUD operation
@@ -161,17 +161,20 @@ namespace HabiticaTravel.Controllers.Habitica
 
             // creating a new HabiticaUser object which will store the required Non-NULL values, we did
             // not include the data for HabiticaUserID because that will auto increment in the database.
-            var HabiticaUser = new HabiticaUser
+            var habiticaUser = new HabiticaUser
             {
                 ApiToken = (string)JSON["data"]["apiToken"],
                 Uuid = (string)JSON["data"]["id"],
                 UserId = idenUser.Id
             };
 
+            var tagKey = JObject.FromObject(await HabiticaHTTP.PostCreateTag(habiticaUser));
+
+            habiticaUser.TaskTagId = (string)tagKey["data"]["id"];
             // finishing off our CRUD operation, we are adding the new HabiticaUser into our database
             // and saving our changes so it wil reflect in the database.  then we are simply returning 
             // the HomePage view for now. 
-            HabiticaORM.HabiticaUsers.Add(HabiticaUser);
+            HabiticaORM.HabiticaUsers.Add(habiticaUser);
             HabiticaORM.SaveChanges();
             return RedirectToAction("Index", "Home");
 
