@@ -37,6 +37,7 @@
           <Property Name="EveryXDays" Type="int" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="HabiticaTaskId" Type="nvarchar" MaxLength="128" />
+          <Property Name="TravelGroupId" Type="int" />
         </EntityType>
         <EntityType Name="DefaultTaskItems">
           <Key>
@@ -150,6 +151,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CustomTasks_TravelGroups">
+          <End Role="TravelGroups" Type="Self.TravelGroups" Multiplicity="0..1" />
+          <End Role="CustomTasks" Type="Self.CustomTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroups">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="CustomTasks">
+              <PropertyRef Name="TravelGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DefaultTaskItems_DefaultTasks">
           <End Role="DefaultTasks" Type="Self.DefaultTasks" Multiplicity="0..1" />
           <End Role="DefaultTaskItems" Type="Self.DefaultTaskItems" Multiplicity="*" />
@@ -186,6 +199,10 @@
           <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="Self.FK_CustomTaskItems_CustomTasks">
             <End Role="CustomTasks" EntitySet="CustomTasks" />
             <End Role="CustomTaskItems" EntitySet="CustomTaskItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomTasks_TravelGroups" Association="Self.FK_CustomTasks_TravelGroups">
+            <End Role="TravelGroups" EntitySet="TravelGroups" />
+            <End Role="CustomTasks" EntitySet="CustomTasks" />
           </AssociationSet>
           <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="Self.FK_DefaultTaskItems_DefaultTasks">
             <End Role="DefaultTasks" EntitySet="DefaultTasks" />
@@ -270,6 +287,10 @@
             <End Role="TravelGroup" EntitySet="TravelGroups" />
             <End Role="TravelGroupUser" EntitySet="TravelGroupUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_CustomTasks_TravelGroups" Association="habiticatravelModel.FK_CustomTasks_TravelGroups">
+            <End Role="TravelGroup" EntitySet="TravelGroups" />
+            <End Role="CustomTask" EntitySet="CustomTasks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CustomTaskItem">
           <Key>
@@ -305,6 +326,8 @@
           <NavigationProperty Name="CustomTaskItems" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTask" ToRole="CustomTaskItem" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="HabiticaTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TravelGroupId" Type="Int32" />
+          <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_CustomTasks_TravelGroups" FromRole="CustomTask" ToRole="TravelGroup" />
         </EntityType>
         <EntityType Name="DefaultTaskItem">
           <Key>
@@ -373,6 +396,7 @@
           <Property Name="TravelMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupLeader" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TravelGroupUsers" Relationship="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" FromRole="TravelGroup" ToRole="TravelGroupUser" />
+          <NavigationProperty Name="CustomTasks" Relationship="habiticatravelModel.FK_CustomTasks_TravelGroups" FromRole="TravelGroup" ToRole="CustomTask" />
         </EntityType>
         <EntityType Name="TravelGroupUser">
           <Key>
@@ -393,6 +417,18 @@
               <PropertyRef Name="TravelGroupId" />
             </Principal>
             <Dependent Role="TravelGroupUser">
+              <PropertyRef Name="TravelGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomTasks_TravelGroups">
+          <End Type="habiticatravelModel.TravelGroup" Role="TravelGroup" Multiplicity="0..1" />
+          <End Type="habiticatravelModel.CustomTask" Role="CustomTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelGroup">
+              <PropertyRef Name="TravelGroupId" />
+            </Principal>
+            <Dependent Role="CustomTask">
               <PropertyRef Name="TravelGroupId" />
             </Dependent>
           </ReferentialConstraint>
@@ -466,6 +502,7 @@
           <EntitySetMapping Name="CustomTasks">
             <EntityTypeMapping TypeName="habiticatravelModel.CustomTask">
               <MappingFragment StoreEntitySet="CustomTasks">
+                <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
                 <ScalarProperty Name="HabiticaTaskId" ColumnName="HabiticaTaskId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="EveryXDays" ColumnName="EveryXDays" />

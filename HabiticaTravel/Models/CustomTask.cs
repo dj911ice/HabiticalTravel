@@ -40,8 +40,10 @@ namespace HabiticaTravel.Models
         public Nullable<int> EveryXDays { get; set; }
         public string UserId { get; set; }
         public string HabiticaTaskId { get; set; }
+        public Nullable<int> TravelGroupId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomTaskItem> CustomTaskItems { get; set; }
+        public virtual TravelGroup TravelGroup { get; set; }
     }
 }

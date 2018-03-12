@@ -20,6 +20,7 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+
         public ActionResult AddNewTravelGroup(TravelGroup TGroupId) // Adds new travel group
         {
             var HabiticaORM = new habiticatravelEntities();
