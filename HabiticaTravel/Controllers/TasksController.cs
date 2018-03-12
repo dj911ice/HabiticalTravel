@@ -38,7 +38,6 @@ namespace HabiticaTravel.Controllers
                 TaskNotes = TaskToClone.TaskNotes,
                 TaskDueDate = TaskToClone.TaskDueDate,
                 TaskDifficulty = TaskToClone.TaskDifficulty,
-                ReminderId = TaskToClone.ReminderId,
                 ReminderStartDate = TaskToClone.ReminderStartDate,
                 ReminderTime = TaskToClone.ReminderTime,
                 TaskFrequency = TaskToClone.TaskFrequency,
