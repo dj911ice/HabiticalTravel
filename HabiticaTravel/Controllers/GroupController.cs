@@ -21,8 +21,7 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-
-        public ActionResult AddNewUserToGroup(HabiticaUser NewUser)
+        public ActionResult AddNewUserToGroup(TravelGroupUser NewUser)
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
