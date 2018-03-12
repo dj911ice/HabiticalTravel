@@ -95,7 +95,6 @@ namespace HabiticaTravel.Controllers.Habitica
                 // This is for two purposes, if this returns null, than we make a new user,
                 // if it does not, we will find this user in the Habitica table by ID.
                 ApplicationUser User = userManager.FindByEmail(model.Email);
-
                 if (User == null)
                 {
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -111,13 +110,9 @@ namespace HabiticaTravel.Controllers.Habitica
                         // is we do not want to create duplicate tags on their habitica account. 
                         var userData = (JObject)JObject.FromObject(await HabiticaHTTP.GetUserData(UpdatedHabiticaUser));
                         List<Tag> tags = userData["data"]["tags"].ToObject<List<Tag>>();
-                        var isTagged = tags.Where(t => t.id == "Habitica Abroad");
-
-                        if (isTagged == null)
-                        {
-                            var tagKey = JObject.FromObject(await HabiticaHTTP.PostCreateTag(UpdatedHabiticaUser));
-                            UpdatedHabiticaUser.TaskTagId = (string)tagKey["data"]["id"];
-                        }
+                        // var isTagged = tags.Where(t => t.id == "Habitica Abroad");
+                        var tagKey = JObject.FromObject(await HabiticaHTTP.PostCreateTag(UpdatedHabiticaUser));
+                        UpdatedHabiticaUser.TaskTagId = (string)tagKey["data"]["id"];
                         HabiticaORM.HabiticaUsers.Add(UpdatedHabiticaUser);
                         HabiticaORM.SaveChanges();
                         return RedirectToAction("Index", "Home");
@@ -130,7 +125,6 @@ namespace HabiticaTravel.Controllers.Habitica
                 {
                     // simply updating the habitica User that is not null with the
                     // HabiticaUser object that was created on line 88
-
                     var result = await SignInManager.PasswordSignInAsync(User.UserName, model.Password, false, shouldLockout: false);
                     switch (result)
                     {

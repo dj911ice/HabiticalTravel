@@ -72,7 +72,7 @@
 
             $(".task-reminder").text((i, obj) => {
                 var date = new Date(parseInt(obj.replace(/[^0-9 +]/g, ''))) - new Date();
-                if (date > 172800000) {
+                if (date > 172800000 || isNaN(date)) {
                     $(".task-reminder").filter(function(i){return $(this).text() == obj}).remove();
                 }
                 else if (date <= 172800000 && date > 0) {
