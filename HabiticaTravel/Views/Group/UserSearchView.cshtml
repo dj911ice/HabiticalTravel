@@ -1,0 +1,22 @@
+﻿
+@model HabiticaTravel.Models.TravelGroupUser
+
+<form action="/Group/SearchUserByEmail" method="get">
+    <input type="text" name="Email" />
+    <input type="submit" value="Search" />
+</form>
+
+<table class="table">
+   
+    <tr>
+        <th>Email</th>
+    </tr>
+</table>
+
+@foreach (var email in ViewBag.ShowEmailList)
+{
+    <tr>
+        <td>@email</td>
+    </tr>
+}
+

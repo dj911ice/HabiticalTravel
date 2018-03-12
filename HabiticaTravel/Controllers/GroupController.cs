@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using HabiticaTravel.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HabiticaTravel.Controllers
 {
@@ -33,6 +34,18 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+        public ActionResult SearchUserByEmail(string Email)
+        {
+            var HabiticaORM = new habiticatravelEntities();
+            
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            ApplicationUser UserEmail = userManager.FindByEmail(Email);
+
+            ViewBag.ShowEmailList = UserEmail;
+
+            return View();
+        }
 
         public ActionResult AddNewTravelGroup(TravelGroup TGroupId) // Adds new travel group
         {
