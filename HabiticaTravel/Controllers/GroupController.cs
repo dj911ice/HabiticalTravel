@@ -21,6 +21,25 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+        public ActionResult AddNewUserToGroup(HabiticaUser NewUser)
+        {
+            //1. Search user by email or username
+            var HabiticaORM = new habiticatravelEntities();
+            var userId = User.Identity.GetUserId();
+            var NewGroupUser = HabiticaORM.TravelGroupUsers.Where(u => u.UserId == NewUser.UserId).ToList();
+
+
+            //2. Add member to group
+            foreach (var GroupUser in NewGroupUser)
+            {
+                HabiticaORM.TravelGroupUsers.Add(GroupUser);
+            }
+
+            HabiticaORM.SaveChanges();
+
+            //3. Return/Redirect Action to a View
+            return View("DisplayGroup");
+        }
 
         public ActionResult DeleteGroupUser(int TravelGroupId, int TravelGroupUsersId)
         {
@@ -44,5 +63,4 @@ namespace HabiticaTravel.Controllers
 
         }
     }
-
 }
