@@ -25,9 +25,13 @@ namespace HabiticaTravel.Controllers
             return View("../Home/NotAuthorized", "../Shared/_NotAuthorized");
         }
 
-
+        [Authorize]
         public async Task<ActionResult> DisplayStats()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+
+            }
             var userId = User.Identity.GetUserId();
             var data = await HabiticaUtil.GetUserStats(userId);
             data = (JObject)data["data"];

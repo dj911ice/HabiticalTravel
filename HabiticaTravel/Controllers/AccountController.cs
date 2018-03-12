@@ -417,8 +417,12 @@ namespace HabiticaTravel.Controllers
         // POST: /Account/LogOff
         //[HttpPost]
         //[ValidateAntiForgeryToken]
+        
         public ActionResult LogOff()
         {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("HabiticaLogin", "HabiticaAccount");
         }
