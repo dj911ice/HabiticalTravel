@@ -17,8 +17,6 @@ namespace HabiticaTravel.Controllers
 
             ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
 
-
-
             return View();
         }
 
@@ -67,6 +65,25 @@ namespace HabiticaTravel.Controllers
             ViewBag.GroupUsers = CurrentTravelGroup;
 
             return View(); // create a view for this.
+        }
+
+        public ActionResult SaveUpdatedGroupChanges(TravelGroup newGroup)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            int TravelGroupId = newGroup.TravelGroupId;
+
+            if (!ModelState.IsValid)
+            {
+                return View("../Shared/Error");
+            }
+
+            MyORM.Entry(MyORM.TravelGroups.Find(newGroup.TravelGroupId)).CurrentValues.SetValues(newGroup);
+
+            MyORM.SaveChanges();
+
+
+            return View();
         }
 
         public ActionResult DeleteGroupUser(int TravelGroupId, int TravelGroupUsersId)
