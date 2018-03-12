@@ -24,3 +24,19 @@
     </ul>
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var y in ViewBag.yelp)
+        {
+        <div class="col-xs-3">
+            <h2>@y["title"]</h2>
+            <div class="yelp">
+                <h3>@y["name"]</h3>
+                <img src="@y["image_url"]" height="100" width="100"/>
+                <h5>@y["rating"]</h5>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+

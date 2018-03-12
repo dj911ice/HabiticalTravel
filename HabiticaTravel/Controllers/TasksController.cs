@@ -1,5 +1,7 @@
 using HabiticaTravel.Models;
+using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -240,22 +242,34 @@ namespace HabiticaTravel.Controllers
         }
 
 
-        public ActionResult ViewTask(int TaskId)
+        public async Task<ActionResult> ViewTask(int TaskId)
         {
             // going to find the task based on the task id , display all the task info into a view.
             // pk is TaskID , store that task in an object. Store it in a view bag. and send the viewbag to the view 
+            var yelpSearch = new YelpSearchHTTP();
+            var yelpResults = new List<JObject>();
+            var cats = new YelpCat
+            {
+                Hotel = "hotels, All",
+                Restaurant = "restaurants, All",
+                Arts = "arts, All",
+                Grocery = "grocery, All",
+            };
+
+            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Hotel)));
+            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Restaurant)));
+            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Grocery)));
+            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Arts)));
+
+            yelpResults = yelpResults.Select(y => y = (JObject)y["businesses"][0]).ToList();
 
             var HabiticaORM = new habiticatravelEntities();
-
+                
             ViewBag.task = HabiticaORM.CustomTasks.Find(TaskId);
-
-
+            ViewBag.yelp = yelpResults;
+           
             return View();
-
-
-
         }
-
 
     }
 }
