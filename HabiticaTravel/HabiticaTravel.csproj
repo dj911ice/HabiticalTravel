@@ -480,8 +480,12 @@
 
     <Content Include="Views\Group\DisplayGroupScoreboard.cshtml" />
     <Content Include="Views\Group\ManageMyGroup.cshtml" />
+
     <Content Include="Views\Group\TravelGroupForm.cshtml" />
     <Content Include="Views\Group\UserSearchView.cshtml" />
+
+
+    <Content Include="Views\Group\AddNewTravelGroup.cshtml" />
 
   </ItemGroup>
   <ItemGroup>

@@ -33,7 +33,7 @@ namespace HabiticaTravel.Models
 
         [Required]
         [RegularExpression(@"^\d{5}$")]
-        [Display(Name = "Zip Code")]
+        [Display(Name = "Destination")]
         public string Destination { get; set; }
 
         [Required]

@@ -2,7 +2,7 @@
 
 <h1>Create Traveling Group</h1>
 
-@using (Html.BeginForm("AddNewTravelGroup", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
+@using (Html.BeginForm("AddNewUserToGroup", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
 {
     @Html.AntiForgeryToken()
     <h4>Fill out this form.</h4>
@@ -27,18 +27,10 @@
         @Html.LabelFor(tg => tg.TravelMethod, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.EditorFor(tg => tg.TravelMethod, new { htmlAttributes = new { @class = "form-control", value = Model.TravelMethod } })
+            Other: @Html.RadioButtonFor(tg => tg.TravelMethod, true, new { @class = "form-control", }) <!--Make into a drop down , creat list of transportaion to create select list-->
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(tg => tg.TravelMethod, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            Other: @Html.RadioButtonFor(tg => tg.TravelMethod, true, new { @class = "form-control", value = Model.TravelMethod })
-           
-        </div>
-    </div>
-
-
-
+   
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

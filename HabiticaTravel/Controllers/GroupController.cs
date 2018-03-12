@@ -12,7 +12,7 @@ namespace HabiticaTravel.Controllers
     public class GroupController : Controller
     {
         // GET: Group
-        public ActionResult ManageMyGroup() 
+        public ActionResult ManageMyGroup()
         {
             var MyORM = new habiticatravelEntities();
 
@@ -47,29 +47,32 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult AddNewTravelGroup(TravelGroup TGroupId) // Adds new travel group
+        public ActionResult AddNewTravelGroup() // Adds new travel group
         {
-            var HabiticaORM = new habiticatravelEntities();
-            var NewTravelGroup = HabiticaORM.TravelGroups.Where(tgi => tgi.TravelGroupId == TGroupId.TravelGroupId).ToList();
-
-            foreach (var TravelGroup in NewTravelGroup)
-            {
-                HabiticaORM.TravelGroups.Add(TravelGroup);
-            }
-
-            HabiticaORM.SaveChanges();
-
-            return View();
+            var model = new TravelGroup();
+            return View(model);
         }
 
-        public ActionResult AddNewUserToGroup(TravelGroupUser NewUser) // Adds new user to travel group
+        public ActionResult SaveNewGroup(TravelGroup model)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            MyORM.TravelGroups.Add(model);
+
+            MyORM.SaveChanges();
+
+            return RedirectToAction("ManageMyGroup");
+        }
+
+
+        public ActionResult AddNewUserToGroup(TravelGroupUser model) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
             var userId = User.Identity.GetUserId();
-            var NewGroupUser = HabiticaORM.TravelGroupUsers.Where(u => u.UserId == NewUser.UserId).ToList();
+            var NewGroupUser = HabiticaORM.TravelGroupUsers.Where(u => u.UserId == model.UserId).ToList();
 
-            //2. Add member to group
+            //2. Add member to group , we really might not need this.
             foreach (var GroupUser in NewGroupUser)
             {
                 HabiticaORM.TravelGroupUsers.Add(GroupUser);
@@ -78,13 +81,13 @@ namespace HabiticaTravel.Controllers
             HabiticaORM.SaveChanges();
 
             //3. Return/Redirect Action to a View
-            return View("DisplayGroup");
+            return View();
         }
 
         public ActionResult GetGroupToUpdate(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
-           
+
             var CurrentTravelGroup = MyORM.TravelGroups.Find(TravelGroupId);
 
             TravelGroup GroupToBeEdited = MyORM.TravelGroups.Find(TravelGroupId);
