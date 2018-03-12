@@ -33,6 +33,5 @@ namespace HabiticaTravel.Models
         public virtual DbSet<DefaultTask> DefaultTasks { get; set; }
         public virtual DbSet<TravelGroup> TravelGroups { get; set; }
         public virtual DbSet<TravelGroupUser> TravelGroupUsers { get; set; }
-        public virtual DbSet<UserGroupScore> UserGroupScores { get; set; }
     }
 }

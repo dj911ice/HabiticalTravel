@@ -19,5 +19,6 @@ namespace HabiticaTravel.Models
         public string ApiToken { get; set; }
         public string UserId { get; set; }
         public string TaskTagId { get; set; }
+        public string ZipCode { get; set; }
     }
 }

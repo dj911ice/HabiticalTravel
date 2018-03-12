@@ -15,7 +15,9 @@ namespace HabiticaTravel.Controllers
         {
             var MyORM = new habiticatravelEntities();
 
-            ViewBag.GroupUsers = MyORM.UserGroupScores.ToList();
+
+            ViewBag.GroupUsers = HabiticaORM.TravelGroupUsers.ToList();
+
 
 
             return View();

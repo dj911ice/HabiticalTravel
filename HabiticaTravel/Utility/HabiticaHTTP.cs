@@ -109,5 +109,34 @@ namespace HabiticaTravel.Utility
             }
 
         }
+
+        public static async Task<dynamic> PostNewHabiticaTask(CustomTask task , HabiticaUser user)
+        {
+            try
+            {
+                return await "https://habitica.com/api/v3/tasks/user"
+                   .WithHeaders(new
+                   {
+                       x_api_user = user.Uuid,
+                       x_api_key = user.ApiToken
+                   })
+                       .PostJsonAsync(new
+                       {
+                           text = task.TaskName,
+                           type = task.TaskType,
+                           tags = task.TaskTag,
+                           notes = task.TaskNotes,
+                           date = task.TaskDueDate,
+                           priority = task.TaskDifficulty,
+                          
+
+                       });  
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
+
     }
 }
