@@ -26,26 +26,25 @@
 
                 </tr>
             </thead>
-                @foreach (var p in Model.TravelGroups)
-                {
-                    <tr>
+            @foreach (var p in Model.TravelGroups)
+            {
+                <tr>
 
-                        <td>@p.TravelGroupName</td>
-                        <td>@Model.UserName</td>
+                    <td>@p.TravelGroupName</td>
+                    <td>@Model.UserName</td>
 
 
-                            @*@if (ViewBag.CurrentUser == Model.GroupLeader)
-                                {
-                                    <td><a href="/Group/AddNewUserToGroup?NewUser=@p.NewUser">Add Memeber</a></td>
+                    @if (ViewBag.CurrentUser == p.GroupLeader)
+                    {
+                        <td><a href="/Group/AddNewUserToGroup?NewUser=@p.TravelGroupUsers">Add Memeber</a></td>
 
-                                    <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
+                        <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
 
-                                    <td><a href="/Group/DeleteGroupUser?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
-                                }*@
+                        <td><a href="/Group/DeleteGroup?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
+                    }
 
-                    </tr>
-
-                }
+                </tr>
+            }
         </table>
     </div>
 </body>

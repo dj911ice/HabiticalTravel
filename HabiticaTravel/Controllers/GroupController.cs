@@ -1,6 +1,7 @@
 ﻿using HabiticaTravel.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -137,26 +138,42 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult DeleteGroupUser(int TravelGroupId, int TravelGroupUsersId)
+        public ActionResult DeleteGroupUser(int TravelGroupUsersId)
         {
             var MyORM = new habiticatravelEntities();
 
-            var ThegroupID = MyORM.TravelGroups.Where(tg => tg.TravelGroupId == TravelGroupId).FirstOrDefault();
-            var GroupUsers = MyORM.TravelGroupUsers.Where(tg => tg.TravelGroupUsersId == TravelGroupUsersId).ToList();
+            
+            var currentUser = MyORM.TravelGroupUsers.Find(TravelGroupUsersId);
 
+            MyORM.TravelGroupUsers.Remove(currentUser);
+            MyORM.SaveChanges();
+
+            return RedirectToAction("ManageMyGroup");
+
+        }
+
+        public ActionResult DeleteGroup(int travelGroupID)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            var CurrentGroup = MyORM.TravelGroups.Find(travelGroupID);
+
+            List<TravelGroupUser> GroupUsers = MyORM.TravelGroupUsers.Where(gU => gU.TravelGroupId == travelGroupID).ToList();
             if (GroupUsers.Count != 0)
             {
+
                 foreach (var gUser in GroupUsers)
                 {
+
                     MyORM.TravelGroupUsers.Remove(gUser);
                 }
 
             }
-            MyORM.TravelGroups.Remove(ThegroupID);
+            MyORM.TravelGroups.Remove(CurrentGroup);
             MyORM.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
 
+            return RedirectToAction("ManageMyGroup");
         }
     }
 }
