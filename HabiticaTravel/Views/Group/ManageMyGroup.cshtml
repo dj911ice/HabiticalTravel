@@ -25,24 +25,28 @@
 
                 </tr>
             </thead>
-
-            @foreach (var p in Model.TravelGroupUsers)
+            @if (Model.TravelGroupUsers != null)
             {
-                <tr>
+                @foreach (var p in Model.TravelGroupUsers)
+                {
+                    <tr>
 
-                    <td>@p.UserId<td>
-                    
+                        <td>@p.UserId
+                        <td>
 
-                    @*@if (ViewBag.CurrentUser == Model.GroupLeader)
-                        {
-                            <td><a href="/Group/AddNewUserToGroup?NewUser=@p.NewUser">Add Memeber</a></td>
 
-                            <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
+                            @*@if (ViewBag.CurrentUser == Model.GroupLeader)
+                                {
+                                    <td><a href="/Group/AddNewUserToGroup?NewUser=@p.NewUser">Add Memeber</a></td>
 
-                            <td><a href="/Group/DeleteGroupUser?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
-                        }*@
+                                    <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
 
-                </tr>
+                                    <td><a href="/Group/DeleteGroupUser?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
+                                }*@
+
+                    </tr>
+
+                }
 
             }
         </table>
