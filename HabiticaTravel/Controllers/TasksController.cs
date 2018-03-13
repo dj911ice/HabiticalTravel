@@ -40,14 +40,6 @@ namespace HabiticaTravel.Controllers
                 TaskDifficulty = TaskToClone.TaskDifficulty,
                 ReminderStartDate = TaskToClone.ReminderStartDate,
                 ReminderTime = TaskToClone.ReminderTime,
-                TaskFrequency = TaskToClone.TaskFrequency,
-                TaskRepeat = TaskToClone.TaskRepeat,
-                TaskStreak = TaskToClone.TaskStreak,
-                TaskStartDate = TaskToClone.TaskStartDate,
-                TaskHabitUp = TaskToClone.TaskHabitUp,
-                TaskHabitDown = TaskToClone.TaskHabitDown,
-                TaskRewardValue = TaskToClone.TaskRewardValue,
-                EveryXDays = TaskToClone.EveryXDays,
                 UserId = userId,
                 CustomTaskItems = new List<CustomTaskItem>()
             };
@@ -169,9 +161,6 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-
-
-
         public ActionResult EditCustomTask(int TaskId)
 
         {
@@ -194,10 +183,6 @@ namespace HabiticaTravel.Controllers
             return View(TaskAndItemToEdit);
         }
 
-
-
-
-
         public ActionResult RemoveTask(int TaskId)
         {
             var HabiticaORM = new habiticatravelEntities();
@@ -218,8 +203,6 @@ namespace HabiticaTravel.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-
 
         public ActionResult SaveCustomTaskChanges(TaskAndItems NewTaskAndItems)
         {
@@ -255,7 +238,6 @@ namespace HabiticaTravel.Controllers
 
         }
 
-
         public async Task<ActionResult> ViewTask(int TaskId)
         {
             // going to find the task based on the task id , display all the task info into a view.
@@ -283,6 +265,55 @@ namespace HabiticaTravel.Controllers
             ViewBag.yelp = yelpResults;
            
             return View();
+        }
+
+        public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUsers model2)
+        {
+
+            string userId = User.Identity.GetUserId();
+
+            var HabiticaORM = new habiticatravelEntities();
+            model.CustomTask.UserId = userId;
+
+            HabiticaORM.CustomTasks.Add(model.CustomTask);
+            await HabiticaORM.SaveChangesAsync();
+
+            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
+            var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
+
+            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
+            var TestItem = (string)TaskConfirm["data"]["id"];
+            currentTask.HabiticaTaskId = (string)TaskConfirm["data"]["id"];
+
+            if (model.CustomTask.CustomTaskItems.Count != 0)
+            {
+                var taskItems = model.CustomTaskItem.ToList();
+                foreach (var item in taskItems)
+                {
+                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser));
+                    List<Checklist> AllChecklistItems = ItemConfirm["data"]["checklist"].ToObject<List<Checklist>>();
+                    foreach (Checklist list in AllChecklistItems)
+                    {
+                        if (list.text == item.ItemName)
+                        {
+                            item.HabiticaItemId = list.id;
+                        }
+                    }
+
+                    item.TaskId = currentTask.TaskId;
+                }
+                currentTask.CustomTaskItems = taskItems;
+            }
+            else
+
+            {
+                currentTask.CustomTaskItems = new List<CustomTaskItem>();
+            }
+
+
+            HabiticaORM.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
     }

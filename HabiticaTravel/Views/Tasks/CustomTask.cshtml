@@ -8,38 +8,6 @@
 
 
     // In a real system we would get this list from the database
-    SelectList TaskType = new SelectList(
-        new List<SelectListItem>
-        {
-new SelectListItem { Value = "...", Text = "...please select item"},
-new SelectListItem { Value = "Habbit", Text = "Habbit"},
-new SelectListItem { Value = "Daily", Text = "Daily"},
-new SelectListItem { Value = "ToDo", Text = "ToDo" },
-new SelectListItem { Value = "Reward", Text = "Reward"},
-        }, "Value", "Text");
-
-
-
-    SelectList Frequency = new SelectList(
-        new List<SelectListItem>
-        {
-new SelectListItem { Value = "...", Text = "...please select item"},
-new SelectListItem { Value = "Weekly", Text = "Weekly"},
-new SelectListItem { Value = "Daily", Text = "Daily"},
-        }, "Value", "Text");
-
-    SelectList Repeat = new SelectList(
-       new List<SelectListItem>
-       {
-new SelectListItem { Value = "...", Text = "...please select item"},
-new SelectListItem { Value = "Monday", Text = "Monday"},
-new SelectListItem { Value = "Tuesday", Text = "Tuesday"},
-new SelectListItem { Value = "Wedensday", Text = "Wedensday"},
-new SelectListItem { Value = "Thursday", Text = "Thursday"},
-new SelectListItem { Value = "Friday", Text = "Friday"},
-new SelectListItem { Value = "Saturday", Text = "Saturday"},
-new SelectListItem { Value = "Sunday", Text = "Sunday"},
-       }, "Value", "Text");
 
     SelectList Difficulty = new SelectList(
    new List<SelectListItem>
@@ -66,7 +34,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
     @Html.HiddenFor(ti => ti.CustomTask.TaskTag, new { htmlAttributes = new { @class = "form-control" } })
-
+    @Html.HiddenFor(ti => ti.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
 
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskName, new { @class = "col-md-2 control-label" })
@@ -76,61 +44,9 @@ new SelectListItem { Value = "2", Text = "Hard"},
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskType, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(ti => ti.CustomTask.TaskType, TaskType, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskHabitUp, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            Good Habbit: @Html.RadioButtonFor(ti => ti.CustomTask.TaskHabitUp, true, new { @class = "form-control" })
-            Bad Habbit: @Html.RadioButtonFor(ti => ti.CustomTask.TaskHabitUp, false, new { @class = "form-control" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskFrequency, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(ti => ti.CustomTask.TaskFrequency, Frequency, new { @class = "form-control" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskRepeat, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(ti => ti.CustomTask.TaskRepeat, Repeat, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.EveryXDays, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(ti => ti.CustomTask.TaskName, new { htmlAttributes = new { @class = "form-control", disabled = true, placeholder = "Every X Days" } })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskStartDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(ti => ti.CustomTask.TaskStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskDueDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.EditorFor(ti => ti.CustomTask.TaskDueDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskRewardValue, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(ti => ti.CustomTask.TaskRewardValue, new { htmlAttributes = new { @class = "form-control", disabled = true, placeholder = "Task Reward Value" } })
         </div>
     </div>
 
