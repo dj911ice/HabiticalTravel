@@ -2,6 +2,7 @@
 using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -107,7 +108,7 @@ namespace HabiticaTravel.Controllers
             {
                 TravelGroupUsersId = selectedGroup.TravelGroupId,
                 UserId = userId,
-                UserGroupRole = (int)GroupRole.Leader,
+                UserGroupRole = Convert.ToBoolean((int)GroupRole.Leader),
                 UserGroupScore = 0
             };
 
