@@ -17,8 +17,8 @@ namespace HabiticaTravel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TravelGroup()
         {
-            this.CustomTasks = new HashSet<CustomTask>();
             this.TravelGroupUsers = new HashSet<TravelGroupUser>();
+            this.CustomTasks = new HashSet<CustomTask>();
         }
     
         public int TravelGroupId { get; set; }
@@ -28,8 +28,8 @@ namespace HabiticaTravel.Models
         public string GroupLeader { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustomTask> CustomTasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TravelGroupUser> TravelGroupUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomTask> CustomTasks { get; set; }
     }
 }

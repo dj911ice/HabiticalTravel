@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Models\HabiticaViewModel.cs" />
+    <Compile Include="Utility\GroupRole.cs" />
     <Compile Include="Utility\YelpSearchHTTP.cs" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />

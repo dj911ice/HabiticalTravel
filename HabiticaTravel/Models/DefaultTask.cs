@@ -30,14 +30,6 @@ namespace HabiticaTravel.Models
         public string ReminderId { get; set; }
         public Nullable<System.DateTime> ReminderStartDate { get; set; }
         public Nullable<System.DateTime> ReminderTime { get; set; }
-        public string TaskFrequency { get; set; }
-        public string TaskRepeat { get; set; }
-        public Nullable<int> TaskStreak { get; set; }
-        public Nullable<System.DateTime> TaskStartDate { get; set; }
-        public Nullable<bool> TaskHabitUp { get; set; }
-        public Nullable<bool> TaskHabitDown { get; set; }
-        public Nullable<int> TaskRewardValue { get; set; }
-        public Nullable<int> EveryXDays { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DefaultTaskItem> DefaultTaskItems { get; set; }
