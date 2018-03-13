@@ -97,21 +97,22 @@ namespace HabiticaTravel.Controllers
 
             var userId = User.Identity.GetUserId();
             model.GroupLeader = userId;
+
             MyORM.TravelGroups.Add(model);
             MyORM.SaveChangesAsync();
 
             var selectedGroup = MyORM.TravelGroups.Where(tg => tg.TravelGroupName == model.TravelGroupName).FirstOrDefault();
-            
-            var tUser = new TravelGroupUser();
-            tUser.TravelGroupUsersId = selectedGroup.TravelGroupId;
-            tUser.UserId = userId;
-            tUser.UserGroupRole = GroupRole.Leader;
 
-            
+            var tUser = new TravelGroupUser
+            {
+                TravelGroupUsersId = selectedGroup.TravelGroupId,
+                UserId = userId,
+                UserGroupRole = (int)GroupRole.Leader,
+                UserGroupScore = 0
+            };
 
-            // MyORM.TravelGroups.Where(tg => tg. == userId).FirstOrDefault();
-
-
+            MyORM.TravelGroupUsers.Add(tUser);
+            MyORM.SaveChanges();
 
             return RedirectToAction("ManageMyGroup");
         }
