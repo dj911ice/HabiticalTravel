@@ -1,4 +1,4 @@
-﻿@model HabiticaTravel.Models.TravelGroupUser
+﻿@model List<HabiticaTravel.Models.GroupUserAndName>
 
     @{
         ViewBag.Title = "DisplayGroupScoreboard";
@@ -30,12 +30,12 @@
             </table>
         </div>
     </body>
-                @foreach (var p in ViewBag.GroupUsers)
+                @foreach (var u in Model)
                 {
                     <tr>
-
-                    <td>@p.UserId</td>
-                    <td>@p.Score</td>
+                        
+                    <td>@u.UserName</td>
+                    <td>@u.TGUser.UserGroupScore</td>
 
                     </tr>
                 }

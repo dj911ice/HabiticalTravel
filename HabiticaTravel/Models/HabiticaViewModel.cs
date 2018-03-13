@@ -88,4 +88,10 @@ namespace HabiticaTravel.Models
         public string UserName { get; set; }
     }
 
+    public class GroupUserAndName
+    {
+        public TravelGroupUser TGUser { get; set; }
+        public string UserName { get; set; }
+    }
+
 }

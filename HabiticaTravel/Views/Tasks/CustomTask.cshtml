@@ -58,6 +58,8 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 @using (Html.BeginForm("AddCustomTask", "Tasks", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @*@//This is client side validation.*@
+
     @Html.AntiForgeryToken()
     <h4>Fill out this form.</h4>
     <hr />
@@ -163,9 +165,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.CustomTaskItems, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <ul id="TaskList">
-
-            </ul>
+            <ul id="TaskList"></ul>
         </div>
     </div>
 

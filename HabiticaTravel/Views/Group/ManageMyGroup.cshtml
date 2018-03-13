@@ -36,9 +36,11 @@
 
                     @if (ViewBag.CurrentUser == p.GroupLeader)
                     {
+                        <td><a href="/Group/DisplayGroupScoreBoard?TravelGroupId=@p.TravelGroupId">LeaderBoards</a></td>
+
                         <td><a href="/Group/AddNewUserToGroup?NewUser=@p.TravelGroupUsers">Add Memeber</a></td>
 
-                        <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
+                        <td><a href="/Group/UpdateGroup?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
 
                         <td><a href="/Group/DeleteGroup?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
                     }

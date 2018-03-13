@@ -598,10 +598,9 @@
     <Content Include="Views\Group\DisplayGroupScoreboard.cshtml" />
     <Content Include="Views\Group\ManageMyGroup.cshtml" />
     <Content Include="Views\Group\TravelGroupForm.cshtml" />
-
     <Content Include="Views\Group\AddNewTravelGroup.cshtml" />
     <Content Include="Views\Group\UserSearch.cshtml" />
-
+    <Content Include="Views\Group\UpdateGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

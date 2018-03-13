@@ -26,13 +26,30 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult DisplayGroupScoreboard() // Essentially our index View
+        public ActionResult DisplayGroupScoreboard(int TravelGroupId) // Essentially our index View
         {
             var MyORM = new habiticatravelEntities();
 
-            ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
+            var Group = MyORM.TravelGroups.Find(TravelGroupId);
 
-            return View();
+            List<TravelGroupUser> GroupUsers = Group.TravelGroupUsers.ToList();
+            List<GroupUserAndName> model = new List<GroupUserAndName>();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            var count = 0;
+
+            foreach (var user in GroupUsers)
+            {
+                var idenUser = userManager.FindById(user.UserId);
+                
+
+                model[count].TGUser = user;
+                model[count].UserName = idenUser.UserName;
+
+                count++;
+            }
+            
+            return View(model);
         }
 
         public ActionResult UserSearch()
@@ -106,36 +123,31 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult GetGroupToUpdate(int TravelGroupId)
+        public ActionResult UpdateGroup(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
 
-            var CurrentTravelGroup = MyORM.TravelGroups.Find(TravelGroupId);
+            var model = MyORM.TravelGroups.Find(TravelGroupId);
 
-            TravelGroup GroupToBeEdited = MyORM.TravelGroups.Find(TravelGroupId);
-
-            ViewBag.GroupUsers = CurrentTravelGroup;
-
-            return View(); // create a view for this.
+            return View(model); // create a view for this.
         }
 
-        public ActionResult SaveUpdatedGroupChanges(TravelGroup newGroup)
+        public ActionResult SaveUpdatedGroupChanges(TravelGroup model)
         {
             var MyORM = new habiticatravelEntities();
 
-            int TravelGroupId = newGroup.TravelGroupId;
+            int TravelGroupId = model.TravelGroupId;
 
             if (!ModelState.IsValid)
             {
                 return View("../Shared/Error");
             }
 
-            MyORM.Entry(MyORM.TravelGroups.Find(newGroup.TravelGroupId)).CurrentValues.SetValues(newGroup);
+            MyORM.Entry(MyORM.TravelGroups.Find(model.TravelGroupId)).CurrentValues.SetValues(model);
 
             MyORM.SaveChanges();
 
-
-            return View();
+            return View("ManageMyGroup");
         }
 
         public ActionResult DeleteGroupUser(int TravelGroupUsersId)
