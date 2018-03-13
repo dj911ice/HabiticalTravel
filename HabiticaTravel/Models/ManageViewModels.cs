@@ -97,7 +97,28 @@ namespace HabiticaTravel.Models
 
     public class TravelGroupandUsers
     {
-        public TravelGroup TravelGroup { get; set; }
+
+        public TravelGroupVM TravelGroup { get; set; }
         public TravelGroupUser TravelGroupUser { get; set; }
+    }
+
+    public class TravelGroupVM
+    {
+
+        public int TravelGroupId { get; set; }
+
+        [Required]
+        [StringLength(20,ErrorMessage ="Please enter a valid group name between 1-20 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9\-\_ ]*$",ErrorMessage ="Please enter letters, numbers, Special Characters allowed: - _" )]
+        public string TravelGroupName { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[0 - 9]{5}$", ErrorMessage = "Please enter the 5 digit zip-code of your destination.")]
+        public string Destination { get; set; }
+
+        [Required]
+        public string TravelMethod { get; set; }
+
+        public string GroupLeader { get; set; }
     }
 }
