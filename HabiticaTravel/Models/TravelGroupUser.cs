@@ -21,5 +21,7 @@ namespace HabiticaTravel.Models
         public Nullable<int> UserGroupScore { get; set; }
     
         public virtual TravelGroup TravelGroup { get; set; }
+
+        //UserGroupRole is essentially asking the question: Is User the Group Leader? False is Member and True is Leader
     }
 }
