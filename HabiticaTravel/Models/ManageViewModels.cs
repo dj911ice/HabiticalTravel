@@ -94,4 +94,10 @@ namespace HabiticaTravel.Models
         public string name { get; set; }
         public string id { get; set; }
     }
+
+    public class TravelGroupandUsers
+    {
+        public TravelGroup TravelGroup { get; set; }
+        public TravelGroupUser TravelGroupUser { get; set; }
+    }
 }

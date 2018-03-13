@@ -52,13 +52,13 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult UserSearch(int GroupId)
+        public ActionResult UserSearch(TravelGroupandUsers model)
         {
-            ViewBag.GroupId = GroupId;
+            ViewBag.GroupId = model.TravelGroup.TravelGroupId;
             return View();
         }
 
-        public ActionResult SearchUserByEmail(string Email)
+        public ActionResult SearchUserByEmail(string Email, TravelGroupandUsers model)
         {
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
@@ -66,9 +66,14 @@ namespace HabiticaTravel.Controllers
             //var userEmail
             try
             {
-                var user = userManager.FindByEmail(Email);
-                ViewBag.ShowEmailList = user;
-                return View("UserSearch");
+                ApplicationUser user = userManager.FindByEmail(Email);
+                ViewBag.ShowEmailList = user.Email;
+                TravelGroupUser MyTGUser = new TravelGroupUser
+                {
+                    UserId = user.Id,
+                };
+                model.TravelGroupUser = MyTGUser;
+                return View("UserSearch", model);
             }
             catch (System.Exception e)
             {
@@ -97,18 +102,17 @@ namespace HabiticaTravel.Controllers
         }
 
 
-        public ActionResult AddNewUserToGroup(TravelGroupUser model, int GroupId) // Adds new user to travel group
+        public ActionResult AddNewUserToGroup(TravelGroupandUsers model, string userrole) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
-            var MyUserId = User.Identity.GetUserId();
             
             TravelGroupUser MyTravelGroupUser = new TravelGroupUser
             {
-                UserId = MyUserId,
-                TravelGroupId = GroupId,
-                UserGroupRole = model.UserGroupRole,
-                UserGroupScore = model.UserGroupScore
+                UserId = model.TravelGroupUser.UserId,
+                TravelGroupId = model.TravelGroup.TravelGroupId,
+                UserGroupRole = model.TravelGroupUser.UserGroupRole,
+                UserGroupScore = model.TravelGroupUser.UserGroupScore
             };
             //2. Add member to group , we really might not need this.
             
