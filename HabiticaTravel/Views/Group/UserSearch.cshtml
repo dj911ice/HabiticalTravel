@@ -7,16 +7,29 @@
 </form>
 <br /><br />
 <table class="table">
-   
+
     <tr>
         <th>User Email</th>
     </tr>
 </table>
 
-@foreach (var email in ViewBag.ShowEmailList)
+<h1>@ViewBag.UserNullMessage</h1>
+
+@if (ViewBag.ShowEmailList != null)
 {
-    <tr>
-        <td>@email</td>
-    </tr>
+    foreach (var email in ViewBag.ShowEmailList)
+    {
+        <tr>
+            <td>@email</td>
+            
+        </tr>
+    }
+        <form action="/Group/AddNewUserToGroup" method="post">
+            <input type="hidden" name="model" value="HabiticaTravel.Models.TravelGroupUser" />
+            <input type="hidden" name="GroupId" value="@ViewBag.GroupId" />
+            <input class="btn-sm" type="submit" value="Add User" />
+        </form>
+    
 }
+
 

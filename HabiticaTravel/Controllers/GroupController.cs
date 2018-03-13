@@ -52,38 +52,31 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult UserSearch()
+        public ActionResult UserSearch(int GroupId)
         {
+            ViewBag.GroupId = GroupId;
             return View();
         }
 
         public ActionResult SearchUserByEmail(string Email)
         {
-            var HabiticaORM = new habiticatravelEntities();
-
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-            var user = userManager.FindByEmail(Email);
-
-            var userEmail = user.Email.ToList();
-
-
-            if (user == null)
+            //var userEmail
+            try
             {
-                // if user does not exist redirect to page where you enter the email
-
-                RedirectToAction("UserSearch");
-
+                var user = userManager.FindByEmail(Email);
+                ViewBag.ShowEmailList = user;
+                return View("UserSearch");
+            }
+            catch (System.Exception e)
+            {
                 // store into viewbag error "user does not exist"
                 ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
+                return View("UserSearch");
             }
-            else
-            {
-                ViewBag.ShowEmailList = userEmail;
-            }
-
-            return View("UserSearch");
+           
         }
 
         public ActionResult AddNewTravelGroup() // Adds new travel group
@@ -104,19 +97,23 @@ namespace HabiticaTravel.Controllers
         }
 
 
-        public ActionResult AddNewUserToGroup(TravelGroupUser model) // Adds new user to travel group
+        public ActionResult AddNewUserToGroup(TravelGroupUser model, int GroupId) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
-            var userId = User.Identity.GetUserId();
-            var NewGroupUser = HabiticaORM.TravelGroupUsers.Where(u => u.UserId == model.UserId).ToList();
-
-            //2. Add member to group , we really might not need this.
-            foreach (var GroupUser in NewGroupUser)
+            var MyUserId = User.Identity.GetUserId();
+            
+            TravelGroupUser MyTravelGroupUser = new TravelGroupUser
             {
-                HabiticaORM.TravelGroupUsers.Add(GroupUser);
-            }
-
+                UserId = MyUserId,
+                TravelGroupId = GroupId,
+                UserGroupRole = model.UserGroupRole,
+                UserGroupScore = model.UserGroupScore
+            };
+            //2. Add member to group , we really might not need this.
+            
+            HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
+            
             HabiticaORM.SaveChanges();
 
             //3. Return/Redirect Action to a View
