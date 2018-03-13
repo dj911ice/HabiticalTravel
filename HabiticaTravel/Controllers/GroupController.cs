@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
@@ -38,17 +39,13 @@ namespace HabiticaTravel.Controllers
             List<GroupUserAndName> model = new List<GroupUserAndName>();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-            var count = 0;
-
             foreach (var user in GroupUsers)
             {
-                var idenUser = userManager.FindById(user.UserId);
-                
-
-                model[count].TGUser = user;
-                model[count].UserName = idenUser.UserName;
-
-                count++;
+                model.Add(new GroupUserAndName
+                {
+                    TGUser = user,
+                    UserName = userManager.FindById(user.UserId).UserName
+                });
             }
             
             return View(model);
@@ -68,13 +65,13 @@ namespace HabiticaTravel.Controllers
             model.GroupLeader = userId;
 
             MyORM.TravelGroups.Add(model);
-            MyORM.SaveChangesAsync();
+            MyORM.SaveChanges();
 
             var selectedGroup = MyORM.TravelGroups.Where(tg => tg.TravelGroupName == model.TravelGroupName).FirstOrDefault();
-
+            
             var tUser = new TravelGroupUser
             {
-                TravelGroupUsersId = selectedGroup.TravelGroupId,
+                TravelGroupId = selectedGroup.TravelGroupId,
                 UserId = userId,
                 UserGroupRole = Convert.ToBoolean((int)GroupRole.Leader),
                 UserGroupScore = 0
@@ -86,6 +83,32 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("ManageMyGroup");
         }
 
+<<<<<<< HEAD
+=======
+
+        public ActionResult AddNewUserToGroup(TravelGroupandUsers model, int userrole, int score) // Adds new user to travel group
+        {
+            //1. Search user by email or username
+            var HabiticaORM = new habiticatravelEntities();
+            
+            TravelGroupUser MyTravelGroupUser = new TravelGroupUser
+            {
+                UserId = model.TravelGroupUser.UserId,
+                TravelGroupId = model.TravelGroup.TravelGroupId,
+                UserGroupRole = false,
+                UserGroupScore = score
+            };
+            //2. Add member to group , we really might not need this.
+            
+            HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
+            
+            HabiticaORM.SaveChanges();
+
+            //3. Return/Redirect Action to a View
+            return View();
+        }
+
+>>>>>>> added SendTask viewmodel
         public ActionResult UpdateGroup(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
