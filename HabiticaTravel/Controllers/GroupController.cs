@@ -54,38 +54,6 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult UserSearch(TravelGroupandUsers model)
-        {
-            ViewBag.GroupId = model.TravelGroup.TravelGroupId;
-            return View();
-        }
-
-        public ActionResult SearchUserByEmail(string Email, TravelGroupandUsers model)
-        {
-
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-
-            //var userEmail
-            try
-            {
-                ApplicationUser user = userManager.FindByEmail(Email);
-                ViewBag.ShowEmailList = user.Email;
-                TravelGroupUser MyTGUser = new TravelGroupUser
-                {
-                    UserId = user.Id,
-                };
-                model.TravelGroupUser = MyTGUser;
-                return View("UserSearch", model);
-            }
-            catch (System.Exception e)
-            {
-                // store into viewbag error "user does not exist"
-                ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
-                return View("UserSearch");
-            }
-           
-        }
-
         public ActionResult AddNewTravelGroup() // Adds new travel group
         {
             var model = new TravelGroup();
@@ -118,29 +86,6 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("ManageMyGroup");
         }
 
-
-        public ActionResult AddNewUserToGroup(TravelGroupandUsers model) // Adds new user to travel group
-        {
-            //1. Search user by email or username
-            var HabiticaORM = new habiticatravelEntities();
-            
-            TravelGroupUser MyTravelGroupUser = new TravelGroupUser
-            {
-                UserId = model.TravelGroupUser.UserId,
-                TravelGroupId = model.TravelGroup.TravelGroupId,
-                UserGroupRole = false,
-                UserGroupScore = 0
-            };
-            //2. Add member to group , we really might not need this.
-            
-            HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
-            
-            HabiticaORM.SaveChanges();
-
-            //3. Return/Redirect Action to a View
-            return View();
-        }
-
         public ActionResult UpdateGroup(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
@@ -168,20 +113,6 @@ namespace HabiticaTravel.Controllers
             return View("ManageMyGroup");
         }
 
-        public ActionResult DeleteGroupUser(int TravelGroupUsersId)
-        {
-            var MyORM = new habiticatravelEntities();
-
-            
-            var currentUser = MyORM.TravelGroupUsers.Find(TravelGroupUsersId);
-
-            MyORM.TravelGroupUsers.Remove(currentUser);
-            MyORM.SaveChanges();
-
-            return RedirectToAction("ManageMyGroup");
-
-        }
-
         public ActionResult DeleteGroup(int travelGroupID)
         {
             var MyORM = new habiticatravelEntities();
@@ -205,5 +136,73 @@ namespace HabiticaTravel.Controllers
 
             return RedirectToAction("ManageMyGroup");
         }
+
+        public ActionResult UserSearch(TravelGroupandUsers model)
+        {
+            ViewBag.GroupId = model.TravelGroup.TravelGroupId;
+            return View();
+        }
+
+        public ActionResult SearchUserByEmail(string Email, TravelGroupandUsers model)
+        {
+
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            //var userEmail
+            try
+            {
+                ApplicationUser user = userManager.FindByEmail(Email);
+                ViewBag.ShowEmailList = user.Email;
+                TravelGroupUser MyTGUser = new TravelGroupUser
+                {
+                    UserId = user.Id,
+                };
+                model.TravelGroupUser = MyTGUser;
+                return View("UserSearch", model);
+            }
+            catch (NullReferenceException)
+            {
+                // store into viewbag error "user does not exist"
+                ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
+                return View("UserSearch");
+            }
+           
+        }
+
+        public ActionResult AddNewUserToGroup(TravelGroupandUsers model) // Adds new user to travel group
+        {
+            //1. Search user by email or username
+            var HabiticaORM = new habiticatravelEntities();
+            
+            TravelGroupUser MyTravelGroupUser = new TravelGroupUser
+            {
+                UserId = model.TravelGroupUser.UserId,
+                TravelGroupId = model.TravelGroup.TravelGroupId,
+                UserGroupRole = false,
+                UserGroupScore = 0
+            };
+            //2. Add member to group , we really might not need this.
+            
+            HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
+            
+            HabiticaORM.SaveChanges();
+
+            //3. Return/Redirect Action to a View
+            return View();
+        }
+
+        public ActionResult DeleteGroupUser(TravelGroupandUsers model)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUser.TravelGroupUsersId);
+            
+            MyORM.TravelGroupUsers.Remove(UserToDelete);
+            MyORM.SaveChanges();
+
+            return RedirectToAction("ManageMyGroup");
+
+        }
+
     }
 }

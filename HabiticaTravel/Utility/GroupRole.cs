@@ -7,7 +7,8 @@ namespace HabiticaTravel.Utility
 {
     public enum GroupRole
     {
-        Member,
-        Leader
+        //GroupRole asks the question: Is this User the Leader? Leader is true value, Member is false
+        false,
+        true
     }
 }

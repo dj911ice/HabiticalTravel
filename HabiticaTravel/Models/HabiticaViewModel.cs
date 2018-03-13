@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace HabiticaTravel.Models
 {
 
-    public class Rootobject
+    public class ReceiveTask
     {
         public bool success { get; set; }
         public Data data { get; set; }
