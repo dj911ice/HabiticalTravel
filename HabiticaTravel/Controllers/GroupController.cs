@@ -19,7 +19,9 @@ namespace HabiticaTravel.Controllers
 
             var userId = User.Identity.GetUserId();
 
+            //TODO: DB Empty.
             ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
+            
 
             ViewBag.CurrentUser = userId;
 

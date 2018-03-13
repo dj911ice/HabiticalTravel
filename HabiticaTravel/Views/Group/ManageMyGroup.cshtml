@@ -22,36 +22,35 @@
                 <tr>
                     <th>Group Name</th>
                     <th>Name</th>
-                   
+
                 </tr>
             </thead>
 
+            @foreach (var p in Model.TravelGroupUsers)
+            {
+                <tr>
+
+                    <td>@p.UserId<td>
+                    
+
+                    @*@if (ViewBag.CurrentUser == Model.GroupLeader)
+                        {
+                            <td><a href="/Group/AddNewUserToGroup?NewUser=@p.NewUser">Add Memeber</a></td>
+
+                            <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
+
+                            <td><a href="/Group/DeleteGroupUser?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
+                        }*@
+
+                </tr>
+
+            }
         </table>
     </div>
 </body>
 
-@foreach (var p in ViewBag.GroupUsers)
-{
-<tr>
 
-    <td>@p.UserId</td>
-    <td>@p.Score</td>
-
-
-    @if (ViewBag.CurrentUser == Model.GroupLeader)
-    {
-        <td><a href="/Group/AddNewUserToGroup?NewUser=@p.NewUser">Add Memeber</a></td>
-
-        <td><a href="/Group/GetGroupToUpdate?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
-
-        <td><a href="/Group/DeleteGroupUser?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
-    }
-
-</tr>
-
-}
-
-<a href="/Group/AddNewTravelGroup">Create Group </a> 
+<a href="/Group/AddNewTravelGroup">Create Group </a>
 
 <script>
     function ConfirmDelete() {
