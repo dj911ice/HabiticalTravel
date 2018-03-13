@@ -1,4 +1,5 @@
 ﻿using HabiticaTravel.Models;
+using HabiticaTravel.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
@@ -93,10 +94,24 @@ namespace HabiticaTravel.Controllers
         public ActionResult SaveNewGroup(TravelGroup model)
         {
             var MyORM = new habiticatravelEntities();
+
             var userId = User.Identity.GetUserId();
             model.GroupLeader = userId;
             MyORM.TravelGroups.Add(model);
-            MyORM.SaveChanges();
+            MyORM.SaveChangesAsync();
+
+            var selectedGroup = MyORM.TravelGroups.Where(tg => tg.TravelGroupName == model.TravelGroupName).FirstOrDefault();
+            
+            var tUser = new TravelGroupUser();
+            tUser.TravelGroupUsersId = selectedGroup.TravelGroupId;
+            tUser.UserId = userId;
+            tUser.UserGroupRole = GroupRole.Leader;
+
+            
+
+            // MyORM.TravelGroups.Where(tg => tg. == userId).FirstOrDefault();
+
+
 
             return RedirectToAction("ManageMyGroup");
         }
