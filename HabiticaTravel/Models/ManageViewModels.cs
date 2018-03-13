@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -102,7 +103,6 @@ namespace HabiticaTravel.Models
         public TravelGroupUser TravelGroupUser { get; set; }
     }
 
-
     public class TravelGroupVM
     {
 
@@ -123,7 +123,6 @@ namespace HabiticaTravel.Models
         public string GroupLeader { get; set; }
     }
 
-
     public class SendTask
     {
         public string text { get; set; }
@@ -140,6 +139,39 @@ namespace HabiticaTravel.Models
         public string id { get; set; }
         public string startDate { get; set; }
         public string time { get; set; }
+    }
+    
+    public class CustomTaskVM
+    {
+        
+        public int TaskId { get; set; }
+        [Required]
+        [StringLength(20, ErrorMessage = "Please enter a valid name for the task. between 1-20 characters.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Please enter a valid task name. Letters ONLY")]
+        public string TaskName { get; set; }
+
+        public string TaskType { get; set; }
+        public string TaskTag { get; set; }
+        public string TaskNotes { get; set; }
+
+        [Required]
+        public Nullable<System.DateTime> TaskDueDate { get; set; }
+
+        [Required]
+        public double TaskDifficulty { get; set; }
+
+        [Required]
+        public Nullable<System.DateTime> ReminderStartDate { get; set; }
+
+        [Required]
+        public Nullable<System.DateTime> ReminderTime { get; set; }
+        public Nullable<bool> TaskHabitUp { get; set; }
+        public Nullable<bool> TaskHabitDown { get; set; }
+        public Nullable<int> TaskRewardValue { get; set; }
+        public Nullable<int> EveryXDays { get; set; }
+        public string UserId { get; set; }
+        public string HabiticaTaskId { get; set; }
+        public Nullable<int> TravelGroupId { get; set; }
     }
 
 }

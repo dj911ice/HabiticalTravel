@@ -1,7 +1,7 @@
 ﻿
 @model HabiticaTravel.Models.TravelGroupandUsers
 <br /><br />
-<form action="/Group/SearchUserByEmail" method="post">
+<form action="/Group/SearchUserByEmail" method="post" pattern ="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*&#64;(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? ">
     <input type="text" name="Email" />
     <input type="submit" value="Search" />
 </form>
