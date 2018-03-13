@@ -83,8 +83,7 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("ManageMyGroup");
         }
 
-<<<<<<< HEAD
-=======
+
 
         public ActionResult AddNewUserToGroup(TravelGroupandUsers model, int userrole, int score) // Adds new user to travel group
         {
@@ -108,7 +107,6 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
->>>>>>> added SendTask viewmodel
         public ActionResult UpdateGroup(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
