@@ -1,4 +1,5 @@
-﻿@model HabiticaTravel.Models.TravelGroup
+﻿@model HabiticaTravel.Models.UsersGroups
+
 @{
     ViewBag.Title = "ManageMyGroup";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,14 +26,12 @@
 
                 </tr>
             </thead>
-            @if (Model.TravelGroupUsers != null)
-            {
-                @foreach (var p in Model.TravelGroupUsers)
+                @foreach (var p in Model.TravelGroups)
                 {
                     <tr>
 
-                        <td>@p.UserId
-                        <td>
+                        <td>@p.TravelGroupName</td>
+                        <td>@Model.UserName</td>
 
 
                             @*@if (ViewBag.CurrentUser == Model.GroupLeader)
@@ -47,8 +46,6 @@
                     </tr>
 
                 }
-
-            }
         </table>
     </div>
 </body>

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Newtonsoft.Json;
 
 namespace HabiticaTravel.Models
 {
@@ -82,6 +80,12 @@ namespace HabiticaTravel.Models
         public string id { get; set; }
         public string text { get; set; }
         public bool completed { get; set; }
+    }
+
+    public class UsersGroups
+    {
+        public List<TravelGroup> TravelGroups { get; set; }
+        public string UserName { get; set; }
     }
 
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using HabiticaTravel.Models;
+﻿using HabiticaTravel.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
 {
@@ -13,19 +10,19 @@ namespace HabiticaTravel.Controllers
     {
         // GET: Group
 
-        public ActionResult ManageMyGroup() 
+        public ActionResult ManageMyGroup()
         {
             var MyORM = new habiticatravelEntities();
-
             var userId = User.Identity.GetUserId();
-
-            //TODO: DB Empty.
-            ViewBag.GroupUsers = MyORM.TravelGroupUsers.ToList();
-            
-
+            var test = new TravelGroup();
+            var model = new UsersGroups
+            {
+                TravelGroups = MyORM.TravelGroups.Where(g => g.GroupLeader == userId).ToList(),
+                UserName = User.Identity.GetUserName()
+            };
             ViewBag.CurrentUser = userId;
 
-            return View();
+            return View(model);
         }
 
         public ActionResult DisplayGroupScoreboard() // Essentially our index View
@@ -46,7 +43,7 @@ namespace HabiticaTravel.Controllers
         {
             var HabiticaORM = new habiticatravelEntities();
 
-            
+
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
             var user = userManager.FindByEmail(Email);
@@ -65,9 +62,9 @@ namespace HabiticaTravel.Controllers
             }
             else
             {
-                    ViewBag.ShowEmailList = userEmail;
+                ViewBag.ShowEmailList = userEmail;
             }
-            
+
             return View("UserSearch");
         }
 
@@ -80,9 +77,9 @@ namespace HabiticaTravel.Controllers
         public ActionResult SaveNewGroup(TravelGroup model)
         {
             var MyORM = new habiticatravelEntities();
-
+            var userId = User.Identity.GetUserId();
+            model.GroupLeader = userId;
             MyORM.TravelGroups.Add(model);
-
             MyORM.SaveChanges();
 
             return RedirectToAction("ManageMyGroup");
