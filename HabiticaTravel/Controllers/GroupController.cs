@@ -12,7 +12,8 @@ namespace HabiticaTravel.Controllers
     public class GroupController : Controller
     {
         // GET: Group
-        public ActionResult ManageMyGroup()
+
+        public ActionResult ManageMyGroup() 
         {
             var MyORM = new habiticatravelEntities();
 
@@ -34,17 +35,38 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+        public ActionResult UserSearch()
+        {
+            return View();
+        }
+
         public ActionResult SearchUserByEmail(string Email)
         {
             var HabiticaORM = new habiticatravelEntities();
+
             
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-            ApplicationUser UserEmail = userManager.FindByEmail(Email);
+            var user = userManager.FindByEmail(Email);
 
-            ViewBag.ShowEmailList = UserEmail;
+            var userEmail = user.Email.ToList();
 
-            return View();
+
+            if (user == null)
+            {
+                // if user does not exist redirect to page where you enter the email
+
+                RedirectToAction("UserSearch");
+
+                // store into viewbag error "user does not exist"
+                ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
+            }
+            else
+            {
+                    ViewBag.ShowEmailList = userEmail;
+            }
+            
+            return View("UserSearch");
         }
 
         public ActionResult AddNewTravelGroup() // Adds new travel group
