@@ -9,11 +9,9 @@
 
 namespace HabiticaTravel.Models
 {
-    
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TravelGroup
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,20 +22,8 @@ namespace HabiticaTravel.Models
         }
     
         public int TravelGroupId { get; set; }
-
-        [Required]
-        [StringLength(20, ErrorMessage = " Name must be between 1 and 20 characters long.")]
-        [RegularExpression("^[a-zA-Z0-9_-]*$")]
-        [Display(Name = "Group Name")]
         public string TravelGroupName { get; set; }
-
-        [Required]
-        [RegularExpression(@"^\d{5}$")]
-        [Display(Name = "Destination")]
         public string Destination { get; set; }
-
-        [Required]
-        [Display(Name = "Transportaion Type")]
         public string TravelMethod { get; set; }
         public string GroupLeader { get; set; }
     

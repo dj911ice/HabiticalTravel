@@ -102,7 +102,7 @@ namespace HabiticaTravel.Controllers
         }
 
 
-        public ActionResult AddNewUserToGroup(TravelGroupandUsers model, string userrole) // Adds new user to travel group
+        public ActionResult AddNewUserToGroup(TravelGroupandUsers model, int userrole, int score) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
@@ -111,8 +111,8 @@ namespace HabiticaTravel.Controllers
             {
                 UserId = model.TravelGroupUser.UserId,
                 TravelGroupId = model.TravelGroup.TravelGroupId,
-                UserGroupRole = model.TravelGroupUser.UserGroupRole,
-                UserGroupScore = model.TravelGroupUser.UserGroupScore
+                UserGroupRole = userrole,
+                UserGroupScore = score
             };
             //2. Add member to group , we really might not need this.
             

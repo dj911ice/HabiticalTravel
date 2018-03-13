@@ -98,7 +98,7 @@
           <Property Name="TravelGroupUsersId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="TravelGroupId" Type="int" Nullable="false" />
-          <Property Name="UserGroupRole" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserGroupRole" Type="bit" />
           <Property Name="UserGroupScore" Type="int" />
         </EntityType>
         <EntityType Name="UserStats">
@@ -405,7 +405,7 @@
           <Property Name="TravelGroupUsersId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TravelGroupId" Type="Int32" Nullable="false" />
-          <Property Name="UserGroupRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserGroupRole" Type="String" />
           <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_TravelGroupUsers_TravelGroups" FromRole="TravelGroupUser" ToRole="TravelGroup" />
           <Property Name="UserGroupScore" Type="Int32" />
         </EntityType>
