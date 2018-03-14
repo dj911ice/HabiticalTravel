@@ -167,7 +167,7 @@ namespace HabiticaTravel.Controllers
         public ActionResult UserSearch(TravelGroupandUser model)
         {
             ViewBag.GroupId = model.TravelGroup.TravelGroupId;
-            return View();
+            return View(model);
         }
 
         public ActionResult UserSearchByEmailForm(int travelGroupID)
@@ -207,7 +207,7 @@ namespace HabiticaTravel.Controllers
             {
                 ApplicationUser user = userManager.FindByEmail(model.Email);
                 ViewBag.showEmail = user.Email;
-                currentTravelGroupandUser.TravelGroupUser.UserId = user.Id;
+                model.TravelGroupUser = new TravelGroupUser(){ UserId = user.Id };
                // model.TravelGroupUser = MyTGUser;
                 return View("UserSearchByEmailForm", model);
             }

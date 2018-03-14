@@ -1,13 +1,14 @@
 ﻿
 @model HabiticaTravel.Models.TravelGroupandUser
-@{ 
+@{
     ViewBag.Title = "User Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br /><br />
 <table class="table">
 
     <tr>
-        <th>ViewBag.Title</th>
+        <th>@ViewBag.Title</th>
     </tr>
 </table>
 
@@ -18,6 +19,10 @@
     <h4>Look up user by email...</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(tg => tg.TravelGroup.Destination, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(tg => tg.TravelGroup.GroupLeader, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(tg => tg.TravelGroup.TravelMethod, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(tg => tg.TravelGroup.TravelGroupId, new { htmlAttributes = new { @class = "form-control" } })
 
 
     <div class="form-group">
@@ -38,13 +43,19 @@
 {
 
 
-    @using (Html.BeginForm("SearchUserByEmail", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
+    using (Html.BeginForm("AddNewUserToGroup", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
     {
         @Html.AntiForgeryToken()
-        <h4>Fill out this form.</h4>
+        <h4>This is your user? if so, add to group...</h4>
         <hr />
         @Html.ValidationSummary("", new { @class = "text-danger" })
-        @Html.HiddenFor(tg => tg)
+        @Html.HiddenFor(tg => tg.Email, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.TravelGroup.Destination, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.TravelGroup.GroupLeader, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.TravelGroup.TravelMethod, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.TravelGroup.TravelGroupId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.UserName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(tg => tg.TravelGroupUser.UserId, new { htmlAttributes = new { @class = "form-control" } })
 
 
         <div class="form-group">

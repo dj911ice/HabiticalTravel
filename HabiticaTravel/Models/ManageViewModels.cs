@@ -102,7 +102,7 @@ namespace HabiticaTravel.Models
         public TravelGroupUser TravelGroupUser { get; set; }
         public string UserName { get; set; }
         [Display(Name = "User Email")]
-        [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? ")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
     }
