@@ -373,9 +373,23 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("ShowGroupTasks", "Tasks");
         }
 
-        public ActionResult ShowGroupTasks(TravelGroupandUser model2)
+        public ActionResult ShowGroupTasks(int TravelGroupId)
         {
-            return View(model2);
+            habiticatravelEntities MyHabitica = new habiticatravelEntities();
+            List<TravelGroupUser> MyUsers = new List<TravelGroupUser>();
+            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems();
+
+            model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId);
+            MyUsers = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList();
+
+            foreach(CustomTask task in MyHabitica.CustomTasks.Where(u => u.TravelGroupId == TravelGroupId && u.UserId == null).ToList())
+            {
+                TaskAndItems tempTaskItems = new TaskAndItems();
+                tempTaskItems.CustomTask = task;
+                model.ManyTaskAndItemsList.Add(tempTaskItems);
+            }
+
+            return View(model);
         }
 
         public ActionResult RemoveGroupTask(TaskAndItems model, TravelGroupandUser model2)

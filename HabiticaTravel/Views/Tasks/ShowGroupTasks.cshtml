@@ -17,19 +17,20 @@
     {
         <div class="container-fluid">
             <div class="row tasks">
-                @foreach (HabiticaTravel.Models.TaskAndItems MyTaskAndItems in Model.ManyTaskAndItemsList)
+                @for (int i = 0; i < Model.ManyTaskAndItemsList.Count; i++)
                 {
-                    <h5 class="task-reminder">@Html.Raw(Json.Encode(MyTaskAndItems.CustomTask.ReminderTime))</h5>
+                    
+                    <h5 class="task-reminder">@Html.Raw(Json.Encode(Model.ManyTaskAndItemsList[i].CustomTask.ReminderTime))</h5>
                     <div class="col-xs-4">
                         <div class="task-item">
-                            <h3>@MyTaskAndItems.CustomTask.TaskName</h3>
-                            <h5>@MyTaskAndItems.CustomTask.TaskType</h5>
-                            <p>@MyTaskAndItems.CustomTask.TaskNotes</p><br />
+                            <h3>@Model.ManyTaskAndItemsList[i].CustomTask.TaskName</h3>
+                            <h5>@Model.ManyTaskAndItemsList[i].CustomTask.TaskType</h5>
+                            <p>@Model.ManyTaskAndItemsList[i].CustomTask.TaskNotes</p><br />
                         </div>
                         <div class="task-links">
-                            <a href="/Tasks/ViewTask?TaskId=@ViewBag.Tasks[i].TaskId">Details</a>
-                            <a href="/Tasks/RemoveTask?taskId=@ViewBag.Tasks[i].TaskId">Remove Task</a>
-                            <a href="/Tasks/EditCustomTask?taskId=@ViewBag.Tasks[i].TaskId">Edit Task</a>
+                            <a href="/Tasks/ViewTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Details</a>
+                            <a href="/Tasks/RemoveTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Remove Task</a>
+                            <a href="/Tasks/EditCustomTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Edit Task</a>
                         </div>
                     </div>
                 }
