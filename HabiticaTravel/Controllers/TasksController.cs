@@ -278,7 +278,7 @@ namespace HabiticaTravel.Controllers
 
         public async Task<ActionResult> AddGroupCustomTask(TravelGroupandUserTaskandItems model)
         {
-            int GroupId = model2.TravelGroup.TravelGroupId;
+            int GroupId = model.TravelGroupandUser.TravelGroup.TravelGroupId;
             var HabiticaORM = new habiticatravelEntities();
 
             model.TaskAndItems.CustomTask.TravelGroupId = GroupId;

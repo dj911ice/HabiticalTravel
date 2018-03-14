@@ -31,7 +31,7 @@ namespace HabiticaTravel.Controllers
             {
                 model.Add(new TravelGroupandUser()
                 {
-                    TravelGroup = new TravelGroupVM()
+                    TravelGroup = new TravelGroup()
                     {
                         TravelGroupName = travelGroup.TravelGroupName,
                         Destination = travelGroup.Destination,
@@ -184,7 +184,7 @@ namespace HabiticaTravel.Controllers
 
             var model = new TravelGroupandUser()
             {
-                TravelGroup = new TravelGroupVM()
+                TravelGroup = new TravelGroup()
                 {
                     Destination = currentTravelGroup.Destination,
                     GroupLeader = currentTravelGroup.GroupLeader,
