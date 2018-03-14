@@ -1,5 +1,5 @@
 ﻿
-@model HabiticaTravel.Models.TravelGroupandUsers
+@model HabiticaTravel.Models.TravelGroupandUser
 <br /><br />
 <form action="/Group/SearchUserByEmail" method="post" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*&#64;(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? ">
     <input type="text" name="Email" />
@@ -13,22 +13,21 @@
     </tr>
 </table>
 
-<h1>@ViewBag.UserNullMessage</h1>
 
-@if (ViewBag.ShowEmailList != null)
+@if (ViewBag.ShowEmail != null)
 {
-    foreach (var email in ViewBag.ShowEmailList)
-    {
         <tr>
-            <td>@email</td>
-
+            <td>@ViewBag.showEmail</td>
         </tr>
-    }
     <form action="/Group/AddNewUserToGroup" method="post">
         <input type="hidden" name="model" value="@Model" />
         <input class="btn-sm" type="submit" value="Add User" />
     </form>
 
+}
+else
+{
+    <h1>@ViewBag.UserNullMessage</h1>
 }
 
 

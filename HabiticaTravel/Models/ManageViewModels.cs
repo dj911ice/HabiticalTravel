@@ -96,10 +96,10 @@ namespace HabiticaTravel.Models
         public string id { get; set; }
     }
 
-    public class TravelGroupandUsers
+    public class TravelGroupandUser
     {
         public TravelGroupVM TravelGroup { get; set; }
-        public TravelGroupUser TravelGroupUsers { get; set; }
+        public TravelGroupUser TravelGroupUser { get; set; }
         public string UserName { get; set; }
 
     }
