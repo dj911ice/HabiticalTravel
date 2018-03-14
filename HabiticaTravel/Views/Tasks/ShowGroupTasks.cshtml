@@ -28,9 +28,10 @@
                             <p>@Model.ManyTaskAndItemsList[i].CustomTask.TaskNotes</p><br />
                         </div>
                         <div class="task-links">
-                            <a href="/Tasks/ViewTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Details</a>
-                            <a href="/Tasks/RemoveTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Remove Task</a>
-                            <a href="/Tasks/EditCustomTask?model=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Edit Task</a>
+                            <input type="hidden" value="@Model" name="model" />
+                            <a href="/Tasks/ViewTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Details</a>
+                            <a href="/Tasks/RemoveTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Remove Task</a>
+                            <a href="/Tasks/EditCustomTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Edit Task</a>
                         </div>
                     </div>
                 }
