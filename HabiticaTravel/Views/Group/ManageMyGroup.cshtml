@@ -46,14 +46,12 @@
 
                         <td><a href="/Group/DeleteGroup?TravelGroupId=@p.TravelGroup.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
 
-                        <td><a href="/Tasks/CreateNewGroupCustomTask?model2=@Model">Add a Group Task</a></td>
+                        <td><a href="/Tasks/CreateNewGroupCustomTask?TravelGroupId=@p.TravelGroup.TravelGroupId">Add a Group Task</a></td>
 
-                        <td><a href="/Tasks/ShowGroupTasks?model2=@Model">Edit a Group Task</a></td>
-
-                    }
-
+                        <td><a href="/Tasks/ShowGroupTasks?TravelGroupId=@p.TravelGroup.TravelGroupId">Edit a Group Task</a></td>
+                    
                         <td><a href="/Group/DisplaySelectedGroup?TravelGroupId=@p.TravelGroup.TravelGroupId">View Group</a></td>
-
+					}
                 </tr>
             }
         </table>

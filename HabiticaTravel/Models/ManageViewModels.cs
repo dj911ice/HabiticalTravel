@@ -98,7 +98,7 @@ namespace HabiticaTravel.Models
 
     public class TravelGroupandUser
     {
-        public TravelGroupVM TravelGroup { get; set; }
+        public TravelGroup TravelGroup { get; set; }
         public TravelGroupUser TravelGroupUser { get; set; }
         public string UserName { get; set; }
         [Display(Name = "User Email")]

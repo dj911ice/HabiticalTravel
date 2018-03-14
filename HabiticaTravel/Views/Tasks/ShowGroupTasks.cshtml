@@ -7,38 +7,24 @@
 
 <h2>@ViewBag.Title</h2>
 
-@foreach (HabiticaTravel.Models.TaskAndItems MyTaskAndItems in Model.ManyTaskAndItemsList)
-{
-    <div class="container">
-        <h2>@</h2>
-        <ul>
-            <li>@MyTaskAndItems.CustomTask.TaskType</li>
-            <li>@MyTaskAndItems.CustomTask.TaskTag</li>
-            <li><p>@MyTaskAndItems.CustomTask.TaskNotes</p></li>
-            <li>@MyTaskAndItems.CustomTask.TaskDueDate</li>
-            <li>@MyTaskAndItems.CustomTask.ReminderStartDate</li>
-            <li>@MyTaskAndItems.CustomTask.ReminderTime</li>
-        </ul>
-    </div>
-}
 <button class="btn-success" id="reminderHandler">CheckReminders</button>
 <div class="container-fluid text-center">
-    @if (ViewBag.Tasks.Count == 0)
+    @if (Model.ManyTaskAndItemsList.Count == 0)
     {
-        <h1>Currently no tasks</h1>
+        <h1>Currently no group tasks</h1>
     }
     else
     {
         <div class="container-fluid">
             <div class="row tasks">
-                @for (var i = 0; i < ViewBag.Tasks.Count; i++)
+                @foreach (HabiticaTravel.Models.TaskAndItems MyTaskAndItems in Model.ManyTaskAndItemsList)
                 {
-                    <h5 class="task-reminder">@Html.Raw(Json.Encode(ViewBag.Tasks[i].ReminderTime))</h5>
+                    <h5 class="task-reminder">@Html.Raw(Json.Encode(MyTaskAndItems.CustomTask.ReminderTime))</h5>
                     <div class="col-xs-4">
                         <div class="task-item">
-                            <h3>@ViewBag.Tasks[i].TaskName</h3>
-                            <h5>@ViewBag.Tasks[i].TaskType</h5>
-                            <p>@ViewBag.Tasks[i].TaskNotes</p><br />
+                            <h3>@MyTaskAndItems.CustomTask.TaskName</h3>
+                            <h5>@MyTaskAndItems.CustomTask.TaskType</h5>
+                            <p>@MyTaskAndItems.CustomTask.TaskNotes</p><br />
                         </div>
                         <div class="task-links">
                             <a href="/Tasks/ViewTask?TaskId=@ViewBag.Tasks[i].TaskId">Details</a>
@@ -60,7 +46,7 @@
     <script src="~/Scripts/HabiticaJavaScript/DeleteTasksModal.js"></script>
     <script>
         $(function () {
-            var msToTime = function(duration) {
+            var msToTime = function (duration) {
                 var milliseconds = parseInt((duration % 1000) / 100)
                     , seconds = parseInt((duration / 1000) % 60)
                     , minutes = parseInt((duration / (1000 * 60)) % 60)
@@ -76,13 +62,13 @@
             $(".task-reminder").text((i, obj) => {
                 var date = new Date(parseInt(obj.replace(/[^0-9 +]/g, ''))) - new Date();
                 if (date > 172800000 || isNaN(date)) {
-                    $(".task-reminder").filter(function(i){return $(this).text() == obj}).remove();
+                    $(".task-reminder").filter(function (i) { return $(this).text() == obj }).remove();
                 }
                 else if (date <= 172800000 && date > 0) {
-                    $(".task-reminder").filter(function (i){return $(this).text() == obj}).text(`Time left for task: ${msToTime(date)}`)
+                    $(".task-reminder").filter(function (i) { return $(this).text() == obj }).text(`Time left for task: ${msToTime(date)}`)
                 }
                 else if (date < 0) {
-                    $(".task-reminder").filter(function (i){return $(this).text() == obj}).text('task time is up, sorry buddy, hell yeah....');
+                    $(".task-reminder").filter(function (i) { return $(this).text() == obj }).text('task time is up, sorry buddy, hell yeah....');
                 }
             });
         });

@@ -267,9 +267,16 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult CreateNewGroupCustomTask(TravelGroupandUser model2)
+        public ActionResult CreateNewGroupCustomTask(int TravelGroupId)
         {
-            return View("GroupCustomTasks", model2);
+            habiticatravelEntities MyHabitica = new habiticatravelEntities();
+            List <TravelGroupUser>  MyUsers = new List<TravelGroupUser>();
+            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems();
+
+            model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId);
+            MyUsers = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList();
+
+            return View("GroupCustomTasks", model);
         }
 
         public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUser model2)
@@ -363,7 +370,7 @@ namespace HabiticaTravel.Controllers
             }
 
 
-            return RedirectToAction("ManageMyGroup", "Group");
+            return RedirectToAction("ShowGroupTasks", "Tasks");
         }
 
         public ActionResult ShowGroupTasks(TravelGroupandUser model2)
@@ -412,12 +419,12 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult EditGroupCustomTask(TaskAndItems model, TravelGroupandUser model2)
+        public ActionResult EditGroupCustomTask(TravelGroupandUserTaskandItems model)
 
         {
             habiticatravelEntities HabiticaORM = new habiticatravelEntities();
 
-            var CurrentTaskItems = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(model.CustomTask.TaskId).CustomTaskItems.ToList());
+            var CurrentTaskItems = new List<CustomTaskItem>(HabiticaORM.CustomTasks.Find(model.ManyTaskAndItemsList.CustomTask.TaskId).CustomTaskItems.ToList());
 
             CustomTask TaskToEdit = HabiticaORM.CustomTasks.Find(model.CustomTask.TaskId);
 
