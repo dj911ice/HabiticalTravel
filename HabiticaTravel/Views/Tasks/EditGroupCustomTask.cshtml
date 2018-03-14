@@ -1,0 +1,115 @@
+﻿@model HabiticaTravel.Models.TaskAndItems
+
+@{
+
+    ViewBag.Title = "Edit Group Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    // In a real system we would get this list from the database
+
+    SelectList Difficulty = new SelectList(
+   new List<SelectListItem>
+   {
+new SelectListItem { Value = "...", Text = "...please select item"},
+new SelectListItem { Value = "0.1", Text = "Trivial"},
+new SelectListItem { Value = "1", Text = "Easy"},
+new SelectListItem { Value = "1.5", Text = "Medium"},
+new SelectListItem { Value = "2", Text = "Hard"},
+   }, "Value", "Text");
+
+}
+
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("SaveCustomGroupTaskChanges", "Tasks", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Fill out this form.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    @Html.HiddenFor(ti => ti.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.HiddenFor(ti => ti.CustomTask.TaskId, new { htmlAttributes = new { @class = "form-control", value = Model.CustomTask.TaskId } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TravelGroupId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.HiddenFor(ti => ti.CustomTask.TravelGroupId, new { htmlAttributes = new { @class = "form-control", value = Model.CustomTask.UserId } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskName, new { htmlAttributes = new { @class = "form-control", value = Model.CustomTask.TaskName } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskDueDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.TaskDueDate, new { htmlAttributes = new { @class = "form-control date-picker", value = Model.CustomTask.TaskDueDate } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control", placeholder = "Task Notes", value = Model.CustomTask.TaskNotes } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.TaskDifficulty, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(ti => ti.CustomTask.TaskDifficulty, Difficulty, new { @class = "form-control", value = Model.CustomTask.TaskDifficulty })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.ReminderStartDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.ReminderStartDate, new { htmlAttributes = new { @class = "form-control date-picker", value = Model.CustomTask.ReminderStartDate } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.ReminderTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(ti => ti.CustomTask.ReminderTime, new { htmlAttributes = new { @class = "form-control date-picker", value = Model.CustomTask.ReminderTime } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ti => ti.CustomTask.CustomTaskItems, new { @class = "col-md-2 control-label", Model.CustomTask.CustomTaskItems })
+        <div class="col-md-10">
+            <ul id="TaskList">
+                @for (int i = 0; i < Model.CustomTaskItem.Count; i++)
+                {
+                    <li>@Html.TextBox("CustomTaskItem", Model.CustomTaskItem, Model.CustomTaskItem[i].ItemName)</li>
+                }
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save Changes" />
+        </div>
+    </div>
+}
+
+<button class="btn-success" id="addTaskHandler">Add a task!</button>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

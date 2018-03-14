@@ -603,6 +603,7 @@
     <Content Include="Views\Group\UserSearchByEmailForm.cshtml" />
     <Content Include="Views\Group\UpdateGroup.cshtml" />
     <Content Include="Views\Tasks\GroupCustomTasks.cshtml" />
+    <Content Include="Views\Tasks\EditGroupCustomTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

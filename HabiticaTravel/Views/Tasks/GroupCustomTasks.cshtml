@@ -24,16 +24,17 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("AddCustomTask", "Tasks", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("AddGroupCustomTask", "Tasks", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @*@//This is client side validation.*@
 
     @Html.AntiForgeryToken()
-    <h4>Fill out this form.</h4>
+    <h2>Create a New Group Task</h2>
+    <h4>This Group Task will be given to all Group Members.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    @Html.HiddenFor(ti => ti.CustomTask.TaskTag, new { htmlAttributes = new { @class = "form-control" } })
+
     @Html.HiddenFor(ti => ti.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
 
     <div class="form-group">
