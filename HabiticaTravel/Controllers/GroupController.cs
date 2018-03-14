@@ -11,6 +11,9 @@ namespace HabiticaTravel.Controllers
 {
     public class GroupController : Controller
     {
+
+        private TravelGroupandUser currentTravelGroupandUser;
+
         // GET: Group
 
         public ActionResult ManageMyGroup()
@@ -167,12 +170,34 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public ActionResult UserSearchByEmailForm(TravelGroupandUser model)
+        public ActionResult UserSearchByEmailForm(int travelGroupID)
         {
-            return View();
+
+            var MyORM = new habiticatravelEntities();
+            var currentUserId = User.Identity.GetUserId();
+
+
+            // UserGroups viewmodel to pass both TravelGroup and the current username
+            var currentTravelGroup = MyORM.TravelGroups.Find(travelGroupID);
+
+            // we need to store a list of TravelGroupandUsers, I modified the viewmodel to also contain user id so we 
+            // can conditionally render the buttons according to if the user owns the group.
+
+            var model = new TravelGroupandUser()
+            {
+                TravelGroup = new TravelGroupVM()
+                {
+                    Destination = currentTravelGroup.Destination,
+                    GroupLeader = currentTravelGroup.GroupLeader,
+                    TravelGroupId = currentTravelGroup.TravelGroupId,
+                    TravelMethod = currentTravelGroup.TravelMethod
+                },
+            };
+            
+            return View(model);
         }
 
-        public ActionResult SearchUserByEmail(string Email, TravelGroupandUser model)
+        public ActionResult SearchUserByEmail(TravelGroupandUser model)
         {
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
@@ -180,9 +205,9 @@ namespace HabiticaTravel.Controllers
             //var userEmail
             try
             {
-                ApplicationUser user = userManager.FindByEmail(Email);
+                ApplicationUser user = userManager.FindByEmail(model.Email);
                 ViewBag.showEmail = user.Email;
-                model.TravelGroupUser.UserId = user.Id;
+                currentTravelGroupandUser.TravelGroupUser.UserId = user.Id;
                // model.TravelGroupUser = MyTGUser;
                 return View("UserSearchByEmailForm", model);
             }
@@ -190,7 +215,7 @@ namespace HabiticaTravel.Controllers
             {
                 // store into viewbag error "user does not exist"
                 ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
-                return View("UserSearchByEmailForm");
+                return View("UserSearchByEmailForm", model);
             }
 
         }

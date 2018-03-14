@@ -101,6 +101,9 @@ namespace HabiticaTravel.Models
         public TravelGroupVM TravelGroup { get; set; }
         public TravelGroupUser TravelGroupUser { get; set; }
         public string UserName { get; set; }
+        [Display(Name = "User Email")]
+        [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? ")]
+        public string Email { get; set; }
 
     }
 
