@@ -11,9 +11,7 @@ namespace HabiticaTravel.Controllers
 {
     public class GroupController : Controller
     {
-
-        private TravelGroupandUser currentTravelGroupandUser;
-
+    
         // GET: Group
 
         public ActionResult ManageMyGroup()
@@ -239,7 +237,7 @@ namespace HabiticaTravel.Controllers
             HabiticaORM.SaveChanges();
 
             //3. Return/Redirect Action to a View
-            return View();
+            return RedirectToAction("ManageMyGroup");
         }
 
         public ActionResult DeleteGroupUser(TravelGroupandUser model)
