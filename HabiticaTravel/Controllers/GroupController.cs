@@ -37,7 +37,6 @@ namespace HabiticaTravel.Controllers
                         TravelGroupId = travelGroup.TravelGroupId,
                         TravelMethod = travelGroup.TravelMethod
                     },
-                    TravelGroupUsers = MyORM.TravelGroupUsers.Where(u => travelGroup.TravelGroupId == u.TravelGroupId).ToList(),
                     UserName = User.Identity.GetUserName(),
                 });
             }
@@ -111,30 +110,6 @@ namespace HabiticaTravel.Controllers
         }
 
 
-
-        public ActionResult AddNewUserToGroup(TravelGroupandUsers model) // Adds new user to travel group
-        {
-            //1. Search user by email or username
-
-            var HabiticaORM = new habiticatravelEntities();
-
-            TravelGroupUser MyTravelGroupUser = new TravelGroupUser
-            {
-                UserId = model.TravelGroupUser.UserId,
-                TravelGroupId = model.TravelGroup.TravelGroupId,
-                UserGroupRole = false,
-                UserGroupScore = 0,
-            };
-            //2. Add member to group , we really might not need this.
-
-            HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
-
-            HabiticaORM.SaveChanges();
-
-            //3. Return/Redirect Action to a View
-            return View();
-        }
-
         public ActionResult UpdateGroup(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
@@ -192,6 +167,11 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+        public ActionResult UserSearchByEmailForm(TravelGroupandUsers model)
+        {
+            return View();
+        }
+
         public ActionResult SearchUserByEmail(string Email, TravelGroupandUsers model)
         {
 
@@ -206,7 +186,7 @@ namespace HabiticaTravel.Controllers
                 {
                     UserId = user.Id,
                 };
-                model.TravelGroupUser = MyTGUser;
+               // model.TravelGroupUser = MyTGUser;
                 return View("UserSearch", model);
             }
             catch (NullReferenceException)
@@ -225,7 +205,7 @@ namespace HabiticaTravel.Controllers
 
             TravelGroupUser MyTravelGroupUser = new TravelGroupUser
             {
-                UserId = model.TravelGroupUser.UserId,
+               // UserId = model.TravelGroupUser.UserId,
                 TravelGroupId = model.TravelGroup.TravelGroupId,
                 UserGroupRole = false,
                 UserGroupScore = 0
@@ -244,7 +224,7 @@ namespace HabiticaTravel.Controllers
         {
             var MyORM = new habiticatravelEntities();
 
-            TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUser.TravelGroupUsersId);
+            TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUsers.TravelGroupUsersId);
 
             MyORM.TravelGroupUsers.Remove(UserToDelete);
             MyORM.SaveChanges();

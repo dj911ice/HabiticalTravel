@@ -600,7 +600,7 @@
     <Content Include="Views\Group\ManageMyGroup.cshtml" />
     <Content Include="Views\Group\TravelGroupForm.cshtml" />
     <Content Include="Views\Group\AddNewTravelGroup.cshtml" />
-    <Content Include="Views\Group\UserSearch.cshtml" />
+    <Content Include="Views\Group\UserSearchByEmailForm.cshtml" />
     <Content Include="Views\Group\UpdateGroup.cshtml" />
     <Content Include="Views\Tasks\GroupCustomTasks.cshtml" />
   </ItemGroup>

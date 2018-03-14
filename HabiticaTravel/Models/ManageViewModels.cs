@@ -99,7 +99,7 @@ namespace HabiticaTravel.Models
     public class TravelGroupandUsers
     {
         public TravelGroupVM TravelGroup { get; set; }
-        public List<TravelGroupUser> TravelGroupUsers { get; set; }
+        public TravelGroupUser TravelGroupUsers { get; set; }
         public string UserName { get; set; }
 
     }
