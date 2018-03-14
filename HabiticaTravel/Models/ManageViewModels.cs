@@ -107,6 +107,14 @@ namespace HabiticaTravel.Models
 
     }
 
+    public class TravelGroupandUserTaskandItems
+    {
+        public TravelGroupandUser TravelGroupandUser { get; set; }
+        public TaskAndItems TaskAndItems { get; set; }
+
+        public List<TaskAndItems> ManyTaskAndItemsList { get; set; }
+    }
+
     public class TravelGroupVM
     {
 

@@ -267,6 +267,11 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
+        public ActionResult CreateNewGroupCustomTask(TravelGroupandUser model2)
+        {
+            return View("GroupCustomTasks", model2)
+        }
+
         public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUser model2)
         {
             int GroupId = model2.TravelGroup.TravelGroupId;
@@ -358,7 +363,12 @@ namespace HabiticaTravel.Controllers
             }
 
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ManageMyGroup", "Group");
+        }
+
+        public ActionResult ShowGroupTasks(TravelGroupandUser model2)
+        {
+            return View(model2);
         }
 
         public ActionResult RemoveGroupTask(TaskAndItems model, TravelGroupandUser model2)
