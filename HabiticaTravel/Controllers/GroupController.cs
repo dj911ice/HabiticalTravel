@@ -33,6 +33,7 @@ namespace HabiticaTravel.Controllers
                 {
                     TravelGroup = new TravelGroupVM()
                     {
+                        TravelGroupName = travelGroup.TravelGroupName,
                         Destination = travelGroup.Destination,
                         GroupLeader = travelGroup.GroupLeader,
                         TravelGroupId = travelGroup.TravelGroupId,
@@ -253,5 +254,33 @@ namespace HabiticaTravel.Controllers
 
         }
 
+        public ActionResult DisplaySelectedGroup(int TravelGroupId)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            var CurrentGroup = MyORM.TravelGroups.Find(TravelGroupId);
+
+            var currentTravelGroupUser = MyORM.TravelGroupUsers.Where(cu => cu.TravelGroupId == TravelGroupId).ToList();
+
+            List<TravelGroupandUser> model = new List<TravelGroupandUser>();
+
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            foreach (var user in currentTravelGroupUser)
+            {
+                model.Add(new TravelGroupandUser
+                {
+                    
+                    UserName = userManager.FindById(user.UserId).UserName
+
+
+
+                });
+            }
+
+            ViewBag.Group = CurrentGroup.TravelGroupName;
+
+            return View(model);
+        }
     }
 }

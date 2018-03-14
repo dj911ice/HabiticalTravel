@@ -19,6 +19,7 @@ namespace HabiticaTravel.Models
         public int TravelGroupId { get; set; }
         public Nullable<bool> UserGroupRole { get; set; }
         public Nullable<int> UserGroupScore { get; set; }
+        
     
         public virtual TravelGroup TravelGroup { get; set; }
     }

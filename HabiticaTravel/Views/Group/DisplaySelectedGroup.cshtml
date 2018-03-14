@@ -1,0 +1,47 @@
+﻿@model List<HabiticaTravel.Models.TravelGroupandUser>
+@{
+    ViewBag.Title = "DisplaySelectedGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    // we need to creat a view that dsiplays the group name and all of the users in that group.
+    //This is where the User crud can be applied to add ,update and delete uses.
+}
+
+
+
+<h2>@ViewBag.Group</h2>
+
+<head>
+    <title>LeadearBoards</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    
+
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</body>
+
+@foreach (var u in Model)
+{
+    <tr>
+
+        <td>@u.UserName</td>
+
+    </tr>
+}
+
