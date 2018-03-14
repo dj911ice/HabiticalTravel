@@ -267,7 +267,7 @@ namespace HabiticaTravel.Controllers
             return View();
         }
 
-        public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUsers model2)
+        public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUser model2)
         {
 
             string userId = User.Identity.GetUserId();

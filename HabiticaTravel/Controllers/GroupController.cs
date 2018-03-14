@@ -221,7 +221,7 @@ namespace HabiticaTravel.Controllers
         {
             var MyORM = new habiticatravelEntities();
 
-            TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUsers.TravelGroupUsersId);
+            TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUser.TravelGroupUsersId);
 
             MyORM.TravelGroupUsers.Remove(UserToDelete);
             MyORM.SaveChanges();
