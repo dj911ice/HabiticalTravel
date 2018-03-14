@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
@@ -17,15 +16,36 @@ namespace HabiticaTravel.Controllers
         public ActionResult ManageMyGroup()
         {
             var MyORM = new habiticatravelEntities();
-            var userId = User.Identity.GetUserId();
-            var test = new TravelGroup();
-            var model = new UsersGroups
-            {
-                TravelGroups = MyORM.TravelGroups.Where(g => g.GroupLeader == userId).ToList(),
-                UserName = User.Identity.GetUserName()
-            };
-            ViewBag.CurrentUser = userId;
+            var currentUserId = User.Identity.GetUserId();
 
+
+            // UserGroups viewmodel to pass both TravelGroup and the current username
+            var currentTravelGroups = MyORM.TravelGroups.Where(g => g.GroupLeader == currentUserId).ToList();
+
+            List<TravelGroupandUsers> model = new List<TravelGroupandUsers>();
+
+            // we need to store a list of TravelGroupandUsers, I modified the viewmodel to also contain user id so we 
+            // can conditionally render the buttons according to if the user owns the group.
+            foreach (var travelGroup in currentTravelGroups)
+            {
+                model.Add(new TravelGroupandUsers()
+                {
+                    TravelGroup = new TravelGroupVM()
+                    {
+                        Destination = travelGroup.Destination,
+                        GroupLeader = travelGroup.GroupLeader,
+                        TravelGroupId = travelGroup.TravelGroupId,
+                        TravelMethod = travelGroup.TravelMethod
+                    },
+                    TravelGroupUsers = MyORM.TravelGroupUsers.Where(u => travelGroup.TravelGroupId == u.TravelGroupId).ToList(),
+                    UserName = User.Identity.GetUserName(),
+                });
+            }
+
+            ViewBag.CurrentUser = currentUserId;
+
+            // passing the current UserId so that only the current user will see CRUD
+            // operation buttons. ie, the group leader.
             return View(model);
         }
 
@@ -47,28 +67,35 @@ namespace HabiticaTravel.Controllers
                     UserName = userManager.FindById(user.UserId).UserName
                 });
             }
-            
+
             return View(model);
         }
 
         public ActionResult AddNewTravelGroup() // Adds new travel group
         {
-            var model = new TravelGroup();
+            var model = new TravelGroupVM();
             return View(model);
         }
 
-        public ActionResult SaveNewGroup(TravelGroup model)
+        public ActionResult SaveNewGroup(TravelGroupVM model)
         {
             var MyORM = new habiticatravelEntities();
 
+            // GroupLeader is related to the Users ID, the ID that exists in Identity
             var userId = User.Identity.GetUserId();
-            model.GroupLeader = userId;
 
-            MyORM.TravelGroups.Add(model);
+            MyORM.TravelGroups.Add(new TravelGroup()
+            {
+                Destination = model.Destination,
+                TravelGroupName = model.TravelGroupName,
+                TravelMethod = model.TravelMethod,
+                GroupLeader = userId
+            });
+
             MyORM.SaveChanges();
 
             var selectedGroup = MyORM.TravelGroups.Where(tg => tg.TravelGroupName == model.TravelGroupName).FirstOrDefault();
-            
+
             var tUser = new TravelGroupUser
             {
                 TravelGroupId = selectedGroup.TravelGroupId,
@@ -85,22 +112,23 @@ namespace HabiticaTravel.Controllers
 
 
 
-        public ActionResult AddNewUserToGroup(TravelGroupandUsers model, int userrole, int score) // Adds new user to travel group
+        public ActionResult AddNewUserToGroup(TravelGroupandUsers model) // Adds new user to travel group
         {
             //1. Search user by email or username
+
             var HabiticaORM = new habiticatravelEntities();
-            
+
             TravelGroupUser MyTravelGroupUser = new TravelGroupUser
             {
                 UserId = model.TravelGroupUser.UserId,
                 TravelGroupId = model.TravelGroup.TravelGroupId,
                 UserGroupRole = false,
-                UserGroupScore = score
+                UserGroupScore = 0,
             };
             //2. Add member to group , we really might not need this.
-            
+
             HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
-            
+
             HabiticaORM.SaveChanges();
 
             //3. Return/Redirect Action to a View
@@ -187,14 +215,14 @@ namespace HabiticaTravel.Controllers
                 ViewBag.UserNullMessage = ("Sorry, Please enter an email of a registered user");
                 return View("UserSearch");
             }
-           
+
         }
 
         public ActionResult AddNewUserToGroup(TravelGroupandUsers model) // Adds new user to travel group
         {
             //1. Search user by email or username
             var HabiticaORM = new habiticatravelEntities();
-            
+
             TravelGroupUser MyTravelGroupUser = new TravelGroupUser
             {
                 UserId = model.TravelGroupUser.UserId,
@@ -203,9 +231,9 @@ namespace HabiticaTravel.Controllers
                 UserGroupScore = 0
             };
             //2. Add member to group , we really might not need this.
-            
+
             HabiticaORM.TravelGroupUsers.Add(MyTravelGroupUser);
-            
+
             HabiticaORM.SaveChanges();
 
             //3. Return/Redirect Action to a View
@@ -217,7 +245,7 @@ namespace HabiticaTravel.Controllers
             var MyORM = new habiticatravelEntities();
 
             TravelGroupUser UserToDelete = MyORM.TravelGroupUsers.Find(model.TravelGroupUser.TravelGroupUsersId);
-            
+
             MyORM.TravelGroupUsers.Remove(UserToDelete);
             MyORM.SaveChanges();
 

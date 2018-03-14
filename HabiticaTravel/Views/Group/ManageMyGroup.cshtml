@@ -1,4 +1,4 @@
-﻿@model HabiticaTravel.Models.UsersGroups
+﻿@model List<HabiticaTravel.Models.TravelGroupandUsers>
 
 @{
     ViewBag.Title = "ManageMyGroup";
@@ -26,23 +26,25 @@
 
                 </tr>
             </thead>
-            @foreach (var p in Model.TravelGroups)
+            @foreach (var p in Model)
             {
                 <tr>
 
-                    <td>@p.TravelGroupName</td>
-                    <td>@Model.UserName</td>
+                    <td>@p.TravelGroup.TravelGroupName</td>
+                    <td>@p.UserName</td>
 
-
-                    @if (ViewBag.CurrentUser == p.GroupLeader)
+                    @* This if statement is here to Validate that the current user is the group leader  *@
+                    @if (ViewBag.CurrentUser == p.TravelGroup.GroupLeader)
                     {
-                        <td><a href="/Group/DisplayGroupScoreBoard?TravelGroupId=@p.TravelGroupId">LeaderBoards</a></td>
+                        <td><a href="/Group/DisplayGroupInfo?TravelGroupId=@p.TravelGroup.TravelGroupId">LeaderBoards</a></td>
 
-                        <td><a href="/Group/AddNewUserToGroup?NewUser=@p.TravelGroupUsers">Add Memeber</a></td>
+                        <td><a href="/Group/DisplayGroupScoreBoard?TravelGroupId=@p.TravelGroup.TravelGroupId">LeaderBoards</a></td>
 
-                        <td><a href="/Group/UpdateGroup?TravelGroupId=@p.TravelGroupId">Edit Group</a></td>
+                        <td><a href="/Group/AddNewUserToGroup?model=@p">Add Memeber</a></td>
 
-                        <td><a href="/Group/DeleteGroup?TravelGroupId=@p.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
+                        <td><a href="/Group/UpdateGroup?TravelGroupId=@p.TravelGroup.TravelGroupId">Edit Group</a></td>
+
+                        <td><a href="/Group/DeleteGroup?TravelGroupId=@p.TravelGroup.TravelGroupId" onclick="return ConfirmDelete()">Delete</a></td>
                     }
 
                 </tr>
