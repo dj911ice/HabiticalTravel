@@ -606,6 +606,7 @@
     <Content Include="Views\Tasks\EditGroupCustomTask.cshtml" />
     <Content Include="Views\Tasks\ShowGroupTasks.cshtml" />
     <Content Include="Views\Group\DisplaySelectedGroup.cshtml" />
+    <Content Include="Views\Group\DisplayGroupInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

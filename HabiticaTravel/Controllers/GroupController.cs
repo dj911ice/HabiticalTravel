@@ -282,5 +282,28 @@ namespace HabiticaTravel.Controllers
 
             return View(model);
         }
+
+        public ActionResult DisplayGroupInfo(int TravelGroupId)
+        {
+            var MyORM = new habiticatravelEntities();
+
+            var DisplayCurrentGroup = MyORM.TravelGroups.Find(TravelGroupId);
+
+            var DisplayCurrentGroupTasks = MyORM.CustomTasks.Where(gt => gt.TravelGroupId == TravelGroupId).ToList();
+
+            var model = new List<TaskAndItems>();
+
+            foreach (var gTask in DisplayCurrentGroupTasks)
+            {
+                model.Add(new TaskAndItems
+                {
+                    CustomTask = gTask,
+                    CustomTaskItem = MyORM.CustomTaskItems.Where(ti => ti.TaskId == gTask.TaskId).ToList()
+
+                });
+
+            }
+            return View(model);
+        }
     }
 }

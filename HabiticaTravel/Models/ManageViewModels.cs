@@ -185,4 +185,11 @@ namespace HabiticaTravel.Models
         public Nullable<int> TravelGroupId { get; set; }
     }
 
+    public class groupDetails
+    {
+        public TravelGroupVM TravelGroupVM { get; set; }
+
+        
+    }
+
 }

@@ -33,10 +33,11 @@
                     <td>@p.TravelGroup.TravelGroupName</td>
                     <td>@p.UserName</td>
 
+                    <td><a href="/Group/DisplayGroupInfo?TravelGroupId=@p.TravelGroup.TravelGroupId">Group Details</a></td>
+
                     @* This if statement is here to Validate that the current user is the group leader  *@
                     @if (ViewBag.CurrentUser == p.TravelGroup.GroupLeader)
                     {
-                        <td><a href="/Group/DisplayGroupInfo?TravelGroupId=@p.TravelGroup.TravelGroupId">Group Details</a></td>
 
                         <td><a href="/Group/DisplayGroupScoreBoard?TravelGroupId=@p.TravelGroup.TravelGroupId">LeaderBoards</a></td>
 
@@ -49,9 +50,10 @@
                         <td><a href="/Tasks/CreateNewGroupCustomTask?TravelGroupId=@p.TravelGroup.TravelGroupId">Add a Group Task</a></td>
 
                         <td><a href="/Tasks/ShowGroupTasks?TravelGroupId=@p.TravelGroup.TravelGroupId">Edit a Group Task</a></td>
-                    
-                        <td><a href="/Group/DisplaySelectedGroup?TravelGroupId=@p.TravelGroup.TravelGroupId">View Group</a></td>
-					}
+
+                    }
+
+                    <td><a href="/Group/DisplaySelectedGroup?TravelGroupId=@p.TravelGroup.TravelGroupId">View Group</a></td>
                 </tr>
             }
         </table>
