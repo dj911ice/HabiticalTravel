@@ -1,5 +1,22 @@
 ﻿@model HabiticaTravel.Models.TravelGroupVM
 
+
+
+
+@{
+    SelectList TravelType = new SelectList(
+ new List<SelectListItem>
+ {
+new SelectListItem { Value = "...", Text = "...please select a Transportaion Type"},
+new SelectListItem { Value = "0.1", Text = "Airplane"},
+new SelectListItem { Value = "1", Text = "Bus"},
+new SelectListItem { Value = "1.5", Text = "Train"},
+new SelectListItem { Value = "2", Text = "Car/Rental Car"},
+new SelectListItem { Value = "2.5", Text = "Other"},
+ }, "Value", "Text");
+
+} 
+
 <h1>Create Traveling Group</h1>
 
 @using (Html.BeginForm("SaveNewGroup", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
@@ -26,8 +43,7 @@
     <div class="form-group">
         @Html.LabelFor(tg => tg.TravelMethod, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(tg => tg.TravelMethod, new { htmlAttributes = new { @class = "form-control", value = Model.TravelMethod } })
-            Other: @Html.RadioButtonFor(tg => tg.TravelMethod, true, new { @class = "form-control", }) <!--Make into a drop down , creat list of transportaion to create select list-->
+            @Html.DropDownListFor(tg => tg.TravelMethod, TravelType, new { htmlAttributes = new { @class = "form-control"} })
         </div>
     </div>
    
