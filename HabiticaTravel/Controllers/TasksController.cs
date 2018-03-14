@@ -269,7 +269,7 @@ namespace HabiticaTravel.Controllers
 
         public ActionResult CreateNewGroupCustomTask(TravelGroupandUser model2)
         {
-            return View("GroupCustomTasks", model2)
+            return View("GroupCustomTasks", model2);
         }
 
         public async Task<ActionResult> AddGroupCustomTask(TaskAndItems model, TravelGroupandUser model2)
@@ -323,7 +323,7 @@ namespace HabiticaTravel.Controllers
                 var UserId = user.UserId;
                 model.CustomTask.UserId = UserId;
                 HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == UserId);
-                string UserTag = HabUser.TaskTagId;
+                string UserTag = MyHabUser.TaskTagId;
                 model.CustomTask.TaskTag = UserTag;
 
                 HabiticaORM.CustomTasks.Add(model.CustomTask);
