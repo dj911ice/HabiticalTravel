@@ -177,7 +177,75 @@ namespace HabiticaTravel.Utility
         {
             try
             {
-                return await $"https://habitica.com/api/v3/tasks/{task.TaskId}/score/{direction}"
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}/score/{direction}"
+                   .GetJsonAsync();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
+
+        public static async Task<dynamic> PostScoreChecklistItem(CustomTask task, CustomTaskItem item)
+        {
+            try
+            {
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}/checklist/{item.HabiticaItemId}/score"
+                   .GetJsonAsync();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
+
+        public static async Task<dynamic> DeleteATask(CustomTask task, HabiticaUser user)
+        {
+            try
+            {
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}/tags/{task.TaskTag}"
+                    .WithHeaders(new
+                    {
+                        x_api_key = user.ApiToken,
+                        x_api_user = user.Uuid,
+                    })
+                   .GetJsonAsync();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+
+        }
+
+        public static async Task<dynamic> DeleteChecklistItem(CustomTask task, CustomTaskItem item, HabiticaUser user)
+        {
+            try
+            {
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}/checklist/{item.HabiticaItemId}"
+                    .WithHeaders(new
+                    {
+                        x_api_key = user.ApiToken,
+                        x_api_user = user.Uuid,
+                    })
+                   .GetJsonAsync();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
+
+        public static async Task<dynamic> PostClearCompletedToDos(HabiticaUser user)
+        {
+            try
+            {
+                return await "https://habitica.com/api/v3/tasks/clearCompletedTodos"
+                    .WithHeaders(new
+                    {
+                        x_api_key = user.ApiToken,
+                        x_api_user = user.Uuid,
+                    })
                    .GetJsonAsync();
             }
             catch (FlurlHttpException ex)
@@ -186,4 +254,3 @@ namespace HabiticaTravel.Utility
             }
         }
     }
-}
