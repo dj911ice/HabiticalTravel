@@ -145,16 +145,19 @@ namespace HabiticaTravel.Controllers
                 throw raise;
             }
 
-                var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
+            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
             var TestItem = (string)TaskConfirm["data"]["id"];
             currentTask.HabiticaTaskId = (string)TaskConfirm["data"]["id"];
+            string habtaskid = currentTask.HabiticaTaskId;
+
+            HabiticaORM.SaveChanges();
 
             if (model.CustomTask.CustomTaskItems.Count != 0)
             {
                 var taskItems = model.CustomTaskItem.ToList();
                 foreach (var item in taskItems)
                 {
-                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser));
+                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser,currentTask));
                     List<Checklist> AllChecklistItems = ItemConfirm["data"]["checklist"].ToObject<List<Checklist>>();
                     foreach(Checklist list in AllChecklistItems)
                     {
@@ -368,7 +371,7 @@ namespace HabiticaTravel.Controllers
                     var taskItems = model.CustomTaskItem.ToList();
                     foreach (var item in taskItems)
                     {
-                        var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser));
+                        var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser, currentTask));
                         List<Checklist> AllChecklistItems = ItemConfirm["data"]["checklist"].ToObject<List<Checklist>>();
                         foreach (Checklist list in AllChecklistItems)
                         {

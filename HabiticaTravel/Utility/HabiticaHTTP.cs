@@ -148,7 +148,7 @@ namespace HabiticaTravel.Utility
             }
         }
 
-        public static async Task<dynamic> PostNewChecklistItem(CustomTaskItem item, HabiticaUser user)
+        public static async Task<dynamic> PostNewChecklistItem(CustomTaskItem item, HabiticaUser user, CustomTask task)
         {
             string str1 = "checklist";
             try
@@ -159,7 +159,7 @@ namespace HabiticaTravel.Utility
                        x_api_user = user.Uuid,
                        x_api_key = user.ApiToken
                    })
-                   .AppendPathSegment(item.TaskId,true) 
+                   .AppendPathSegment(task.HabiticaTaskId,true) 
                    .AppendPathSegment(str1, true)
                    .PostJsonAsync(new
                        {
