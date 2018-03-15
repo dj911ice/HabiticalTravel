@@ -1,16 +1,15 @@
 ﻿@model HabiticaTravel.Models.TravelGroupVM
 
-
 @{
     SelectList TravelType = new SelectList(
  new List<SelectListItem>
  {
 new SelectListItem { Value = "...", Text = "...please select a Transportaion Type"},
-new SelectListItem { Value = "0.1", Text = "Airplane"},
-new SelectListItem { Value = "1", Text = "Bus"},
-new SelectListItem { Value = "1.5", Text = "Train"},
-new SelectListItem { Value = "2", Text = "Car/Rental Car"},
-new SelectListItem { Value = "2.5", Text = "Other"},
+new SelectListItem { Value = "Airplane", Text = "Airplane"},
+new SelectListItem { Value = "Bus", Text = "Bus"},
+new SelectListItem { Value = "Train", Text = "Train"},
+new SelectListItem { Value = "Car/Rental car", Text = "Car/Rental Car"},
+new SelectListItem { Value = "Other", Text = "Other"},
  }, "Value", "Text");
 
 } 

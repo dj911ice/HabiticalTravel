@@ -51,7 +51,7 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult DisplayGroupScoreboard(int TravelGroupId) // Essentially our index View
+        public ActionResult DisplayGroupScoreboard(int TravelGroupId) 
         {
             var MyORM = new habiticatravelEntities();
 
