@@ -254,7 +254,7 @@ namespace HabiticaTravel.Utility
             }
         }
 
-        public static async Task<dynamic> PutUpdateHabiticaTask(CustomTask task, HabiticaUser user)
+        public static async Task<dynamic> PutUpdateTask(CustomTask task, HabiticaUser user)
         {
             var data = new SendTask
             {
@@ -271,7 +271,7 @@ namespace HabiticaTravel.Utility
             };
             try
             {
-                return await "https://habitica.com/api/v3/tasks/:taskId"
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}"
                     .WithHeaders(new
                     {
                         x_api_user = user.Uuid,
