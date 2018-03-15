@@ -32,11 +32,13 @@ namespace HabiticaTravel.Controllers
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
             DefaultTask TaskToClone = MyHabitica.DefaultTasks.Find(TaskId);
             string userId = User.Identity.GetUserId();
+            HabiticaUser MyHabUser = MyHabitica.HabiticaUsers.Single(u => u.UserId == userId);
+
             CustomTask ClonedTask = new CustomTask
             {
                 TaskName = TaskToClone.TaskName,
                 TaskType = TaskToClone.TaskType,
-                TaskTag = TaskToClone.TaskTag,
+                TaskTag = MyHabUser.TaskTagId,
                 TaskNotes = TaskToClone.TaskNotes,
                 TaskDueDate = TaskToClone.TaskDueDate,
                 TaskDifficulty = TaskToClone.TaskDifficulty,
@@ -305,9 +307,14 @@ namespace HabiticaTravel.Controllers
             var HabiticaORM = new habiticatravelEntities();
                 
             ViewBag.task = HabiticaORM.CustomTasks.Find(TaskId);
+            List<CustomTaskItem> MyItemsList = HabiticaORM.CustomTaskItems.Where(t => t.TaskId == TaskId).ToList();
+            TaskAndItems model = new TaskAndItems();
+            model.CustomTask = HabiticaORM.CustomTasks.Find(TaskId);
+            model.CustomTaskItem = MyItemsList;
+
             ViewBag.yelp = yelpResults;
            
-            return View();
+            return View(model);
         }
 
         public ActionResult CreateNewGroupCustomTask(int TravelGroupId)

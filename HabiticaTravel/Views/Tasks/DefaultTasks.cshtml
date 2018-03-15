@@ -1,5 +1,5 @@
-﻿@model HabiticaTravel.Models.DefaultTask 
-    @*// here we are using a model to display to a view.*@
+﻿@model HabiticaTravel.Models.DefaultTask
+@*// here we are using a model to display to a view.*@
 
 <!DOCTYPE html>
 <html>
@@ -43,9 +43,9 @@
                     <!-- Wrapper for carousel items -->
                     <div class="carousel-inner">
                         @*duplicate the following for multiple carousel pages*@
-                        @for (int i = 0; i < ViewBag.MyTasks.Count; i += 4)
+                        @for (int i = 0; i == 0; i++)
                         {
-                            <div class="item carousel-item active">
+                            <div class="item carousel-item active" alt="First Slide">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="thumb-wrapper">
@@ -130,6 +130,105 @@
                         }
 
                     </div>
+
+
+
+
+                    @*The second carousel slide is here*@
+
+
+
+                    <div class="carousel-inner">
+                        @*duplicate the following for multiple carousel pages*@
+                        @for (int i = 4; i ==4; i++)
+                        {
+                            <div class="item carousel" alt="Second Slide">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="thumb-wrapper">
+                                            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+                                            <div class="thumb-content">
+                                                <h4>@ViewBag.MyTasks[i].TaskName</h4>
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i].TaskId">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                    <input type="hidden" value="@ViewBag.MyTasks[i].TaskId" name="TaskId" />
+                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="thumb-wrapper">
+                                            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+
+                                            <div class="thumb-content">
+                                                <h4>@ViewBag.MyTasks[i + 1].TaskName</h4>
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+1].TaskId">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 1].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                    <input type="hidden" value="@ViewBag.MyTasks[i + 1].TaskId" name="TaskId" />
+                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks" />
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="thumb-wrapper">
+                                            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+                                            <div class="thumb-content">
+                                                <h4>@ViewBag.MyTasks[i + 2].TaskName</h4>
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+2].TaskId">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 2].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                    <input type="hidden" value="@ViewBag.MyTasks[i + 2].TaskId" name="TaskId" />
+                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="thumb-wrapper">
+                                            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+                                            <div class="thumb-content">
+                                                <h4>@ViewBag.MyTasks[i + 3].TaskName</h4>
+                                                <form class="task-details" action="/Tasks/CloneTask?TaskId=@ViewBag.MyTasks[i+3].TaskId">
+                                                    @foreach (var j in ViewBag.MyTaskItems)
+                                                    {
+                                                        if (j.TaskId == ViewBag.MyTasks[i + 3].TaskId)
+                                                        {
+                                                            <input type="checkbox" /><bold>@j.ItemName</bold><br />
+                                                        }
+                                                    }
+                                                    <input type="hidden" value="@ViewBag.MyTasks[i + 3].TaskId" name="TaskId" />
+                                                    <input class="btn btn-primary" type="submit" value="Copy to Your Tasks" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+
                     <!-- Carousel controls -->
                     <a class="carousel-control left carousel-control-prev" href="#myCarousel" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
