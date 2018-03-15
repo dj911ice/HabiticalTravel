@@ -142,7 +142,7 @@ namespace HabiticaTravel.Controllers.Habitica
                 // this is just a place holder, we need to pass a view that tells user 
                 // that 
                 ViewBag.Message = "You do not have an account with Habitica. Please Register.";
-                return View("../Habitica/AlreadyRegisteredWithHabitica");
+                return View("../HabiticaAccount/AlreadyRegisteredWithHabitica");
             }
 
         }

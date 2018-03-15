@@ -3,6 +3,8 @@
 @{
     /**/
 
+    /**/
+
     ViewBag.Title = "Custom Task";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -53,7 +55,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control", placeholder = "Task Notes" } })
+            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;font-family: Arial, cursive;" } })
         </div>
     </div>
 
@@ -83,9 +85,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
         <div class="col-md-10">
             <ul id="TaskList"></ul>
         </div>
-        <button class="btn-success" id="addTaskHandler">Add Checklist Item</button>
     </div>
-
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -94,7 +94,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     </div>
 }
 
-
+<button class="btn-success" id="addTaskHandler">Add Checklist Item</button>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

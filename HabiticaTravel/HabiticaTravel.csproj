@@ -619,7 +619,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\GetUser\" />
-    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

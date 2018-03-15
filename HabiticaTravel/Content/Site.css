@@ -1,7 +1,4 @@
 ﻿
-html {
-    
-}
 
 body {
     padding-top: 50px;
@@ -27,7 +24,7 @@ body {
     overflow: auto;
     top: 0px;
     left: 0px;
-    background: rgba(67, 40, 116, 0.97);
+    background: rgba(67, 40, 116, 0.85);
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -92,4 +89,9 @@ textarea {
 .login-item:active {
     box-shadow: 0 5px rgb(27, 9, 47);
     transform: translateY(4px);
+}
+
+.textFix {
+    color: black;
+    font-family: Arial, cursive;
 }
