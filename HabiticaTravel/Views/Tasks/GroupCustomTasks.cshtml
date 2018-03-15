@@ -42,6 +42,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 
     @Html.HiddenFor(ti => ti.TaskAndItems.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(ti => ti.TravelGroupandUser.TravelGroup.TravelGroupId, new { htmlAttributes = new { @class = "form-control" } })
 
     <div class="form-group">
         @Html.LabelFor(ti => ti.TaskAndItems.CustomTask.TaskName, new { @class = "col-md-2 control-label" })
@@ -60,7 +61,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.TaskAndItems.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextAreaFor(ti => ti.TaskAndItems.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control", placeholder = "Task Notes" } })
+            @Html.TextAreaFor(ti => ti.TaskAndItems.CustomTask.TaskNotes, new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;" })
         </div>
     </div>
 
@@ -81,14 +82,16 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.TaskAndItems.CustomTask.ReminderTime, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(ti => ti.TaskAndItems.CustomTask.ReminderTime, new { htmlAttributes = new { @class = "form-control date-picker" } })
+            @Html.TextBoxFor(ti => ti.TaskAndItems.CustomTask.ReminderTime, new { data_val = false, @class = "form-control timepicker", placeholder = "hh:mm p" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(ti => ti.TaskAndItems.CustomTask.CustomTaskItems, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(ti => ti.TaskAndItems.CustomTaskItem, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <ul id="TaskList"></ul>
+            <ul id="GroupTaskList">
+                <li><input class="form-control text-box single-line" id="TaskAndItems.CustomTaskItem_0__ItemName" name="TaskAndItems.CustomTaskItem[0].ItemName" type="text" value=""></li>
+            </ul>
         </div>
     </div>
 
@@ -99,7 +102,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     </div>
 }
 
-<button class="btn-success" id="addTaskHandler">Add Checklist Item!</button>
+<button class="btn-success" id="addGroupTaskHandler">Add Checklist Item!</button>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
