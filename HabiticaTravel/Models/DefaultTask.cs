@@ -23,7 +23,6 @@ namespace HabiticaTravel.Models
         public int TaskId { get; set; }
         public string TaskName { get; set; }
         public string TaskType { get; set; }
-        public string TaskTag { get; set; }
         public string TaskNotes { get; set; }
         public Nullable<System.DateTime> TaskDueDate { get; set; }
         public double TaskDifficulty { get; set; }
