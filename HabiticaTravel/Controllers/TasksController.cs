@@ -119,14 +119,33 @@ namespace HabiticaTravel.Controllers
             model.CustomTask.TaskType = "todo";
             var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
 
-
-
+            model.CustomTask.CustomTaskItems = model.CustomTaskItem;
+            HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
             HabiticaORM.CustomTasks.Add(model.CustomTask);
-            HabiticaORM.SaveChanges();
 
-          
+            try
+            {
+                HabiticaORM.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
 
-            var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
+                var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
             var TestItem = (string)TaskConfirm["data"]["id"];
             currentTask.HabiticaTaskId = (string)TaskConfirm["data"]["id"];
 

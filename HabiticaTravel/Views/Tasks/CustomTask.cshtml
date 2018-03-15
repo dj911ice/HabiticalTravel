@@ -79,20 +79,22 @@ new SelectListItem { Value = "2", Text = "Hard"},
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.CustomTaskItems, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(ti => ti.CustomTaskItem, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             <ul id="TaskList"></ul>
         </div>
+        <button class="btn-success" id="addTaskHandler">Add Checklist Item</button>
     </div>
+
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Create Task" />
         </div>
     </div>
 }
 
-<button class="btn-success" id="addTaskHandler">Add a task!</button>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
