@@ -172,5 +172,18 @@ namespace HabiticaTravel.Utility
                 return ex.GetResponseJson();
             }
         }
+
+        public static async Task<dynamic> PostScoreATask(CustomTask task, string direction)
+        {
+            try
+            {
+                return await $"https://habitica.com/api/v3/tasks/{task.TaskId}/score/{direction}"
+                   .GetJsonAsync();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
     }
 }
