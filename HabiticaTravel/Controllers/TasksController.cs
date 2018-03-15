@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -112,24 +113,26 @@ namespace HabiticaTravel.Controllers
         {
 
             string userId = User.Identity.GetUserId();
+          var HabiticaORM = new habiticatravelEntities();
+            List<CustomTaskItem> items;
 
-            var HabiticaORM = new habiticatravelEntities();
+            if (model.CustomTaskItem != null)
+            {
+                items = model.CustomTaskItem;
+                HabiticaORM.CustomTaskItems.AddRange(items);
+            }
+            else
+            {
+                items = new List<CustomTaskItem> { new CustomTaskItem() };
+                HabiticaORM.CustomTaskItems.AddRange(items);
+            }
+
             HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
             model.CustomTask.UserId = userId;
             model.CustomTask.TaskTag = MyHabUser.TaskTagId;
             model.CustomTask.TaskType = "todo";
+            model.CustomTaskItem = items;
             var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
-
-            if(model.CustomTaskItem.Count != 0)
-            {
-                model.CustomTask.CustomTaskItems = model.CustomTaskItem;
-                HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
-            }
-            else
-            {
-                model.CustomTask.CustomTaskItems = new List<CustomTaskItem>();
-                HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
-            }
 
             HabiticaORM.CustomTasks.Add(model.CustomTask);
 
@@ -137,7 +140,7 @@ namespace HabiticaTravel.Controllers
             {
                 HabiticaORM.SaveChanges();
             }
-            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            catch (DbEntityValidationException dbEx)
             {
                 Exception raise = dbEx;
                 foreach (var validationErrors in dbEx.EntityValidationErrors)
@@ -211,7 +214,6 @@ namespace HabiticaTravel.Controllers
             {
                 CustomTask = TaskToEdit,
                 CustomTaskItem = currentTaskItems
-
             };
 
             return View(TaskAndItemToEdit); //TaskAndItemToEdit is sent to EditCustomTask View which returns to SaveCustomTaskChanges

@@ -2,7 +2,7 @@
 
 @section Styles
 {
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css" integrity="sha256-0grYPCio07OSu/k+zNx703Nw3kv/pWbM1L0yFzULpHY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css" integrity="sha256-0grYPCio07OSu/k+zNx703Nw3kv/pWbM1L0yFzULpHY=" crossorigin="anonymous" />
 }
 
 @{
@@ -60,7 +60,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes,  new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;" })
+            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;" })
         </div>
     </div>
 
@@ -81,14 +81,16 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.ReminderTime, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(ti => ti.CustomTask.ReminderTime, new { data_val = false, @class = "form-control timepicker", placeholder = "hh:mm p" } )
+            @Html.TextBoxFor(ti => ti.CustomTask.ReminderTime, new { data_val = false, @class = "form-control timepicker", placeholder = "hh:mm p" })
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTaskItem, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <ul id="TaskList"></ul>
+            <ul id="TaskList">
+                <li><input class="form-control text-box single-line" id="CustomTaskItem_0__ItemName" name="CustomTaskItem[0].ItemName" type="text" value=""></li>
+            </ul>
         </div>
     </div>
 
