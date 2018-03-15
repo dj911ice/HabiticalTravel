@@ -120,8 +120,17 @@ namespace HabiticaTravel.Controllers
             model.CustomTask.TaskType = "todo";
             var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
 
-            model.CustomTask.CustomTaskItems = model.CustomTaskItem;
-            HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
+            if(model.CustomTaskItem.Count != 0)
+            {
+                model.CustomTask.CustomTaskItems = model.CustomTaskItem;
+                HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
+            }
+            else
+            {
+                model.CustomTask.CustomTaskItems = new List<CustomTaskItem>();
+                HabiticaORM.CustomTaskItems.AddRange(model.CustomTaskItem);
+            }
+
             HabiticaORM.CustomTasks.Add(model.CustomTask);
 
             try
