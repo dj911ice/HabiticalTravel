@@ -125,7 +125,7 @@ namespace HabiticaTravel.Utility
                 tags = new string[] { user.TaskTagId },
                 notes = task.TaskNotes,
                 date = task.TaskDueDate.ToString(),
-                reminders = new Reminder[1] 
+                reminders = new Reminder[1]
                 {
                     new Reminder() {id = user.Uuid, startDate = task.ReminderStartDate.ToString(), time = task.ReminderTime.ToString() }
                 },
@@ -159,12 +159,12 @@ namespace HabiticaTravel.Utility
                        x_api_user = user.Uuid,
                        x_api_key = user.ApiToken
                    })
-                   .AppendPathSegment(task.HabiticaTaskId,true) 
+                   .AppendPathSegment(task.HabiticaTaskId, true)
                    .AppendPathSegment(str1, true)
                    .PostJsonAsync(new
-                       {
-                            text = item.ItemName,
-                       })
+                   {
+                       text = item.ItemName,
+                   })
                         .ReceiveJson();
             }
             catch (FlurlHttpException ex)
@@ -254,3 +254,4 @@ namespace HabiticaTravel.Utility
             }
         }
     }
+}
