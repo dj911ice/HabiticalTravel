@@ -10,3 +10,17 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'pacfontregular';
+    src: url('pac-font-webfont.woff2') format('woff2'), url('pac-font-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'crack_manregular';
+    src: url('crackman-webfont.woff2') format('woff2'), url('crackman-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
