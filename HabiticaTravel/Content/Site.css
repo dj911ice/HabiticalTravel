@@ -1,6 +1,15 @@
-﻿body {
+﻿
+html {
+    background-color: #432874;
+    background: url("https://hdwallsbox.com/wallpapers/l/1920x1080/51/video-games-space-invaders-retro-1920x1080-50743.jpg") no-repeat center fixed;
+    background-size: cover;
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: 'manaspaceregular', cursive;
+    
 }
 
 /* Set padding to keep content from hitting the edges */
