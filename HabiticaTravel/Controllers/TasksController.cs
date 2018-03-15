@@ -107,19 +107,24 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<ActionResult> AddCustomTask(TaskAndItems model)
+        public  async Task<ActionResult> AddCustomTask(TaskAndItems model)
         {
 
             string userId = User.Identity.GetUserId();
 
             var HabiticaORM = new habiticatravelEntities();
+            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
             model.CustomTask.UserId = userId;
+            model.CustomTask.TaskTag = MyHabUser.TaskTagId;
+            model.CustomTask.TaskType = "todo";
+            var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
+
+
 
             HabiticaORM.CustomTasks.Add(model.CustomTask);
-            await HabiticaORM.SaveChangesAsync();
+            HabiticaORM.SaveChanges();
 
-            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
-            var TaskConfirm =  (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
+          
 
             var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
             var TestItem = (string)TaskConfirm["data"]["id"];
@@ -514,7 +519,6 @@ namespace HabiticaTravel.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-
         }
     }
 }

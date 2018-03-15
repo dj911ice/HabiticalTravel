@@ -138,24 +138,6 @@ namespace HabiticaTravel.Models
         public string GroupLeader { get; set; }
     }
 
-    public class SendTask
-    {
-        public string text { get; set; }
-        public string type { get; set; }
-        public string[] tags { get; set; }
-        public string notes { get; set; }
-        public string date { get; set; }
-        public Reminder[] reminders { get; set; }
-        public string priority { get; set; }
-    }
-
-    public class Reminder
-    {
-        public string id { get; set; }
-        public string startDate { get; set; }
-        public string time { get; set; }
-    }
-
     public class CustomTaskVM
     {
 

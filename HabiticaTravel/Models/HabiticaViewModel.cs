@@ -5,56 +5,6 @@ using System.Collections.Generic;
 namespace HabiticaTravel.Models
 {
 
-    public class ReceiveTask
-    {
-        public bool success { get; set; }
-        public Data data { get; set; }
-        public object[] notifications { get; set; }
-    }
-
-    public class Data
-    {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string _id { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string userId { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string text { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string alias { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string type { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string notes { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public object[] tags { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int value { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public double priority { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime date { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string attribute { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Challenge challenge { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Group group { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public object[] reminders { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime createdAt { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime updatedAt { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Checklist[] checklist { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public bool collapseChecklist { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public bool completed { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string id { get; set; }
-    }
 
     public class Challenge
     {
@@ -92,6 +42,24 @@ namespace HabiticaTravel.Models
     {
         public TravelGroupUser TGUser { get; set; }
         public string UserName { get; set; }
+    }
+
+    public class SendTask
+    {
+        public string text { get; set; }
+        public string type { get; set; }
+        public string[] tags { get; set; }
+        public string notes { get; set; }
+        public string date { get; set; }
+        public Reminder[] reminders { get; set; }
+        public string priority { get; set; }
+    }
+
+    public class Reminder
+    {
+        public string id { get; set; }
+        public string startDate { get; set; }
+        public string time { get; set; }
     }
 
 }
