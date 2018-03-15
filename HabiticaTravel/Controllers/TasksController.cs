@@ -417,7 +417,7 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult RemoveGroupTask(TravelGroupandUserTaskandItems model, int TaskId)
+        public async Task<ActionResult> RemoveGroupTask(TravelGroupandUserTaskandItems model, int TaskId)
         {
             habiticatravelEntities HabiticaORM = new habiticatravelEntities();
             CustomTask selectedTask = HabiticaORM.CustomTasks.Single(t => t.TaskId == TaskId && t.UserId == null);
@@ -439,6 +439,7 @@ namespace HabiticaTravel.Controllers
 
             foreach(TravelGroupUser user in GroupUsers)
             {
+                HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId); 
                 CustomTask selectedUserTask = HabiticaORM.CustomTasks.Single(t => t.TravelGroupId == model.TaskAndItems.CustomTask.TravelGroupId && t.UserId == user.UserId && t.TaskName == model.TaskAndItems.CustomTask.TaskName);
                 var selectedUserTaskItems = HabiticaORM.CustomTaskItems.Where(t => t.TaskId == selectedUserTask.TaskId).ToList();
 
@@ -446,10 +447,12 @@ namespace HabiticaTravel.Controllers
                 {
                     foreach (var item in selectedUserTaskItems)
                     {
+                        var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.DeleteChecklistItem(selectedUserTask, item, MyHabUser));
                         HabiticaORM.CustomTaskItems.Remove(item);
                     }
 
                 }
+                var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.DeleteATask(selectedUserTask, MyHabUser));
                 HabiticaORM.CustomTasks.Remove(selectedUserTask);
             }
 

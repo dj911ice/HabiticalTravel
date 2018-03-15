@@ -253,5 +253,59 @@ namespace HabiticaTravel.Utility
                 return ex.GetResponseJson();
             }
         }
+
+        public static async Task<dynamic> PutUpdateHabiticaTask(CustomTask task, HabiticaUser user)
+        {
+            var data = new SendTask
+            {
+                text = task.TaskName,
+                type = task.TaskType,
+                tags = new string[] { user.TaskTagId },
+                notes = task.TaskNotes,
+                date = task.TaskDueDate.ToString(),
+                reminders = new Reminder[1]
+                {
+                    new Reminder() {id = user.Uuid, startDate = task.ReminderStartDate.ToString(), time = task.ReminderTime.ToString() }
+                },
+                priority = task.TaskDifficulty.ToString()
+            };
+            try
+            {
+                return await "https://habitica.com/api/v3/tasks/:taskId"
+                    .WithHeaders(new
+                    {
+                        x_api_user = user.Uuid,
+                        x_api_key = user.ApiToken
+                    })
+                    .PostJsonAsync(data)
+                    .ReceiveJson();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
+
+        public static async Task<dynamic> PutUpdateChecklistItem(CustomTaskItem item, HabiticaUser user, CustomTask task)
+        {
+            try
+            {
+                return await $"https://habitica.com/api/v3/tasks/{task.HabiticaTaskId}/checklist/{item.HabiticaItemId}"
+                   .WithHeaders(new
+                   {
+                       x_api_user = user.Uuid,
+                       x_api_key = user.ApiToken
+                   })
+                   .PostJsonAsync(new
+                   {
+                       text = item.ItemName,
+                   })
+                        .ReceiveJson();
+            }
+            catch (FlurlHttpException ex)
+            {
+                return ex.GetResponseJson();
+            }
+        }
     }
 }
