@@ -10,7 +10,7 @@
             <PropertyRef Name="TaskItemsId" />
           </Key>
           <Property Name="TaskItemsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="TaskId" Type="int" Nullable="false" />
           <Property Name="HabiticaItemId" Type="nvarchar" MaxLength="128" />
         </EntityType>
@@ -19,9 +19,9 @@
             <PropertyRef Name="TaskId" />
           </Key>
           <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="TaskType" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="TaskTag" Type="nchar" MaxLength="6" />
+          <Property Name="TaskTag" Type="nvarchar" MaxLength="128" />
           <Property Name="TaskNotes" Type="nvarchar" MaxLength="256" />
           <Property Name="TaskDueDate" Type="datetime" />
           <Property Name="TaskDifficulty" Type="float" Nullable="false" />
@@ -261,8 +261,12 @@
             <End Role="TravelGroup" EntitySet="TravelGroups" />
             <End Role="TravelGroupUser" EntitySet="TravelGroupUsers" />
           </AssociationSet>
-          <EntitySet Name="CustomTasks" EntityType="habiticatravelModel.CustomTask" />
           <EntitySet Name="DefaultTasks" EntityType="habiticatravelModel.DefaultTask" />
+          <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks">
+            <End Role="DefaultTask" EntitySet="DefaultTasks" />
+            <End Role="DefaultTaskItem" EntitySet="DefaultTaskItems" />
+          </AssociationSet>
+          <EntitySet Name="CustomTasks" EntityType="habiticatravelModel.CustomTask" />
           <AssociationSet Name="FK_CustomTaskItems_CustomTasks" Association="habiticatravelModel.FK_CustomTaskItems_CustomTasks">
             <End Role="CustomTask" EntitySet="CustomTasks" />
             <End Role="CustomTaskItem" EntitySet="CustomTaskItems" />
@@ -271,17 +275,13 @@
             <End Role="TravelGroup" EntitySet="TravelGroups" />
             <End Role="CustomTask" EntitySet="CustomTasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_DefaultTaskItems_DefaultTasks" Association="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks">
-            <End Role="DefaultTask" EntitySet="DefaultTasks" />
-            <End Role="DefaultTaskItem" EntitySet="DefaultTaskItems" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CustomTaskItem">
           <Key>
             <PropertyRef Name="TaskItemsId" />
           </Key>
           <Property Name="TaskItemsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TaskId" Type="Int32" Nullable="false" />
           <Property Name="HabiticaItemId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CustomTask" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTaskItem" ToRole="CustomTask" />
@@ -330,25 +330,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CustomTask">
-          <Key>
-            <PropertyRef Name="TaskId" />
-          </Key>
-          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="TaskTag" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
-          <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
-          <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
-          <Property Name="ReminderStartDate" Type="DateTime" Precision="3" />
-          <Property Name="ReminderTime" Type="DateTime" Precision="3" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="HabiticaTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="TravelGroupId" Type="Int32" />
-          <NavigationProperty Name="CustomTaskItems" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTask" ToRole="CustomTaskItem" />
-          <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_CustomTasks_TravelGroups" FromRole="CustomTask" ToRole="TravelGroup" />
-        </EntityType>
         <EntityType Name="DefaultTask">
           <Key>
             <PropertyRef Name="TaskId" />
@@ -364,6 +345,37 @@
           <Property Name="ReminderStartDate" Type="DateTime" Precision="3" />
           <Property Name="ReminderTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DefaultTaskItems" Relationship="habiticatravelModel.FK_DefaultTaskItems_DefaultTasks" FromRole="DefaultTask" ToRole="DefaultTaskItem" />
+        </EntityType>
+        <Association Name="FK_DefaultTaskItems_DefaultTasks">
+          <End Type="habiticatravelModel.DefaultTask" Role="DefaultTask" Multiplicity="0..1" />
+          <End Type="habiticatravelModel.DefaultTaskItem" Role="DefaultTaskItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DefaultTask">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="DefaultTaskItem">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustomTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaskType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="TaskTag" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaskNotes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDueDate" Type="DateTime" Precision="3" />
+          <Property Name="TaskDifficulty" Type="Double" Nullable="false" />
+          <Property Name="ReminderStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ReminderTime" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HabiticaTaskId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TravelGroupId" Type="Int32" />
+          <NavigationProperty Name="CustomTaskItems" Relationship="habiticatravelModel.FK_CustomTaskItems_CustomTasks" FromRole="CustomTask" ToRole="CustomTaskItem" />
+          <NavigationProperty Name="TravelGroup" Relationship="habiticatravelModel.FK_CustomTasks_TravelGroups" FromRole="CustomTask" ToRole="TravelGroup" />
         </EntityType>
         <Association Name="FK_CustomTaskItems_CustomTasks">
           <End Type="habiticatravelModel.CustomTask" Role="CustomTask" Multiplicity="1" />
@@ -386,18 +398,6 @@
             </Principal>
             <Dependent Role="CustomTask">
               <PropertyRef Name="TravelGroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DefaultTaskItems_DefaultTasks">
-          <End Type="habiticatravelModel.DefaultTask" Role="DefaultTask" Multiplicity="0..1" />
-          <End Type="habiticatravelModel.DefaultTaskItem" Role="DefaultTaskItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DefaultTask">
-              <PropertyRef Name="TaskId" />
-            </Principal>
-            <Dependent Role="DefaultTaskItem">
-              <PropertyRef Name="TaskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -499,14 +499,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CustomTasks">
-            <EntityTypeMapping TypeName="habiticatravelModel.CustomTask">
-              <MappingFragment StoreEntitySet="CustomTasks">
-                <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
-                <ScalarProperty Name="HabiticaTaskId" ColumnName="HabiticaTaskId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <EntitySetMapping Name="DefaultTasks">
+            <EntityTypeMapping TypeName="habiticatravelModel.DefaultTask">
+              <MappingFragment StoreEntitySet="DefaultTasks">
                 <ScalarProperty Name="ReminderTime" ColumnName="ReminderTime" />
                 <ScalarProperty Name="ReminderStartDate" ColumnName="ReminderStartDate" />
+                <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
                 <ScalarProperty Name="TaskDifficulty" ColumnName="TaskDifficulty" />
                 <ScalarProperty Name="TaskDueDate" ColumnName="TaskDueDate" />
                 <ScalarProperty Name="TaskNotes" ColumnName="TaskNotes" />
@@ -517,12 +515,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DefaultTasks">
-            <EntityTypeMapping TypeName="habiticatravelModel.DefaultTask">
-              <MappingFragment StoreEntitySet="DefaultTasks">
+          <EntitySetMapping Name="CustomTasks">
+            <EntityTypeMapping TypeName="habiticatravelModel.CustomTask">
+              <MappingFragment StoreEntitySet="CustomTasks">
+                <ScalarProperty Name="TravelGroupId" ColumnName="TravelGroupId" />
+                <ScalarProperty Name="HabiticaTaskId" ColumnName="HabiticaTaskId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ReminderTime" ColumnName="ReminderTime" />
                 <ScalarProperty Name="ReminderStartDate" ColumnName="ReminderStartDate" />
-                <ScalarProperty Name="ReminderId" ColumnName="ReminderId" />
                 <ScalarProperty Name="TaskDifficulty" ColumnName="TaskDifficulty" />
                 <ScalarProperty Name="TaskDueDate" ColumnName="TaskDueDate" />
                 <ScalarProperty Name="TaskNotes" ColumnName="TaskNotes" />
