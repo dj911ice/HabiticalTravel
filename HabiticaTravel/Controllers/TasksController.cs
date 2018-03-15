@@ -312,10 +312,17 @@ namespace HabiticaTravel.Controllers
         {
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
             List <TravelGroupUser>  MyUsers = new List<TravelGroupUser>();
-            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems();
+            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems()
+            {
+                Users = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList(),
+                TravelGroupandUser = new TravelGroupandUser()
+                {
+                    TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId),
+                },
+                
+            };
 
-            model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId);
-            MyUsers = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList();
+            // model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId)
 
             return View("GroupCustomTasks", model);
         }
