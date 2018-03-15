@@ -232,10 +232,12 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult SaveCustomTaskChanges(TaskAndItems NewTaskAndItems)
+        public async Task<ActionResult> SaveCustomTaskChanges(TaskAndItems NewTaskAndItems)
         {
 
             var HabiticaORM = new habiticatravelEntities();
+            string UserId = User.Identity.GetUserId();
+            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == UserId);
 
             int TaskId = NewTaskAndItems.CustomTask.TaskId;
 
@@ -256,10 +258,12 @@ namespace HabiticaTravel.Controllers
                 {
                     MyItemsList.Add(T);
                     HabiticaORM.Entry(HabiticaORM.CustomTaskItems.Find(T.TaskItemsId)).CurrentValues.SetValues(T);
+                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PutUpdateChecklistItem(T, MyHabUser, MyTask));
                 }
             }
             MyTask.CustomTaskItems = MyItemsList;
             HabiticaORM.Entry(DBTask).CurrentValues.SetValues(MyTask);
+            var ItemConfirm2 = (JObject)JObject.FromObject(await HabiticaHTTP.PutUpdateTask(MyTask, MyHabUser));
             HabiticaORM.SaveChanges();
 
             return RedirectToAction("Index", "Home");
@@ -486,7 +490,7 @@ namespace HabiticaTravel.Controllers
             return View(TaskAndItemToEdit);
         }
 
-        public ActionResult SaveCustomGroupTaskChanges(TaskAndItems NewTaskAndItems)
+        public async Task<ActionResult> SaveCustomGroupTaskChanges(TaskAndItems NewTaskAndItems)
         {
 
             habiticatravelEntities HabiticaORM = new habiticatravelEntities();
@@ -518,11 +522,13 @@ namespace HabiticaTravel.Controllers
 
             //Above changes the Group Item only. Below we change the values for each Group Member
 
+            
             List<TravelGroupUser> GroupUsers = new List<TravelGroupUser>();
             GroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == NewTaskAndItems.CustomTask.TravelGroupId).ToList();
 
             foreach(TravelGroupUser user in GroupUsers)
             {
+                HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId);
                 CustomTask UserTask = HabiticaORM.CustomTasks.Single(u => u.TravelGroupId == NewTaskAndItems.CustomTask.TravelGroupId && u.UserId == user.UserId && u.TaskName == DBTask.TaskName);
 
                 List<CustomTaskItem> UserItemsList = new List<CustomTaskItem>();
@@ -540,10 +546,12 @@ namespace HabiticaTravel.Controllers
                     {
                         MyUserItemsList.Add(T);
                         HabiticaORM.Entry(HabiticaORM.CustomTaskItems.Find(T.TaskItemsId)).CurrentValues.SetValues(T);
+                        var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PutUpdateChecklistItem(T, MyHabUser, MyTask));
                     }
                 }
                 MyUserTask.CustomTaskItems = MyUserItemsList;
                 HabiticaORM.Entry(UserTask).CurrentValues.SetValues(MyUserTask);
+                var ItemConfirm2 = (JObject)JObject.FromObject(await HabiticaHTTP.PutUpdateTask(MyTask, MyHabUser));
                 HabiticaORM.SaveChanges();
             }
 
