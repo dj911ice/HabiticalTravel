@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace HabiticaTravel.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         // GET: DefaultTasks

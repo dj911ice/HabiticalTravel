@@ -1,5 +1,10 @@
 ﻿@model HabiticaTravel.Models.TaskAndItems
 
+@section Styles
+{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.css" integrity="sha256-0grYPCio07OSu/k+zNx703Nw3kv/pWbM1L0yFzULpHY=" crossorigin="anonymous" />
+}
+
 @{
     /**/
 
@@ -55,7 +60,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskNotes, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes, new { htmlAttributes = new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;font-family: Arial, cursive;" } })
+            @Html.TextAreaFor(ti => ti.CustomTask.TaskNotes,  new { @class = "form-control textFix", placeholder = "Task Notes", style = "color:black;" })
         </div>
     </div>
 
@@ -76,7 +81,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.ReminderTime, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(ti => ti.CustomTask.ReminderTime, new { htmlAttributes = new { @class = "form-control date-picker" } })
+            @Html.TextBoxFor(ti => ti.CustomTask.ReminderTime, new { data_val = false, @class = "form-control timepicker", placeholder = "hh:mm p" } )
         </div>
     </div>
 
@@ -98,5 +103,19 @@ new SelectListItem { Value = "2", Text = "Hard"},
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.js" integrity="sha256-rARD3YWpNcb9KRh9KNIxD8rKkti6DKRjxlJ/vS67pOg=" crossorigin="anonymous"></script>
+    <script>
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '8',
+            maxTime: '11:00pm',
+            defaultTime: '11',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: false,
+            scrollbar: true
+        });
+    </script>
 }
 
