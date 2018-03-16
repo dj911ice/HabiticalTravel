@@ -339,18 +339,15 @@ namespace HabiticaTravel.Controllers
 
         public ActionResult AddGroupCustomTask(TravelGroupandUserTaskandItems model)
         {
-            int GroupId = model.TravelGroupandUser.TravelGroup.TravelGroupId;
             var HabiticaORM = new habiticatravelEntities();
-            var customTask = new CustomTask
-            {
-                TravelGroupId = GroupId,
-                TaskType = "todo",
-            };
+            model.TaskAndItems.CustomTask.TravelGroupId = model.TravelGroupandUser.TravelGroup.TravelGroupId;
+            model.TaskAndItems.CustomTask.TaskType = model.TaskAndItems.CustomTask.TaskTag;
 
-            HabiticaORM.CustomTasks.Add(customTask);
+            HabiticaORM.CustomTasks.Add(model.TaskAndItems.CustomTask);
             HabiticaORM.SaveChanges();
 
-            model.TaskAndItems.CustomTask = customTask;
+            model.TaskAndItems.CustomTask = model.TaskAndItems.CustomTask;
+
             TempData["taskAndItems"] = model.TaskAndItems;
             TempData["travelGroupandUser"] = model.TravelGroupandUser;
 
@@ -409,7 +406,7 @@ namespace HabiticaTravel.Controllers
                 }
                 HabiticaORM.SaveChanges();
             }
-            var route = new RouteValueDictionary(new { controller = "Tasks", action = "ShowGroupTasks", travelGroupId = model2.TravelGroup.TravelGroupId });
+            var route = new RouteValueDictionary(new { controller = "Tasks", action = "ShowGroupTasks", travelGroupId = travelGroupandUser.TravelGroup.TravelGroupId });
             return RedirectToAction("ShowGroupTasks", route);
         }
 
