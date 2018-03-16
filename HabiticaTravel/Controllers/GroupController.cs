@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -22,7 +23,17 @@ namespace HabiticaTravel.Controllers
 
 
             // UserGroups viewmodel to pass both TravelGroup and the current username
-            var currentTravelGroups = MyORM.TravelGroups.Where(g => g.GroupLeader == currentUserId).ToList();
+            //var currentTravelGroups = MyORM.TravelGroups.Where(g => g.GroupLeader == currentUserId).ToList();
+            //replaced the above code to show all groups that the user is a part of
+
+            List<TravelGroup> currentTravelGroups = new List<TravelGroup>();
+            List<int> TravelGroupIds = MyORM.TravelGroupUsers.Where(u => u.UserId == currentUserId).Select(u => u.TravelGroupId).ToList();
+            foreach (int TGId in TravelGroupIds)
+            {
+                TravelGroup tempGroup = MyORM.TravelGroups.Single(u => u.TravelGroupId == TGId);
+                currentTravelGroups.Add(tempGroup);
+                //can insert another foreach loop if we need all the users, too
+            }
 
             List<TravelGroupandUser> model = new List<TravelGroupandUser>();
 
@@ -48,6 +59,8 @@ namespace HabiticaTravel.Controllers
 
             // passing the current UserId so that only the current user will see CRUD
             // operation buttons. ie, the group leader.
+            //current user doesn't have to be leader, as if statement in view prevents non-group leader from accessing crud. 
+            //Updated statements to allow any user to see all groups they are a part of
             return View(model);
         }
 
@@ -125,6 +138,7 @@ namespace HabiticaTravel.Controllers
         public ActionResult SaveUpdatedGroupChanges(TravelGroup model)
         {
             var MyORM = new habiticatravelEntities();
+            string currentUserId = User.Identity.GetUserId();
 
             int TravelGroupId = model.TravelGroupId;
 
@@ -133,11 +147,28 @@ namespace HabiticaTravel.Controllers
                 return View("../Shared/Error");
             }
 
-            MyORM.Entry(MyORM.TravelGroups.Find(model.TravelGroupId)).CurrentValues.SetValues(model);
+            var MyDBGroup = MyORM.TravelGroups.Find(model.TravelGroupId);
+
+            MyORM.Entry(MyDBGroup).CurrentValues.SetValues(model);
 
             MyORM.SaveChanges();
 
-            return View("ManageMyGroup");
+
+            List<TravelGroupandUser> model2 = new List<TravelGroupandUser>();
+
+            List<int> TravelGroupIds = MyORM.TravelGroupUsers.Where(u => u.UserId == currentUserId).Select(u => u.TravelGroupId).ToList();
+            foreach(int TGId in TravelGroupIds)
+            {
+                TravelGroup tempGroup = MyORM.TravelGroups.Single(u => u.TravelGroupId == TGId);
+                TravelGroupandUser tempTGU = new TravelGroupandUser
+                {
+                    TravelGroup = tempGroup
+                };
+                //can insert another foreach loop if we need the users, too
+                model2.Add(tempTGU);
+            }
+
+            return View("ManageMyGroup", model2);
         }
 
         public ActionResult DeleteGroup(int travelGroupID)

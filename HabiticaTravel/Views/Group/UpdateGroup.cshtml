@@ -18,6 +18,7 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
     @Html.HiddenFor(tg => tg.TravelGroupId, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(tg => tg.GroupLeader, new { htmlAttributes = new { @class = "form-control" } })
 
     <div class="form-group">
         @Html.LabelFor(tg => tg.TravelGroupName, new { @class = "col-md-2 control-label" })
