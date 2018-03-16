@@ -8,7 +8,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-
+using System.Web.Routing;
 
 namespace HabiticaTravel.Controllers
 {
@@ -111,11 +111,11 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public  async Task<ActionResult> AddCustomTask(TaskAndItems model)
+        public async Task<ActionResult> AddCustomTask(TaskAndItems model)
         {
 
             string userId = User.Identity.GetUserId();
-          var HabiticaORM = new habiticatravelEntities();
+            var HabiticaORM = new habiticatravelEntities();
             List<CustomTaskItem> items;
 
             if (model.CustomTaskItem != null)
@@ -129,7 +129,7 @@ namespace HabiticaTravel.Controllers
                 HabiticaORM.CustomTaskItems.AddRange(items);
             }
 
-         
+
             model.CustomTask.UserId = userId;
             HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
             model.CustomTask.TaskTag = MyHabUser.TaskTagId;
@@ -173,11 +173,11 @@ namespace HabiticaTravel.Controllers
                 var taskItems = model.CustomTaskItem.ToList();
                 foreach (var item in taskItems)
                 {
-                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser,currentTask));
+                    var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser, currentTask));
                     List<Checklist> AllChecklistItems = ItemConfirm["data"]["checklist"].ToObject<List<Checklist>>();
-                    foreach(Checklist list in AllChecklistItems)
+                    foreach (Checklist list in AllChecklistItems)
                     {
-                        if(list.text == item.ItemName)
+                        if (list.text == item.ItemName)
                         {
                             item.HabiticaItemId = list.id;
                         }
@@ -192,7 +192,7 @@ namespace HabiticaTravel.Controllers
             {
                 currentTask.CustomTaskItems = new List<CustomTaskItem>();
             }
-            
+
 
             HabiticaORM.SaveChanges();
 
@@ -306,7 +306,7 @@ namespace HabiticaTravel.Controllers
             yelpResults = yelpResults.Select(y => y = (JObject)y["businesses"][0]).ToList();
 
             var HabiticaORM = new habiticatravelEntities();
-                
+
             ViewBag.task = HabiticaORM.CustomTasks.Find(TaskId);
             List<CustomTaskItem> MyItemsList = HabiticaORM.CustomTaskItems.Where(t => t.TaskId == TaskId).ToList();
             TaskAndItems model = new TaskAndItems();
@@ -314,22 +314,22 @@ namespace HabiticaTravel.Controllers
             model.CustomTaskItem = MyItemsList;
 
             ViewBag.yelp = yelpResults;
-           
+
             return View(model);
         }
 
         public ActionResult CreateNewGroupCustomTask(int TravelGroupId)
         {
-            habiticatravelEntities MyHabitica = new habiticatravelEntities();
-            List <TravelGroupUser>  MyUsers = new List<TravelGroupUser>();
-            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems()
+            var MyHabiticaORM = new habiticatravelEntities();
+            var MyUsers = new List<TravelGroupUser>();
+            var model = new TravelGroupandUserTaskandItems()
             {
-                Users = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList(),
+                Users = MyHabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList(),
                 TravelGroupandUser = new TravelGroupandUser()
                 {
-                    TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId),
+                    TravelGroup = MyHabiticaORM.TravelGroups.Find(TravelGroupId),
                 },
-                
+
             };
 
             // model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId)
@@ -339,63 +339,53 @@ namespace HabiticaTravel.Controllers
 
         public ActionResult AddGroupCustomTask(TravelGroupandUserTaskandItems model)
         {
-            string userId = User.Identity.GetUserId();
             int GroupId = model.TravelGroupandUser.TravelGroup.TravelGroupId;
             var HabiticaORM = new habiticatravelEntities();
-
-            model.TaskAndItems.CustomTask.TravelGroupId = GroupId;
-            HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == userId);
-            model.TaskAndItems.CustomTask.TaskType = "todo";
-            HabiticaORM.CustomTasks.Add(model.TaskAndItems.CustomTask);
-            HabiticaORM.SaveChanges();
-            var currentTask = HabiticaORM.CustomTasks.Where(t => model.TaskAndItems.CustomTask.TravelGroupId == t.TravelGroupId).FirstOrDefault();
-            var taskItems = model.TaskAndItems.CustomTaskItem;
-            foreach (var item in taskItems)
+            var customTask = new CustomTask
             {
-                item.TaskId = currentTask.TaskId;
-                HabiticaORM.CustomTaskItems.Add(item);
-            }    
+                TravelGroupId = GroupId,
+                TaskType = "todo",
+            };
+
+            HabiticaORM.CustomTasks.Add(customTask);
             HabiticaORM.SaveChanges();
 
-            TempData["model"] = model.TaskAndItems;
-            TempData["model2"] = model.TravelGroupandUser;
+            model.TaskAndItems.CustomTask = customTask;
+            TempData["taskAndItems"] = model.TaskAndItems;
+            TempData["travelGroupandUser"] = model.TravelGroupandUser;
 
             return RedirectToAction("CloneGroupCustomTaskForUsers");
         }
 
         public async Task<ActionResult> CloneGroupCustomTaskForUsers()
         {
-            TaskAndItems model = (TaskAndItems)TempData["model"];
-            TravelGroupandUser model2 = (TravelGroupandUser)TempData["model2"];
-
+            var taskAndItems = (TaskAndItems)TempData["taskAndItems"];
+            var travelGroupandUser = (TravelGroupandUser)TempData["travelGroupandUser"];
             var HabiticaORM = new habiticatravelEntities();
+            var GroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == travelGroupandUser.TravelGroup.TravelGroupId).ToList();
 
-            List<TravelGroupUser> GroupUsers = new List<TravelGroupUser>();
-            GroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == model2.TravelGroup.TravelGroupId).ToList();
+            taskAndItems.CustomTask.TravelGroupId = travelGroupandUser.TravelGroup.TravelGroupId;
 
-            model.CustomTask.TravelGroupId = model2.TravelGroup.TravelGroupId;
-
-            foreach(TravelGroupUser user in GroupUsers)
+            foreach (TravelGroupUser user in GroupUsers)
             {
                 var UserId = user.UserId;
-                model.CustomTask.UserId = UserId;
-                HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == UserId);
+                taskAndItems.CustomTask.UserId = UserId;
+                var MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == UserId);
                 string UserTag = MyHabUser.TaskTagId;
-                model.CustomTask.TaskTag = UserTag;
+                taskAndItems.CustomTask.TaskTag = UserTag;
 
-                HabiticaORM.CustomTasks.Add(model.CustomTask);
-                await HabiticaORM.SaveChangesAsync();
+                HabiticaORM.CustomTasks.Add(taskAndItems.CustomTask);
+                HabiticaORM.SaveChanges();
 
-                var TaskConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(model.CustomTask, MyHabUser));
+                var TaskConfirm = JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(taskAndItems.CustomTask, MyHabUser));
 
-                var currentTask = HabiticaORM.CustomTasks.Where(t => model.CustomTask.TaskId == t.TaskId).FirstOrDefault();
+                var currentTask = HabiticaORM.CustomTasks.Where(t => taskAndItems.CustomTask.TaskId == t.TaskId).FirstOrDefault();
                 var TestItem = (string)TaskConfirm["data"]["id"];
                 currentTask.HabiticaTaskId = (string)TaskConfirm["data"]["id"];
 
-                if (model.CustomTask.CustomTaskItems.Count != 0)
+                if (taskAndItems.CustomTaskItem.Count != 0)
                 {
-                    var taskItems = model.CustomTaskItem.ToList();
-                    foreach (var item in taskItems)
+                    foreach (var item in taskAndItems.CustomTaskItem)
                     {
                         var ItemConfirm = (JObject)JObject.FromObject(await HabiticaHTTP.PostNewChecklistItem(item, MyHabUser, currentTask));
                         List<Checklist> AllChecklistItems = ItemConfirm["data"]["checklist"].ToObject<List<Checklist>>();
@@ -408,8 +398,9 @@ namespace HabiticaTravel.Controllers
                         }
 
                         item.TaskId = currentTask.TaskId;
+                        HabiticaORM.CustomTaskItems.Add(item);
                     }
-                    currentTask.CustomTaskItems = taskItems;
+
                 }
                 else
 
@@ -418,21 +409,20 @@ namespace HabiticaTravel.Controllers
                 }
                 HabiticaORM.SaveChanges();
             }
-
-
-            return RedirectToAction("ShowGroupTasks", "Tasks");
+            var route = new RouteValueDictionary(new { controller = "Tasks", action = "ShowGroupTasks", travelGroupId = model2.TravelGroup.TravelGroupId });
+            return RedirectToAction("ShowGroupTasks", route);
         }
 
-        public ActionResult ShowGroupTasks(int TravelGroupId)
+        public ActionResult ShowGroupTasks(int travelGroupId)
         {
             habiticatravelEntities MyHabitica = new habiticatravelEntities();
-            List<TravelGroupUser> MyUsers = new List<TravelGroupUser>();
-            TravelGroupandUserTaskandItems model = new TravelGroupandUserTaskandItems();
-
-            model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(TravelGroupId);
-            MyUsers = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == TravelGroupId).ToList();
-
-            foreach(CustomTask task in MyHabitica.CustomTasks.Where(u => u.TravelGroupId == TravelGroupId && u.UserId == null).ToList())
+            var model = new TravelGroupandUserTaskandItems();
+            // Temp Data contains Travel group id that will be passed down from previous action(s), this is 
+            // to find the group data we need to display.
+            model.TravelGroupandUser.TravelGroup = MyHabitica.TravelGroups.Find(travelGroupId);
+            var MyUsers = MyHabitica.TravelGroupUsers.Where(u => u.TravelGroupId == travelGroupId).ToList();
+            var tasks = MyHabitica.CustomTasks.Where(u => u.TravelGroupId == travelGroupId && u.UserId == null).ToList();
+            foreach (CustomTask task in tasks)
             {
                 TaskAndItems tempTaskItems = new TaskAndItems();
                 tempTaskItems.CustomTask = task;
@@ -457,14 +447,14 @@ namespace HabiticaTravel.Controllers
 
             }
             HabiticaORM.CustomTasks.Remove(selectedTask);
-            
+
 
             List<TravelGroupUser> GroupUsers = new List<TravelGroupUser>();
             GroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == model.TravelGroupandUser.TravelGroup.TravelGroupId).ToList();
 
-            foreach(TravelGroupUser user in GroupUsers)
+            foreach (TravelGroupUser user in GroupUsers)
             {
-                HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId); 
+                HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId);
                 CustomTask selectedUserTask = HabiticaORM.CustomTasks.Single(t => t.TravelGroupId == model.TaskAndItems.CustomTask.TravelGroupId && t.UserId == user.UserId && t.TaskName == model.TaskAndItems.CustomTask.TaskName);
                 var selectedUserTaskItems = HabiticaORM.CustomTaskItems.Where(t => t.TaskId == selectedUserTask.TaskId).ToList();
 
@@ -540,11 +530,11 @@ namespace HabiticaTravel.Controllers
 
             //Above changes the Group Item only. Below we change the values for each Group Member
 
-            
+
             List<TravelGroupUser> GroupUsers = new List<TravelGroupUser>();
             GroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == NewTaskAndItems.CustomTask.TravelGroupId).ToList();
 
-            foreach(TravelGroupUser user in GroupUsers)
+            foreach (TravelGroupUser user in GroupUsers)
             {
                 HabiticaUser MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId);
                 CustomTask UserTask = HabiticaORM.CustomTasks.Single(u => u.TravelGroupId == NewTaskAndItems.CustomTask.TravelGroupId && u.UserId == user.UserId && u.TaskName == DBTask.TaskName);

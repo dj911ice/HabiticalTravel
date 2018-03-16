@@ -41,7 +41,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
 
-    @Html.HiddenFor(ti => ti.TaskAndItems.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(ti => ti.TaskAndItems.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control", value = "todo" } })
     @Html.HiddenFor(ti => ti.TravelGroupandUser.TravelGroup.TravelGroupId, new { htmlAttributes = new { @class = "form-control" } })
 
     <div class="form-group">
