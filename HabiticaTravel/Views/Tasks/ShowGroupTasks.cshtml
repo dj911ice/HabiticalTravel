@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 style="margin-top:50px; color: white">@ViewBag.Title</h2>
 
 <button class="btn-success" id="reminderHandler">CheckReminders</button>
 <div class="container-fluid text-center">
@@ -19,7 +19,7 @@
             <div class="row tasks">
                 @for (int i = 0; i < Model.ManyTaskAndItemsList.Count; i++)
                 {
-                    
+
                     <h5 class="task-reminder">@Html.Raw(Json.Encode(Model.ManyTaskAndItemsList[i].CustomTask.ReminderTime))</h5>
                     <div class="col-xs-4">
                         <div class="task-item">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="task-links">
                             <input type="hidden" value="@Model" name="model" />
-                            <a href="/Tasks/ViewTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Details</a>
+                            
                             <a href="/Tasks/RemoveTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Remove Task</a>
                             <a href="/Tasks/EditCustomTask?TaskId=@Model.ManyTaskAndItemsList[i].CustomTask.TaskId">Edit Task</a>
                         </div>
@@ -40,6 +40,8 @@
 
     }
 </div>
+
+
 
 
 

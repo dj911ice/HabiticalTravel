@@ -14,12 +14,12 @@ new SelectListItem { Value = "Other", Text = "Other"},
 
 } 
 
-<h1>Create Traveling Group</h1>
+<h1 style="margin-top: 50px">Create Traveling Group</h1>
 
 @using (Html.BeginForm("SaveNewGroup", "Group", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
 {
     @Html.AntiForgeryToken()
-    <h4>Fill out this form.</h4>
+    <h4 style="margin-top:50px; color: white">Add a travelling group!</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 

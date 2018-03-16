@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -13,7 +12,7 @@ namespace HabiticaTravel.Controllers
     [Authorize]
     public class GroupController : Controller
     {
-    
+
         // GET: Group
 
         public ActionResult ManageMyGroup()
@@ -64,7 +63,7 @@ namespace HabiticaTravel.Controllers
             return View(model);
         }
 
-        public ActionResult DisplayGroupScoreboard(int TravelGroupId) 
+        public ActionResult DisplayGroupScoreboard(int TravelGroupId)
         {
             var MyORM = new habiticatravelEntities();
 
@@ -157,7 +156,7 @@ namespace HabiticaTravel.Controllers
             List<TravelGroupandUser> model2 = new List<TravelGroupandUser>();
 
             List<int> TravelGroupIds = MyORM.TravelGroupUsers.Where(u => u.UserId == currentUserId).Select(u => u.TravelGroupId).ToList();
-            foreach(int TGId in TravelGroupIds)
+            foreach (int TGId in TravelGroupIds)
             {
                 TravelGroup tempGroup = MyORM.TravelGroups.Single(u => u.TravelGroupId == TGId);
                 TravelGroupandUser tempTGU = new TravelGroupandUser
@@ -224,7 +223,7 @@ namespace HabiticaTravel.Controllers
                     TravelMethod = currentTravelGroup.TravelMethod
                 },
             };
-            
+
             return View(model);
         }
 
@@ -238,8 +237,8 @@ namespace HabiticaTravel.Controllers
             {
                 ApplicationUser user = userManager.FindByEmail(model.Email);
                 ViewBag.showEmail = user.Email;
-                model.TravelGroupUser = new TravelGroupUser(){ UserId = user.Id };
-               // model.TravelGroupUser = MyTGUser;
+                model.TravelGroupUser = new TravelGroupUser() { UserId = user.Id };
+                // model.TravelGroupUser = MyTGUser;
                 return View("UserSearchByEmailForm", model);
             }
             catch (NullReferenceException)
@@ -302,7 +301,7 @@ namespace HabiticaTravel.Controllers
             {
                 model.Add(new TravelGroupandUser
                 {
-                    
+
                     UserName = userManager.FindById(user.UserId).UserName
 
 

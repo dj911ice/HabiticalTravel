@@ -10,7 +10,7 @@
 
 
 
-<h2>@ViewBag.Group</h2>
+
 
 <head>
     <title>Your Group</title>
@@ -21,29 +21,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+    <h2 style="margin-top:50px; color: white">@ViewBag.Group</h2>
     <div class="container">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    
+                    <th style="color: white">Name</th>
 
                 </tr>
             </thead>
+                @foreach (var u in Model)
+                  {
 
-        </table>
+                    <tbody >
+                        <tr>
+                            <td style="color: white">@u.UserName</td>
+                        </tr>
+                    </tbody>
+
+
+                  }
+                
+
+            </table>
     </div>
 </body>
 
-@foreach (var u in Model)
-{
-    <tr>
 
-        <td>@u.UserName</td>
-        <td>@u.Email</td>
-       
-
-    </tr>
-}
 

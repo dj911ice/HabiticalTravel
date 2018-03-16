@@ -286,24 +286,7 @@ namespace HabiticaTravel.Controllers
 
         public async Task<ActionResult> ViewTask(int TaskId)
         {
-            // going to find the task based on the task id , display all the task info into a view.
-            // pk is TaskID , store that task in an object. Store it in a view bag. and send the viewbag to the view 
-            var yelpSearch = new YelpSearchHTTP();
-            var yelpResults = new List<JObject>();
-            var cats = new YelpCat
-            {
-                Hotel = "hotels, All",
-                Restaurant = "restaurants, All",
-                Arts = "arts, All",
-                Grocery = "grocery, All",
-            };
 
-            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Hotel)));
-            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Restaurant)));
-            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Grocery)));
-            yelpResults.Add(JObject.FromObject(await yelpSearch.GetResults("77373", cats.Arts)));
-
-            yelpResults = yelpResults.Select(y => y = (JObject)y["businesses"][0]).ToList();
 
             var HabiticaORM = new habiticatravelEntities();
 
@@ -313,7 +296,7 @@ namespace HabiticaTravel.Controllers
             model.CustomTask = HabiticaORM.CustomTasks.Find(TaskId);
             model.CustomTaskItem = MyItemsList;
 
-            ViewBag.yelp = yelpResults;
+
 
             return View(model);
         }
@@ -352,18 +335,21 @@ namespace HabiticaTravel.Controllers
 
         public async Task<ActionResult> CloneGroupCustomTaskForUsers()
         {
-            var taskAndItems = (TaskAndItems)TempData["taskAndItems"];
             var travelGroupandUser = (TravelGroupandUser)TempData["travelGroupandUser"];
             var HabiticaORM = new habiticatravelEntities();
             var travelGroupUsers = HabiticaORM.TravelGroupUsers.Where(u => u.TravelGroupId == travelGroupandUser.TravelGroup.TravelGroupId).ToList();
-
             foreach (var user in travelGroupUsers)
             {
+                var taskAndItems = (TaskAndItems)TempData["taskAndItems"];
                 taskAndItems.CustomTask.UserId = user.UserId;
                 var MyHabUser = HabiticaORM.HabiticaUsers.Single(u => u.UserId == user.UserId);
                 taskAndItems.CustomTask.TaskTag = MyHabUser.TaskTagId;
 
-                HabiticaORM.CustomTasks.Add(taskAndItems.CustomTask);
+
+                HabiticaORM.TravelGroups.Find(user.TravelGroupId).CustomTasks.Add(taskAndItems.CustomTask);
+
+
+
                 HabiticaORM.SaveChanges();
 
                 var TaskConfirm = JObject.FromObject(await HabiticaHTTP.PostNewHabiticaTask(taskAndItems.CustomTask, MyHabUser));
@@ -406,7 +392,7 @@ namespace HabiticaTravel.Controllers
             return RedirectToAction("ShowGroupTasks", route);
         }
 
-        public ActionResult ShowGroupTasks(int travelGroupId)
+        public async Task<ActionResult> ShowGroupTasks(int travelGroupId)
         {
             // we need the travelGroupID to find the current group we are working with.
             var MyHabiticaORM = new habiticatravelEntities();
@@ -429,6 +415,10 @@ namespace HabiticaTravel.Controllers
                 };
                 model.ManyTaskAndItemsList.Add(tempTaskItems);
             }
+
+            // going to find the task based on the task id , display all the task info into a view.
+            // pk is TaskID , store that task in an object. Store it in a view bag. and send the viewbag to the view 
+
 
             return View(model);
         }
@@ -565,6 +555,15 @@ namespace HabiticaTravel.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> SubmitTask(int TaskId)
+        {
+            var HabiticaORM = new habiticatravelEntities();
+            var task = HabiticaORM.CustomTasks.Find(TaskId);
+            var data = (JObject)JObject.FromObject(await HabiticaHTTP.PostScoreATask(task, "up"));
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }

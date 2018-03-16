@@ -24,7 +24,7 @@ new SelectListItem { Value = "2", Text = "Hard"},
 }
 
 
-<h2>@ViewBag.Title.</h2>
+<h2 style="margin-top:50px; color: white">@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("SaveCustomTaskChanges", "Tasks", FormMethod.Post, new { htmlAttributes = new { @class = "form-horizontal", role = "form" } }))
 {
@@ -36,19 +36,10 @@ new SelectListItem { Value = "2", Text = "Hard"},
     @Html.HiddenFor(ti => ti.CustomTask.TaskTag, new { htmlAttributes = new { @class = "form-control" } })
     @Html.HiddenFor(ti => ti.CustomTask.TaskType, new { htmlAttributes = new { @class = "form-control" } })
     @Html.HiddenFor(ti => ti.CustomTask.HabiticaTaskId, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(ti => ti.CustomTask.TaskId, new { htmlAttributes = new { @class = "form-control", @Value = Model.CustomTask.TaskId } })
+    @Html.HiddenFor(ti => ti.CustomTask.UserId, new { htmlAttributes = new { @class = "form-control", @Value = Model.CustomTask.UserId } })
 
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.TaskId, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.HiddenFor(ti => ti.CustomTask.TaskId, new { htmlAttributes = new { @class = "form-control", value = Model.CustomTask.TaskId } })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(ti => ti.CustomTask.UserId, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.HiddenFor(ti => ti.CustomTask.UserId, new { htmlAttributes = new { @class = "form-control", value = Model.CustomTask.UserId } })
-        </div>
-    </div>
+
     <div class="form-group">
         @Html.LabelFor(ti => ti.CustomTask.TaskName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
