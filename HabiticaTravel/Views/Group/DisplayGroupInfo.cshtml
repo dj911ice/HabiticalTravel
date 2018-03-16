@@ -1,8 +1,38 @@
-﻿
+﻿@model List<HabiticaTravel.Models.TaskAndItems>
 @{
+    /**/
+
     ViewBag.Title = "DisplayGroupInfo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>DisplayGroupInfo</h2>
+
+@foreach (var task in Model)
+{
+    <div class="container">
+
+        <ul>
+            <li><h2>@task.CustomTask.TaskName</h2></li>
+            <li><p>Task Notes: @task.CustomTask.TaskNotes</p></li>
+            <li>Task Due Date: @task.CustomTask.TaskDueDate</li>
+            <li>Reminder Date: @task.CustomTask.ReminderStartDate</li>
+            <li>Reminder Time: @task.CustomTask.ReminderTime</li>
+        </ul>
+        <ul>
+            <li><h2>Checklist Items</h2></li>
+            @foreach (var tai in Model)
+            {
+                foreach (var item in tai.CustomTaskItem)
+                {
+                    <li>@item.ItemName</li>
+                }
+            }
+        </ul>
+    </div>
+
+
+}
+
+
 
