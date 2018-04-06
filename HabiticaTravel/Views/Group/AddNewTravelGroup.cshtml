@@ -40,7 +40,7 @@ new SelectListItem { Value = "Other", Text = "Other"},
     <div class="form-group">
         @Html.LabelFor(tg => tg.TravelMethod, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(tg => tg.TravelMethod, TravelType, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.DropDownListFor(tg => tg.TravelMethod, TravelType, new { htmlAttributes = new { @class = "form-control", styles = "color:white;"} })
         </div>
     </div>
    
